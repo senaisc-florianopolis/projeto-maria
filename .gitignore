@@ -1,23 +1,71 @@
-# Compiled class file
+# Eclipse
+.metadata
+bin/
+tmp/
+local.properties
+.settings/
+.loadpath
+.recommenders
+.classpath
+.project
+.settings/
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# Other files
 *.class
+*.tmp
+*.bak
+*.swp
+*~.nib
 
-# Log file
-*.log
+# External tool builders
+.externalToolBuilders/
 
-# BlueJ files
-*.ctxt
+# Locally stored "Eclipse launch configurations"
+*.launch
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+# Java annotation processor (APT)
+.factorypath
 
-# Package Files #
+# sbteclipse plugin
+.target
+
+# Tern plugin
+.tern-project
+
+# Code Recommenders
+.recommenders/
+
+# Maven
+target/
+log/
+
+# OS Files
+.DS_Store
+
+# Package Files 
 *.jar
 *.war
-*.nar
 *.ear
+*.db
 *.zip
 *.tar.gz
+*.tar.bz2
+*.tar
 *.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+# Windows image file caches
+Thumbs.db 
+  
+# Folder config file
+Desktop.ini
+   
+# Thumbnails
+._*
+
+# Específicas do Projeto
+dist/
