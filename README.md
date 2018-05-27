@@ -1,8 +1,8 @@
-# Projeto Maria ![CI status](https://img.shields.io/badge/build-passing-brightgreen.svg)
+# Projeto Maria [![License: CC0-1.0](https://img.shields.io/badge/License-CC0%201.0-lightgrey.svg)](http://creativecommons.org/publicdomain/zero/1.0/) 
 
 O Projeto Maria é uma ferramenta de automação de estimativa de vendas com base em métodos estatísticos.
 
-Ele está sendo desenvolvido como projeto integrador das disciplinas e fases do [Curso Superior de Tecnologia em Análise e Desenvolvimento de Sistemas])https://www.sc.senai.br/siteinstitucional/curso/superior-de-tecnologia-em-analise-e-desenvolvimento-de-sistemas/3404).
+Ele está sendo desenvolvido como projeto integrador das disciplinas e fases do [Curso Superior de Tecnologia em Análise e Desenvolvimento de Sistemas](https://www.sc.senai.br/siteinstitucional/curso/superior-de-tecnologia-em-analise-e-desenvolvimento-de-sistemas/3404).
 
 ## Instalação
 
