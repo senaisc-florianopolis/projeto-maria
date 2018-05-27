@@ -1,4 +1,4 @@
-# Projeto Maria [![License: CC0-1.0](https://img.shields.io/badge/License-CC0%201.0-lightgrey.svg)](http://creativecommons.org/publicdomain/zero/1.0/) 
+# Projeto Maria [![License: CC0-1.0](https://img.shields.io/badge/License-CC0%201.0-lightgrey.svg)](http://creativecommons.org/publicdomain/zero/1.0/) [![Build Status](https://travis-ci.org/senaisc-florianopolis/projeto-maria.svg?branch=master)](https://travis-ci.org/senaisc-florianopolis/projeto-maria)
 
 O Projeto Maria é uma ferramenta de automação de estimativa de vendas com base em métodos estatísticos.
 
