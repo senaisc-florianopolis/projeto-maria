@@ -1,4 +1,12 @@
-# Projeto Maria [![License: CC0-1.0](https://img.shields.io/badge/License-CC0%201.0-lightgrey.svg)](http://creativecommons.org/publicdomain/zero/1.0/) [![Build Status](https://travis-ci.org/senaisc-florianopolis/projeto-maria.svg?branch=master)](https://travis-ci.org/senaisc-florianopolis/projeto-maria)
+# Projeto Maria 
+
+[![License: CC0-1.0](https://img.shields.io/badge/License-CC0%201.0-lightgrey.svg)](http://creativecommons.org/publicdomain/zero/1.0/) 
+[![Build Status](https://travis-ci.org/senaisc-florianopolis/projeto-maria.svg?branch=master)](https://travis-ci.org/senaisc-florianopolis/projeto-maria)
+[![SonarCloud Coverage](https://sonarcloud.io/api/project_badges/measure?project=br.senai.sc.edu:projeto-maria&metric=coverage)](https://sonarcloud.io/api/project_badges/measure?project=br.senai.sc.edu:projeto-maria&metric=coverage)
+[![SonarCloud Bugs](https://sonarcloud.io/api/project_badges/measure?project=br.senai.sc.edu:projeto-maria&metric=bugs)](https://sonarcloud.io/api/project_badges/measure?project=br.senai.sc.edu:projeto-maria&metric=bugs)
+[![SonarCloud Code Smells](https://sonarcloud.io/api/project_badges/measure?project=br.senai.sc.edu:projeto-maria&metric=code_smells)](https://sonarcloud.io/api/project_badges/measure?project=br.senai.sc.edu:projeto-maria&metric=code_smells)
+[![SonarCloud Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=br.senai.sc.edu:projeto-maria&metric=vulnerabilities)](https://sonarcloud.io/api/project_badges/measure?project=br.senai.sc.edu:projeto-maria&metric=vulnerabilities)
+[![SonarCloud Duplicated Lines](https://sonarcloud.io/api/project_badges/measure?project=br.senai.sc.edu:projeto-maria&metric=duplicated_lines_density)](https://sonarcloud.io/api/project_badges/measure?project=br.senai.sc.edu:projeto-maria&metric=duplicated_lines_density)
 
 O Projeto Maria é uma ferramenta de automação de estimativa de vendas com base em métodos estatísticos.
 
@@ -56,4 +64,4 @@ Usage: <main class> [options] [command] [command options]
 
 ## Licença
 
-[![CC0](https://licensebuttons.net/p/zero/1.0/88x31.png)](https://creativecommons.org/publicdomain/zero/1.0/)
+[![CC0](https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/CC-Zero-badge.svg/88px-CC-Zero-badge.svg.png](https://creativecommons.org/publicdomain/zero/1.0/)
