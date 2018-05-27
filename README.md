@@ -64,4 +64,4 @@ Usage: <main class> [options] [command] [command options]
 
 ## Licença
 
-[![CC0](https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/CC-Zero-badge.svg/88px-CC-Zero-badge.svg.png](https://creativecommons.org/publicdomain/zero/1.0/)
+[![CC0](https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/CC-Zero-badge.svg/88px-CC-Zero-badge.svg.png)](https://creativecommons.org/publicdomain/zero/1.0/)
