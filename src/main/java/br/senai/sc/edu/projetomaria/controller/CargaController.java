@@ -7,16 +7,16 @@ public class CargaController {
 
 	public void exec(CommandCarga command) {
 		switch (command.getTipo()) {
-		case canal:
+		case CANAL:
 			this.execCanal(command);
 			break;
-		case familia:
+		case FAMILIA:
 			this.execFamilia(command);
 			break;
-		case produto:
+		case PRODUTO:
 			this.execProduto(command);
 			break;
-		case historico:
+		case HISTORICO:
 			this.execHistorico(command);
 			break;
 		default:
