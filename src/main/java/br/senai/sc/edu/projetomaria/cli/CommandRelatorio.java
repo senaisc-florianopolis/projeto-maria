@@ -5,6 +5,7 @@ import java.nio.file.Path;
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
+import com.beust.jcommander.converters.PathConverter;
 
 @Parameters(commandDescription = "Geração de relatórios")
 public class CommandRelatorio {
