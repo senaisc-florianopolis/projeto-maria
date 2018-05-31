@@ -11,6 +11,6 @@ public abstract class Config {
 	public static final Optional<String> DB_PASSWORD = ResourceManager.getOptionalConfig("db.password"); //$NON-NLS-1$
 	public static final String DB_DATABASE = ResourceManager.getRequiredConfig("db.database"); //$NON-NLS-1$	
 	
-	private Config() {};
+	private Config() {}
 	
 }
