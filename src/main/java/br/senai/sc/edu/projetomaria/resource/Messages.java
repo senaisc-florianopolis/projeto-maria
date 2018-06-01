@@ -16,7 +16,8 @@ public abstract class Messages {
 	public static final String EXEC_ERRO_PARAMETROS = ResourceManager.getMessage("exec.erro.parametros"); //$NON-NLS-1$
 	public static final String EXEC_ERRO_FATAL = ResourceManager.getMessage("exec.erro.fatal"); //$NON-NLS-1$
 	public static final String EXEC_ABORTADA = ResourceManager.getMessage("exec.abortada"); //$NON-NLS-1$
-
+	public static final String EXEC_ERRO_RECURSO_OBRIGATORIO = ResourceManager.getMessage("exec.erro.recurso.obrigatorio"); //$NON-NLS-1$
+	
 	private Messages() {}
 
 }

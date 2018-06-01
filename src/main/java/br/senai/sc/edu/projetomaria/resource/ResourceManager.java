@@ -7,6 +7,8 @@ import java.util.ResourceBundle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.senai.sc.edu.projetomaria.exception.ResourceRequiredException;
+
 public class ResourceManager {
 	
 	private static final Logger LOGGER = LogManager.getLogger();
@@ -20,8 +22,7 @@ public class ResourceManager {
 	private static final String BUNDLE_NAME_CONFIG = "config"; //$NON-NLS-1$
 	private static final ResourceBundle RESOURCE_BUNDLE_CONFIG = ResourceBundle.getBundle(BUNDLE_NAME_CONFIG);	
 	
-	private ResourceManager() {
-	}
+	private ResourceManager() {}
 	
 	protected static String getString(String key, ResourceBundle bundle) {
 		String property = null;
@@ -43,8 +44,13 @@ public class ResourceManager {
 	}	
 
 	protected static String getRequired(String key, ResourceBundle bundle) {
-		//TODO: subir erro 
-		return getString(key, bundle);
+		String property = getString(key, bundle);
+		if (property == null) {
+			String message = String.format(Messages.EXEC_ERRO_RECURSO_OBRIGATORIO, key);
+			LOGGER.warn(message);
+			throw new ResourceRequiredException(message); 
+		}
+		return property;
 	}		
 	
 	public static String getRequiredConfig(String key) {
