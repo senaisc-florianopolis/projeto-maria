@@ -1,6 +1,7 @@
 package br.senai.sc.edu.projetomaria.controller;
 
 import br.senai.sc.edu.projetomaria.cli.CommandCarga;
+import br.senai.sc.edu.projetomaria.resource.Messages;
 import br.senai.sc.edu.projetomaria.service.CargaService;
 
 public class CargaController {
@@ -20,7 +21,7 @@ public class CargaController {
 			this.execHistorico(command);
 			break;
 		default:
-			throw new UnsupportedOperationException("Opção não implementada."); //$NON-NLS-1$
+			throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 		}
 	}
 
