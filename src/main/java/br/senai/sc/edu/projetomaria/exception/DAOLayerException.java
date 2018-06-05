@@ -6,7 +6,7 @@ public class DAOLayerException extends RuntimeException {
 
 	public DAOLayerException() {
 		super();
-	}
+	} 
 
 	public DAOLayerException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
