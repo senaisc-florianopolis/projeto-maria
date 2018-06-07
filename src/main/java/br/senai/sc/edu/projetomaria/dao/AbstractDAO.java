@@ -6,16 +6,13 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.Properties;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
+import br.senai.sc.edu.projetomaria.exception.DAOLayerException;
+import br.senai.sc.edu.projetomaria.exception.ResourceRequiredException;
 import br.senai.sc.edu.projetomaria.resource.Config;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 import br.senai.sc.edu.projetomaria.resource.ResourceManager;
 
 public abstract class AbstractDAO {
-	
-	private static final Logger LOGGER = LogManager.getLogger();
 	
 	protected String getURL() {
 		String hostname = Config.DB_HOSTNAME;
@@ -33,9 +30,8 @@ public abstract class AbstractDAO {
 			url = this.getURL();
 			username = Config.DB_USERNAME;
 			password = Config.DB_PASSWORD;
-		} catch (RuntimeException e) {
-			//TODO: ajustar para o catch correto e o throw também
-			throw new RuntimeException(ResourceManager.getMessage(Messages.BD_ERRO_CONEXAO));
+		} catch (ResourceRequiredException e) {
+			throw new DAOLayerException(ResourceManager.getMessage(Messages.BD_ERRO_CONEXAO), e);
 		}
 		Properties props = new Properties();
 	    props.put("username", username);
@@ -46,9 +42,7 @@ public abstract class AbstractDAO {
 	    try {
 			return DriverManager.getConnection(url, props);
 		} catch (SQLException e) {
-			LOGGER.error(e);
-			//TODO: ajustar exception
-			throw new RuntimeException(ResourceManager.getMessage(Messages.BD_ERRO_CONEXAO));
+			throw new DAOLayerException(ResourceManager.getMessage(Messages.BD_ERRO_CONEXAO), e);
 		}
 	}
 

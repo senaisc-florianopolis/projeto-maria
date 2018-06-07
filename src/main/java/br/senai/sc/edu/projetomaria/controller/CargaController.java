@@ -1,26 +1,27 @@
 package br.senai.sc.edu.projetomaria.controller;
 
 import br.senai.sc.edu.projetomaria.cli.CommandCarga;
+import br.senai.sc.edu.projetomaria.resource.Messages;
 import br.senai.sc.edu.projetomaria.service.CargaService;
 
 public class CargaController {
 
 	public void exec(CommandCarga command) {
 		switch (command.getTipo()) {
-		case canal:
+		case CANAL:
 			this.execCanal(command);
 			break;
-		case familia:
+		case FAMILIA:
 			this.execFamilia(command);
 			break;
-		case produto:
+		case PRODUTO:
 			this.execProduto(command);
 			break;
-		case historico:
+		case HISTORICO:
 			this.execHistorico(command);
 			break;
 		default:
-			throw new UnsupportedOperationException("Opção não implementada."); //$NON-NLS-1$
+			throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 		}
 	}
 

@@ -26,9 +26,6 @@ Usage: <main class> [options] [command] [command options]
   Options:
     -h, -?, --help
       Help
-    -v, --verbose
-      Verbose mode
-      Default: false
   Commands:
     carga      Executa a inserção, remoção e atualização de registros
       Usage: carga [options] <caminho para o arquivo de entrada>
@@ -41,7 +38,7 @@ Usage: <main class> [options] [command] [command options]
             Default: false
         * -t, --tipo
             Tipo da carga
-            Possible Values: [produto, familia, canal, historico]
+            Possible Values: [PRODUTO, FAMILIA, CANAL, HISTORICO]
           -u, --update
             Atualização de registros
             Default: false
@@ -51,7 +48,8 @@ Usage: <main class> [options] [command] [command options]
         Options:
         * -t, --tipo
             Tipo do relatório
-            Possible Values: [produto, familia, canal, historico, estimativa]
+            Possible Values: [PRODUTO, FAMILIA, CANAL, HISTORICO, ESTIMATIVA]
+
 ```
 
 ## Desenvolvimento

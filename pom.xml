@@ -16,6 +16,15 @@
 		<sonar.jacoco.reportPath>${project.basedir}/target/jacoco.exec</sonar.jacoco.reportPath>
 		<sonar.language>java</sonar.language>
 	</properties>
+	<repositories>
+		<repository>
+			<id>bintray</id>
+			<url>http://jcenter.bintray.com</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 	<build>
 		<plugins>
 			<plugin>
@@ -131,7 +140,7 @@
 		<dependency>
 			<groupId>com.beust</groupId>
 			<artifactId>jcommander</artifactId>
-			<version>1.72</version>
+			<version>1.74</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
