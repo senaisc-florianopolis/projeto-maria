@@ -1,7 +1,9 @@
 package br.senai.sc.edu.projetomaria.service;
 
+import java.io.IOException;
 import java.nio.file.Path;
 
+import br.senai.sc.edu.projetomaria.io.CanalReader;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class CargaService {
@@ -19,7 +21,14 @@ public class CargaService {
 	}
 
 	public void insertCanal(Path path) {
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		CanalReader canal = new CanalReader(path);
+		try {
+			canal.readCanal();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 	public void updateCanal(Path path) {
