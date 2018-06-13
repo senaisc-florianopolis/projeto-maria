@@ -2,6 +2,7 @@ package br.senai.sc.edu.projetomaria.service;
 
 import java.nio.file.Path;
 
+import br.senai.sc.edu.projetomaria.io.ProdutoReader;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class CargaService {
@@ -31,7 +32,9 @@ public class CargaService {
 	}
 
 	public void insertProduto(Path path) {
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		ProdutoReader reader = new ProdutoReader();
+		reader.ler();
+		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 	public void updateProduto(Path path) {

@@ -6,7 +6,8 @@ public class Produto implements ValidableModel {
 	
 	private int sku;
 	private String descricao;
-
+	private int idComercial;
+	
 	public int getSku() {
 		return sku;
 	}
@@ -21,6 +22,14 @@ public class Produto implements ValidableModel {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+	
+	public int getIdComercial() {
+		return idComercial;
+	}
+
+	public void setIdComercial(int idComercial) {
+		this.idComercial = idComercial;
 	}
 
 	@Override
