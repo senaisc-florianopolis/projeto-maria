@@ -1,14 +1,23 @@
 package br.senai.sc.edu.projetomaria.service;
 
+import java.io.IOException;
 import java.nio.file.Path;
 
+import br.senai.sc.edu.projetomaria.io.FamiliaReader;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class CargaService {
-
+	
 	public void insertFamilia(Path path) {
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO); 
+		FamiliaReader familia = new FamiliaReader(path);
+		try {
+				familia.readFamilia();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO); 
 
 	public void updateFamilia(Path path) {
 		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);

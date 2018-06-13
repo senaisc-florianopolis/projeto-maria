@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
+
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
@@ -19,23 +21,27 @@ public class FamiliaReader {
 	
 	public FamiliaReader(Path path) {
 			this.path = path;
+
 	}
 	
-	public void readerFamilia() throws IOException {
+	public List<Familia> readFamilia() throws IOException {
 		BufferedReader br = Files.newBufferedReader(this.path);
-		Iterable<CSVRecord> records = CSVFormat.EXCEL.parse(br);
+		Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader("ID_FAMILIA", "CODIGO", "PK_FAMILIA").parse(br);
 		Familia familia = new Familia();
-		for (CSVRecord csvRecord : records) {
-				//Acessing Values by Column Index
+		List <Familia>list = null;
+		
+		for (CSVRecord csvRecord: records) {
+			
+			// Acessing Values by Column Index
 			
 			int id_familia = Integer.parseInt(csvRecord.get("ID_FAMILIA"));
 			String codigo = csvRecord.get("CODIGO");
+			int pk_familia = Integer.parseInt(csvRecord.get("PK_FAMILIA"));
 			
 			familia.setId(id_familia);
 			familia.setCodigo(codigo);
+			list.add(familia);
 		}
-		
+		return list;
 	}
-	
-
 }
