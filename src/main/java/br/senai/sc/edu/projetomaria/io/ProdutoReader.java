@@ -15,7 +15,6 @@ import org.apache.logging.log4j.Logger;
 import br.senai.sc.edu.projetomaria.dao.ProdutoDAO;
 import br.senai.sc.edu.projetomaria.model.Produto;
 
-
 public class ProdutoReader {
 	
 	private static final Logger LOGGER = LogManager.getLogger();
