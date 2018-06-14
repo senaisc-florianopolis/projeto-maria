@@ -26,7 +26,7 @@ public class FamiliaReader {
 	
 	public List<Familia> readFamilia() throws IOException {
 		BufferedReader br = Files.newBufferedReader(this.path);
-		Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader("ID_FAMILIA", "CODIGO", "PK_FAMILIA").parse(br);
+		Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader("ID_FAMILIA", "CODIGO", "UN_FAMILIA").parse(br);
 		Familia familia = new Familia();
 		List <Familia>list = null;
 		
@@ -36,7 +36,7 @@ public class FamiliaReader {
 			
 			int id_familia = Integer.parseInt(csvRecord.get("ID_FAMILIA"));
 			String codigo = csvRecord.get("CODIGO");
-			int pk_familia = Integer.parseInt(csvRecord.get("PK_FAMILIA"));
+			int un_familia = Integer.parseInt(csvRecord.get("UN_FAMILIA"));
 			
 			familia.setId(id_familia);
 			familia.setCodigo(codigo);

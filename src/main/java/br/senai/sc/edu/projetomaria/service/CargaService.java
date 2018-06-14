@@ -2,16 +2,19 @@ package br.senai.sc.edu.projetomaria.service;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 
 import br.senai.sc.edu.projetomaria.io.FamiliaReader;
+import br.senai.sc.edu.projetomaria.model.Familia;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class CargaService {
 	
 	public void insertFamilia(Path path) {
 		FamiliaReader familia = new FamiliaReader(path);
+		 List<Familia> familias;
 		try {
-				familia.readFamilia();
+				familias = familia.readFamilia();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
