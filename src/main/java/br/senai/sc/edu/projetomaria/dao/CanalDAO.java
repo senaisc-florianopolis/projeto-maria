@@ -1,7 +1,9 @@
 package br.senai.sc.edu.projetomaria.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -12,7 +14,7 @@ import br.senai.sc.edu.projetomaria.resource.ResourceManager;
 
 public class CanalDAO extends AbstractDAO{
 	
-	
+	private Connection conn = null;
 	public void  insert(List<Canal> canal){
 		
 	}
@@ -22,8 +24,14 @@ public class CanalDAO extends AbstractDAO{
 	}
 	
 	public void delete(int id){
-		
+	try {
+		this.conn=getConnection();
+		PreparedStatement stm = conn.prepareStatement("DELETE* FROM canal where id canal");
+		stm.executeQuery();
+		this.conn.close();
+	}catch (Exception e) {
+		// TODO: handle exception
 	}
-	
+	}
 	
 }
