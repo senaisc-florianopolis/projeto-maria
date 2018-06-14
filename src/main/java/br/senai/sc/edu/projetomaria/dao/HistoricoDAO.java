@@ -1,11 +1,14 @@
 package br.senai.sc.edu.projetomaria.dao;
 
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.csv.CSVRecord;
 
 import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.model.Historico;
@@ -43,5 +46,19 @@ public class HistoricoDAO extends AbstractDAO {
 
 			return registro;
 		}
-	}
+		
+//		public List<Historico> set() {
+//			ArrayList<Historico> registro = new ArrayList<>();
+//			String query = "INSERT INTO HISTORICO VALUES "+
+//			"(MES_ANO, QUANTIDADE, PRODUTO_SKU, ID_CANAL) "+
+//			"VALUES ( ?, ?, ?, ?)";
+//			
+//			PreparedStatement ps;
+//			ps.setDate(1, new java.sql.Date(local.getCadastro().getDataAtualizacao().getTime()));
+//			ps.setString(1, local.getCadastro().getContato());
+//			
+//			
+
+//			}
+		}
 

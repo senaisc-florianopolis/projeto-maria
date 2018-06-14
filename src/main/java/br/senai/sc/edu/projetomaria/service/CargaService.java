@@ -2,6 +2,7 @@ package br.senai.sc.edu.projetomaria.service;
 
 import java.nio.file.Path;
 
+import br.senai.sc.edu.projetomaria.io.LeitorCsv;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class CargaService {
@@ -43,7 +44,8 @@ public class CargaService {
 	}
 
 	public void insertHistorico(Path path) {
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		LeitorCsv leitor = new LeitorCsv();
+		leitor.leitorDeArquivos(path);
 	}
 
 	public void updateHistorico(Path path) {
