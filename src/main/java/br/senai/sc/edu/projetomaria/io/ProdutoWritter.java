@@ -14,9 +14,8 @@ import br.senai.sc.edu.projetomaria.dao.ProdutoDAO;
 import br.senai.sc.edu.projetomaria.model.Produto;
 
 public class ProdutoWritter {
-	private void escrever(){
-		
-		String caminho  = "";
+	public void escrever(){	
+		String caminho  = "C:\\Users\\Aluno\\Documents\\Workspace Daniel\\Maria\\produtos.csv";
 	    try(             
 	        BufferedWriter arquivo = Files.newBufferedWriter(Paths.get(caminho));                        
 	        CSVPrinter escrever = new CSVPrinter(arquivo, CSVFormat.DEFAULT.withHeader("SKU", "NOME_PRODUTO", "ID_FAMILIA_COMERCIAL"));

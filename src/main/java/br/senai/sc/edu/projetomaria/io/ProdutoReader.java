@@ -3,7 +3,7 @@ package br.senai.sc.edu.projetomaria.io;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 import org.apache.commons.csv.CSVFormat;
@@ -20,22 +20,21 @@ public class ProdutoReader {
 	
 	private static final Logger LOGGER = LogManager.getLogger();
 	
-	public void ler(){
-		LOGGER.info("Passei aqui");
+	public void ler(Path caminho){
+		LOGGER.info("aqui");
+		
 		ArrayList<Produto> produtos = new ArrayList<>();   
 	     Produto novoProduto = null;
-	     
 	     int erros = 0;
 	     int cont = 0;
-	     String caminho = ("");
+	     
 	      try (
-	          Reader leitor = Files.newBufferedReader(Paths.get(caminho));
+	          Reader leitor = Files.newBufferedReader(caminho);
 	          CSVParser conversor = new CSVParser(leitor, CSVFormat.DEFAULT);
 	          )
 	      {
 	          for(CSVRecord gravar : conversor){
 	              cont++;
-	              
 	              String sku = gravar.get(0);
 	              String nomeProduto = gravar.get(1);
 	              String idFamiliaComercial = gravar.get(2);                                              
@@ -52,8 +51,7 @@ public class ProdutoReader {
 	                  novoProduto.setSku(Integer.parseInt(sku));
 	                  novoProduto.setDescricao(nomeProduto);
 	                  novoProduto.setIdComercial(Integer.parseInt(idFamiliaComercial));
-	              }
-	              
+	              }	              
 	              produtos.add(novoProduto);              
 	          }
 	          if(erros == 0){
@@ -61,9 +59,11 @@ public class ProdutoReader {
 	              ProdutoDAO dao = new ProdutoDAO();               
 	              dao.salvarProdutos(produtos); 
 	          }
-	      } catch (IOException ex) {
-	          //Logger.getLogger(ProdutoReader.class.getName()).log(Level.SEVERE, null, ex);
-	      }    
+	      } catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			LOGGER.info("erro");
+		}   
 	} 
 }
   

@@ -12,7 +12,6 @@ import br.senai.sc.edu.projetomaria.model.Produto;
 import br.senai.sc.edu.projetomaria.dao.AbstractDAO;
 
 public class ProdutoDAO extends AbstractDAO{
-	
 	public ArrayList<Produto> exportarProdutos(){
         Statement stmt = null;
         ResultSet rs = null;

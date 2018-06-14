@@ -33,7 +33,7 @@ public class CargaService {
 
 	public void insertProduto(Path path) {
 		ProdutoReader reader = new ProdutoReader();
-		reader.ler();
+		reader.ler(path);
 		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
