@@ -46,18 +46,23 @@ public class CanalDAO extends AbstractDAO {
 		try {
 			stmt = getConnection().createStatement();
 		} catch (SQLException e) {
-			// TODO Message for user??
+			// TODO Message for user
 		}
 
 	}
 
-	public void delete(int id){
+	public void delete(List<Canal> canais){
 		Connection conn = getConnection();
+		PreparedStatement ps;
 		try {
-			PreparedStatement stm = conn.prepareStatement("DELETE* FROM canal where id canal");
-			stm.executeQuery();
-		}catch (Exception e) {
-			// TODO: handle exception
+			ps = conn.prepareStatement("DELETE FROM canal where id = ?");
+			for (Canal canal : canais) {
+				ps.setInt(0, canal.getId());
+				ps.executeQuery();
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 		try {
 			conn.close();
