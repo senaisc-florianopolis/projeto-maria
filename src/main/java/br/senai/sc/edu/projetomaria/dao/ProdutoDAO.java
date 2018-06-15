@@ -59,4 +59,19 @@ public class ProdutoDAO extends AbstractDAO{
             }        
         }                 
     }
+
+	public void updateProduto(ArrayList<Produto> skuIgual) {	
+		String sql= "";
+		PreparedStatement stmt;
+		
+		for(Produto p : skuIgual){
+			sql = "UPDATE produto SET NOME_PRODUTO = '"+p.getDescricao()+"', "+"ID_FAMILIA_COMERCIAL = "+p.getIdComercial()+" WHERE SKU = "+p.getSku()+";";
+			try {
+				stmt = getConnection().prepareStatement(sql);
+				stmt.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}	
+	}
 }

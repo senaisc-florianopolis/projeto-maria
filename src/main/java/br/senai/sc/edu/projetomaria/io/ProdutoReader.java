@@ -15,14 +15,13 @@ import org.apache.logging.log4j.Logger;
 import br.senai.sc.edu.projetomaria.dao.ProdutoDAO;
 import br.senai.sc.edu.projetomaria.model.Produto;
 
-
 public class ProdutoReader {
 	private static final Logger LOGGER = LogManager.getLogger();
-	//bdd1
+	Produto novoProduto = null; 
 	
-	public void cargaInicial(Path caminho){
+	public ArrayList<Produto> lerArquivoCsv(Path caminho){
 		ArrayList<Produto> produtos = new ArrayList<>();   
-	     Produto novoProduto = null; 
+	     
 	      try (
 	          Reader leitor = Files.newBufferedReader(caminho);
 	          CSVParser conversor = new CSVParser(leitor, CSVFormat.DEFAULT);
@@ -38,13 +37,35 @@ public class ProdutoReader {
                   novoProduto.setDescricao(nomeProduto);
                   novoProduto.setIdComercial(Integer.parseInt(idFamiliaComercial));
                   produtos.add(novoProduto);
-	          }	              
-              ProdutoDAO dao = new ProdutoDAO();               
-              dao.salvarProdutos(produtos); 
+	          }	         
+	          
 	      } catch (IOException e) {
 			e.printStackTrace();
-		}   
+	      } 
+	      return produtos;
+	}
+	
+	public void cargaInicial(Path caminho){
+		ProdutoDAO dao = new ProdutoDAO();
+		dao.salvarProdutos(lerArquivoCsv(caminho));
 	} 
+	
+	public void updateProduto(Path caminho){
+		ArrayList<Produto> skuIgual = new ArrayList<>();
+		ProdutoDAO dao = new ProdutoDAO();
+		
+		for(Produto exp: dao.exportarProdutos()){
+			for(Produto imp: lerArquivoCsv(caminho)){
+				if(exp.getSku() == imp.getSku()){
+					skuIgual.add(imp);
+					LOGGER.info(imp.getSku());
+					LOGGER.info(imp.getDescricao());
+					LOGGER.info(imp.getIdComercial());
+				}
+			}
+		}
+		dao.updateProduto(skuIgual);
+	}
 }
   
 
