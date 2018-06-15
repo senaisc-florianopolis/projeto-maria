@@ -1,12 +1,13 @@
 package br.senai.sc.edu.projetomaria.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
 import br.senai.sc.edu.projetomaria.model.Familia;
- 
 
 public class FamiliaDAO extends AbstractDAO {
 	
@@ -47,11 +48,19 @@ public class FamiliaDAO extends AbstractDAO {
 	}
 	
 		
-		public void delete(int id) {
-			Statement stmt = null;
-			ResultSet rs = null;
-			
-	}
+		public void delete(List<Familia>familias) {
+			Connection conn = getConnection();
+			PreparedStatement ps;
+			try{
+					ps = conn.prepareStatement("DELETE FROM familia where id = ?");
+					for (Familia familia : familias) {
+							ps.setInt(0, familia.getId());
+							ps.executeQuery();
+					}
+			} catch (SQLException e1) {
+				//TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		
+		}
 }
-	

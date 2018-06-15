@@ -12,6 +12,7 @@ import org.apache.commons.csv.CSVRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.senai.sc.edu.projetomaria.dao.FamiliaDAO;
 import br.senai.sc.edu.projetomaria.model.Familia;
 
 public class FamiliaReader {
@@ -26,9 +27,9 @@ public class FamiliaReader {
 	
 	public List<Familia> readFamilia() throws IOException {
 		BufferedReader br = Files.newBufferedReader(this.path);
-		Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader("ID_FAMILIA", "CODIGO", "UN_FAMILIA").parse(br);
-		Familia familia = new Familia();
-		List <Familia>list = null;
+		Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader("ID_FAMILIA", "CODIGO").parse(br);
+		FamiliaDAO familia = new Familia();
+		List <FamiliaDAO>list = null;
 		
 		for (CSVRecord csvRecord: records) {
 			
@@ -36,7 +37,7 @@ public class FamiliaReader {
 			
 			int id_familia = Integer.parseInt(csvRecord.get("ID_FAMILIA"));
 			String codigo = csvRecord.get("CODIGO");
-			int un_familia = Integer.parseInt(csvRecord.get("UN_FAMILIA"));
+			
 			
 			familia.setId(id_familia);
 			familia.setCodigo(codigo);
