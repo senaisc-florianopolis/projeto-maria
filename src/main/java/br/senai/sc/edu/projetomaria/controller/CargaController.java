@@ -20,8 +20,22 @@ public class CargaController {
 		case HISTORICO:
 			this.execHistorico(command);
 			break;
+		case PHASE:
+			this.execPhase(command);
+			break;
 		default:
 			throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		}
+	}
+	
+	protected void execPhase(CommandCarga command) {
+		CargaService service = new CargaService();
+		if (command.isInsert()) {
+			service.insertPhase(command.getArquivo());
+		} else if (command.isDelete()) {
+			service.deletePhase(command.getArquivo());
+		} else if (command.isUpdate()) {
+			service.updatePhase(command.getArquivo());
 		}
 	}
 

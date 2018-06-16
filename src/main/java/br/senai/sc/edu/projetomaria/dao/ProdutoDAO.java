@@ -8,10 +8,12 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import br.senai.sc.edu.projetomaria.model.Phase;
 import br.senai.sc.edu.projetomaria.model.Produto;
 import br.senai.sc.edu.projetomaria.dao.AbstractDAO;
 
 public class ProdutoDAO extends AbstractDAO{
+	
 	public ArrayList<Produto> exportarProdutos(){
         Statement stmt = null;
         ResultSet rs = null;
@@ -38,7 +40,6 @@ public class ProdutoDAO extends AbstractDAO{
        } catch (SQLException ex) {
            Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
        }             
-       
        return p;
     }
 	
@@ -73,5 +74,23 @@ public class ProdutoDAO extends AbstractDAO{
 				e.printStackTrace();
 			}
 		}	
+	}
+	
+	public void insertSkuPhase(ArrayList<Phase> phase){
+		String sql = "";
+        PreparedStatement stmt;
+        for(Phase p : phase){
+        	System.out.print(p.getSkuOld()+" --- "+p.getSkuNew());
+            sql = "INSERT INTO sku_phase("
+                + "SKU_PHASE_IN,"
+                + "SKU_PHASE_OUT) VALUES ("+p.getSkuNew()+","+p.getSkuOld()+");";            
+            
+            try {
+                stmt = getConnection().prepareStatement(sql);
+                stmt.execute();
+            } catch (SQLException ex) {
+                Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }        
+        }   
 	}
 }

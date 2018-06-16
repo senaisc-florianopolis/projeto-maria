@@ -13,13 +13,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.senai.sc.edu.projetomaria.dao.ProdutoDAO;
+import br.senai.sc.edu.projetomaria.model.Phase;
 import br.senai.sc.edu.projetomaria.model.Produto;
 
 public class ProdutoReader {
 	private static final Logger LOGGER = LogManager.getLogger();
 	Produto novoProduto = null; 
+	Phase novoPhase = null; 
 	
-	public ArrayList<Produto> lerArquivoCsv(Path caminho){
+	public ArrayList<Produto> lerCsvProduto(Path caminho){
 		ArrayList<Produto> produtos = new ArrayList<>();   
 	     
 	      try (
@@ -45,26 +47,64 @@ public class ProdutoReader {
 	      return produtos;
 	}
 	
+	public ArrayList<Phase> lerCsvPhase(Path caminho){
+		ArrayList<Phase> phase = new ArrayList<>();   
+	     
+	      try (
+	          Reader leitor = Files.newBufferedReader(caminho);
+	          CSVParser conversor = new CSVParser(leitor, CSVFormat.DEFAULT);
+	          )
+	      {
+	          for(CSVRecord gravar : conversor){
+	              String sku_new = gravar.get(0);
+	              String sku_old = gravar.get(1);                                           
+	              
+                  novoPhase = new Phase();
+                  novoPhase.setSkuNew(Integer.parseInt(sku_new));
+                  novoPhase.setSkuOld(Integer.parseInt(sku_old));
+                  
+                  phase.add(novoPhase);
+	          }	         
+	          
+	      } catch (IOException e) {
+			e.printStackTrace();
+	      } 
+	      return phase;
+	}
+	
+	//BDD 1
 	public void cargaInicial(Path caminho){
 		ProdutoDAO dao = new ProdutoDAO();
-		dao.salvarProdutos(lerArquivoCsv(caminho));
+		dao.salvarProdutos(lerCsvProduto(caminho));
 	} 
-	
+	//BDD 2 e 3
 	public void updateProduto(Path caminho){
 		ArrayList<Produto> skuIgual = new ArrayList<>();
 		ProdutoDAO dao = new ProdutoDAO();
 		
 		for(Produto exp: dao.exportarProdutos()){
-			for(Produto imp: lerArquivoCsv(caminho)){
+			for(Produto imp: lerCsvProduto(caminho)){
 				if(exp.getSku() == imp.getSku()){
 					skuIgual.add(imp);
-					LOGGER.info(imp.getSku());
-					LOGGER.info(imp.getDescricao());
-					LOGGER.info(imp.getIdComercial());
 				}
 			}
 		}
 		dao.updateProduto(skuIgual);
+	}
+	
+	public void insertPhase(Path caminho){
+		ProdutoDAO dao = new ProdutoDAO();
+//		ArrayList<Phase> phase = new ArrayList<>();
+//		
+//		for(Produto exp: dao.exportarProdutos()){
+//			for(Phase imp: lerCsvPhase(caminho)){
+//				if(imp.getSkuOld() == exp.getSku()){
+//					phase.add(imp);
+//				}
+//			}
+//		}
+//		dao.insertSkuPhase(phase);
+		dao.insertSkuPhase(lerCsvPhase(caminho));
 	}
 }
   

@@ -28,5 +28,9 @@ public class RelatorioService {
 	public void exportRelatorioEstimativa(Path path) {
 		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO); 
 	}
+	
+	public void exportRelatorioPhase(Path path) {
+		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO); 
+	}
 
 }
