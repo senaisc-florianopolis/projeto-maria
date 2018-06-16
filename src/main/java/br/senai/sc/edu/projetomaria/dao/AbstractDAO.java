@@ -31,7 +31,7 @@ public abstract class AbstractDAO {
 			username = Config.DB_USERNAME;
 			password = Config.DB_PASSWORD;
 		} catch (ResourceRequiredException e) {
-			throw new DAOLayerException(ResourceManager.getMessage(Messages.BD_ERRO_CONEXAO), e);
+			throw new DAOLayerException(Messages.BD_ERRO_CONEXAO, e);
 		}
 		Properties props = new Properties();
 	    props.put("user", username);
@@ -42,7 +42,7 @@ public abstract class AbstractDAO {
 	    try {
 			return DriverManager.getConnection(url, props);
 		} catch (SQLException e) {
-			throw new DAOLayerException(ResourceManager.getMessage(Messages.BD_ERRO_CONEXAO), e);
+			throw new DAOLayerException(Messages.BD_ERRO_CONEXAO, e);
 		}
 	}
 
