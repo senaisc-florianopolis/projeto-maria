@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
@@ -30,30 +31,32 @@ public class LeitorCsv {
 	private static final Logger LOGGER = LogManager.getLogger();
 	//debug info warning error
 
-	public void leitorDeArquivos(Path pathArquivo) {
+	public List<Historico> leitorDeArquivos(Path pathArquivo) {
 
 		FileReader leitorDeArquivos = null;
 		CSVParser parseArquivos = null;
 
 		CSVFormat formatadorCsv = CSVFormat.DEFAULT.withHeader(mapeamentoColunasArquivo);
 
-		try {
-			List listaArquivos = new ArrayList();
+		List<Historico> listaRegistros = new LinkedList<>();
 
+		try {
 			leitorDeArquivos = new FileReader(pathArquivo.toFile());
 			
 			parseArquivos = new CSVParser(leitorDeArquivos, formatadorCsv);
 			
-			List csvRecords = parseArquivos.getRecords(); 
+			List<CSVRecord> csvRecords = parseArquivos.getRecords(); 
 
 			LOGGER.info("Arquivo lido com sucesso!");
 			
 			for (int i = 1; i < csvRecords.size(); i++) {
-				CSVRecord registro = (CSVRecord) csvRecords.get(i);
+				CSVRecord registro = csvRecords.get(i);
 				Historico historico = new Historico();
 				historico.setId(Integer.parseInt(registro.get(id_historico)));
-				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/yyyy");
-				historico.setPeriodo(LocalDate.parse(registro.get(mes_ano), dtf));
+//				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/yyyy");
+//				historico.setPeriodo(LocalDate.parse(registro.get(mes_ano), dtf));
+				String[] mesAno = registro.get(mes_ano).split("/");
+				historico.setPeriodo(LocalDate.parse(mesAno[1] + "-" + mesAno[0] + "-01"));
 				historico.setQuantidade(Integer.parseInt(registro.get(quantidade)));
 				Produto produto = new Produto();
 				produto.setSku(Integer.parseInt(registro.get(produto_sku)));
@@ -61,21 +64,13 @@ public class LeitorCsv {
 				Canal canal = new Canal();
 				canal.setId(Integer.parseInt(registro.get(id_canal)));
 				historico.setCanal(canal);
+				listaRegistros.add(historico);
 			}
-			
 		}catch (Exception e){
-			LOGGER.info(e.getMessage());
+ 			LOGGER.error(e.getMessage(), e);
 		}
-//		}finally {
-//			for (int i = 1; i < leitorDeArquivos.; i++) {
-//				//novo objeto
-				//atribuir as propriedades
-				// inserir o objeto na listagem
-//			}
 		
-		//fechar o leitorDeArquivos
-		// fechar o parseArquivos
-//		
+		return listaRegistros;
 	}
 
 }
