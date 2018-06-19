@@ -27,7 +27,7 @@ public class CanalWriter {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd");
 		Date date = new Date();
 		String file_path = export_path + dateFormat.format(date).toString() + "_relatorio_canal.csv";
-		
+
 		try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(file_path));
 
 				CSVPrinter csvPrinter = new CSVPrinter(writer,
@@ -37,6 +37,8 @@ public class CanalWriter {
 			canais = dao.getCanais();
 			for (Canal canal : canais) {
 				csvPrinter.printRecord(canal.getId(), canal.getDescricao());
+				// csvPrinter.printRecord(canal.getId());
+				// csvPrinter.printRecord(canal.getDescricao());
 			}
 			csvPrinter.flush();
 		}
