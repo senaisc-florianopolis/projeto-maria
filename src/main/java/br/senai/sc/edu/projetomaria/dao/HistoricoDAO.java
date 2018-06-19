@@ -1,15 +1,10 @@
 package br.senai.sc.edu.projetomaria.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -91,22 +86,22 @@ public class HistoricoDAO extends AbstractDAO {
 		try {
 			ps = getConnection().prepareStatement(sql);
 		} catch (SQLException e) {
-			for (Historico historico : registro) {
-				LOGGER.debug(historico);
+			e.printStackTrace();
+		}
+		for (Historico historico : registro) {
+			LOGGER.debug(historico);
 
-				try {
-					ps.setDate(1, java.sql.Date.valueOf(historico.getPeriodo()));
-					ps.setInt(2, historico.getQuantidade());
-					ps.setInt(3, historico.getProduto().getSku());
-					ps.setInt(4, historico.getCanal().getId());
-					ps.setInt(5, historico.getId());
-					LOGGER.debug(ps);
-					ps.execute();
-				} catch (SQLException exc) {
-					exc.printStackTrace();
-				}
+			try {
+				ps.setDate(1, java.sql.Date.valueOf(historico.getPeriodo()));
+				ps.setInt(2, historico.getQuantidade());
+				ps.setInt(3, historico.getProduto().getSku());
+				ps.setInt(4, historico.getCanal().getId());
+				ps.setInt(5, historico.getId());
+				LOGGER.debug(ps);
+				ps.execute();
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
 		}
 	}
-
 }
