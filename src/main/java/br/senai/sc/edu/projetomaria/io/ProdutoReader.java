@@ -29,18 +29,18 @@ public class ProdutoReader {
 	          CSVParser conversor = new CSVParser(leitor, CSVFormat.DEFAULT);
 	          )
 	      {
-	          for(CSVRecord gravar : conversor){
+	    	  
+			  for(CSVRecord gravar : conversor){
 	              String sku = gravar.get(0);
 	              String nomeProduto = gravar.get(1);
 	              String idFamiliaComercial = gravar.get(2);                                              
 	              
-                  novoProduto = new Produto();
-                  novoProduto.setSku(Integer.parseInt(sku));
-                  novoProduto.setDescricao(nomeProduto);
-                  novoProduto.setIdComercial(Integer.parseInt(idFamiliaComercial));
-                  produtos.add(novoProduto);
-	          }	         
-	          
+	              novoProduto = new Produto();
+	              novoProduto.setSku(Integer.parseInt(sku));
+	              novoProduto.setDescricao(nomeProduto);
+	              novoProduto.setIdComercial(Integer.parseInt(idFamiliaComercial));
+	              produtos.add(novoProduto);
+	          }	  	      
 	      } catch (IOException e) {
 			e.printStackTrace();
 	      } 
@@ -89,22 +89,28 @@ public class ProdutoReader {
 				}
 			}
 		}
+		
 		dao.updateProduto(skuIgual);
 	}
 	
 	public void insertPhase(Path caminho){
 		ProdutoDAO dao = new ProdutoDAO();
-//		ArrayList<Phase> phase = new ArrayList<>();
-//		
-//		for(Produto exp: dao.exportarProdutos()){
-//			for(Phase imp: lerCsvPhase(caminho)){
-//				if(imp.getSkuOld() == exp.getSku()){
-//					phase.add(imp);
-//				}
-//			}
-//		}
-//		dao.insertSkuPhase(phase);
-		dao.insertSkuPhase(lerCsvPhase(caminho));
+		
+		if(lerCsvPhase(caminho).size() == 0){
+			LOGGER.info("Não há produtos para inserir.");
+		}else{
+			dao.insertSkuPhase(lerCsvPhase(caminho));
+		}
+	}
+	
+	public void deleteProduto(Path caminho){
+		ProdutoDAO dao = new ProdutoDAO();
+		
+		if(lerCsvProduto(caminho).size() == 0){
+			LOGGER.info("Não há produtos para excluir.");
+		}else{
+			dao.deleteProd(lerCsvProduto(caminho));
+		}
 	}
 }
   

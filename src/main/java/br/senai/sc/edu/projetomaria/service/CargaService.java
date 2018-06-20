@@ -54,7 +54,9 @@ public class CargaService {
 	}
 
 	public void deleteProduto(Path path) {
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		ProdutoReader reader = new ProdutoReader();
+		reader.deleteProduto(path);
+		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 	public void insertHistorico(Path path) {

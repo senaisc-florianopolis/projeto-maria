@@ -5,14 +5,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import br.senai.sc.edu.projetomaria.model.Phase;
 import br.senai.sc.edu.projetomaria.model.Produto;
 import br.senai.sc.edu.projetomaria.dao.AbstractDAO;
 
 public class ProdutoDAO extends AbstractDAO{
+	private static final Logger LOGGER = LogManager.getLogger();
 	
 	public ArrayList<Produto> exportarProdutos(){
         Statement stmt = null;
@@ -23,8 +24,8 @@ public class ProdutoDAO extends AbstractDAO{
         try {
            stmt = getConnection().prepareStatement(sql);
            rs = stmt.executeQuery(sql);
-        } catch (SQLException ex) {
-           Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException e) {
+        	e.printStackTrace();
         }               
         ArrayList<Produto> p = new ArrayList<>();
         
@@ -37,8 +38,8 @@ public class ProdutoDAO extends AbstractDAO{
                produtos.setIdComercial(rs.getInt("ID_FAMILIA_COMERCIAL"));
                p.add(produtos);
            }
-       } catch (SQLException ex) {
-           Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
+       } catch (SQLException e) {
+    	   e.printStackTrace();
        }             
        return p;
     }
@@ -55,8 +56,8 @@ public class ProdutoDAO extends AbstractDAO{
             try {
                 stmt = getConnection().prepareStatement(sql);
                 stmt.execute();
-            } catch (SQLException ex) {
-                Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException e) {
+            	e.printStackTrace();
             }        
         }                 
     }
@@ -70,6 +71,7 @@ public class ProdutoDAO extends AbstractDAO{
 			try {
 				stmt = getConnection().prepareStatement(sql);
 				stmt.executeUpdate();
+				LOGGER.info("Produto(s) atualizado(s).");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -88,9 +90,38 @@ public class ProdutoDAO extends AbstractDAO{
             try {
                 stmt = getConnection().prepareStatement(sql);
                 stmt.execute();
-            } catch (SQLException ex) {
-                Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
+				LOGGER.info("Registro incluido.");
+            } catch (SQLException e) {
+            	e.printStackTrace();
             }        
         }   
+	}
+	
+	public void deleteProd(ArrayList<Produto> delete){
+		String sql = "";
+		PreparedStatement stmt;
+		int success=0;
+		int failures=0;
+		
+		for(Produto p : delete){
+			sql = "DELETE FROM PRODUTO WHERE SKU = "+p.getSku()+";";
+			
+			try {
+				stmt = getConnection().prepareStatement(sql);
+				stmt.execute();
+				success++;
+			} catch (SQLException e) {
+				failures++;
+				e.printStackTrace();
+			}
+		}
+		if(failures == 0){
+			LOGGER.info("Todos os " + success+ " produtos deletados com sucesso.");
+		}else if (failures > 0 && success > 0){
+			LOGGER.info(success+" produtos deletados com sucesso e");
+			LOGGER.info(failures+" produtos não deletados");
+		}else if (success == 0){
+			LOGGER.info("Todos os " +failures+ " produtos não deletados");
+		}
 	}
 }
