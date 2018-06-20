@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -12,6 +13,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.senai.sc.edu.projetomaria.io.ProdutoReader;
+import br.senai.sc.edu.projetomaria.dao.HistoricoDAO;
+import br.senai.sc.edu.projetomaria.io.LeitorCsv;
+import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class CargaService {
@@ -60,11 +64,17 @@ public class CargaService {
 	}
 
 	public void insertHistorico(Path path) {
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		LeitorCsv leitor = new LeitorCsv();
+		List<Historico> listaRegistros = leitor.leitorDeArquivos(path);
+		HistoricoDAO registro = new HistoricoDAO();
+		registro.persist(listaRegistros);
 	}
 
 	public void updateHistorico(Path path) {
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		LeitorCsv leitor = new LeitorCsv();
+		List<Historico> listaRegistros = leitor.leitorDeArquivos(path);
+		HistoricoDAO registro = new HistoricoDAO();
+		registro.update(listaRegistros);
 	}
 
 	public void deleteHistorico(Path path) {
