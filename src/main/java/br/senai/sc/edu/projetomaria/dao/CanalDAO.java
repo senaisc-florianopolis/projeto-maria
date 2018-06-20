@@ -41,7 +41,6 @@ public class CanalDAO extends AbstractDAO {
 		ResultSet rs = null;
 		String sql = "UPDATE canal SET  " + "'" + canal.getDescricao() + "'" +  
 		"WHERE ID_CANAL = " +"'" + canal.getId() + "'" ;
-		
 		try {
 			stmt = getConnection().createStatement();
 		} catch (SQLException e) {
