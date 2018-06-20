@@ -104,4 +104,29 @@ public class HistoricoDAO extends AbstractDAO {
 			}
 		}
 	}
+
+	public void delete(List<Historico> registro) {
+
+		String sql = "DELETE FROM HISTORICO"
+				+ "WHERE ID_HISTORICO = ?";
+
+		PreparedStatement ps = null;
+
+		try {
+			ps = getConnection().prepareStatement(sql);
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		for (Historico historico : registro) {
+			LOGGER.debug(historico);
+
+			try {
+				ps.setInt(1, historico.getId());
+				LOGGER.debug(ps);
+				ps.execute();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

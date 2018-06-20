@@ -2,9 +2,6 @@ package br.senai.sc.edu.projetomaria.io;
 import java.io.FileReader;
 import java.nio.file.Path;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,7 +15,7 @@ import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.model.Produto;
 
-public class LeitorCsv {
+public class HistoricoReader {
 
 	private static final String[] mapeamentoColunasArquivo = { "id_historico", "mes_ano", "quantidade", "produto_sku",
 			"id_canal" };
@@ -53,8 +50,6 @@ public class LeitorCsv {
 				CSVRecord registro = csvRecords.get(i);
 				Historico historico = new Historico();
 				historico.setId(Integer.parseInt(registro.get(id_historico)));
-//				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/yyyy");
-//				historico.setPeriodo(LocalDate.parse(registro.get(mes_ano), dtf));
 				String[] mesAno = registro.get(mes_ano).split("/");
 				historico.setPeriodo(LocalDate.parse(mesAno[1] + "-" + mesAno[0] + "-01"));
 				historico.setQuantidade(Integer.parseInt(registro.get(quantidade)));
@@ -72,5 +67,4 @@ public class LeitorCsv {
 		
 		return listaRegistros;
 	}
-
 }
