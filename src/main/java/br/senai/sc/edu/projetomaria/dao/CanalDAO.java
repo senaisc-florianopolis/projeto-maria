@@ -1,22 +1,21 @@
 package br.senai.sc.edu.projetomaria.dao;
 
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.logging.Logger;
-
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
+import java.util.List;
 
-import br.senai.sc.edu.projetomaria.exception.DAOLayerException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.resource.Messages;
-import br.senai.sc.edu.projetomaria.resource.ResourceManager;
 
 public class CanalDAO extends AbstractDAO {
+
+	private static final Logger LOGGER = LogManager.getLogger();
 
 	public void insert(List<Canal> canal) {
 		Statement stmt = null;
@@ -62,7 +61,9 @@ public class CanalDAO extends AbstractDAO {
 			}
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
+			LOGGER.info(Messages.ERRO_EXECUCAO_DELETE);
 			e1.printStackTrace();
+			
 		}
 		try {
 			conn.close();
