@@ -20,7 +20,7 @@ public abstract class Messages {
 	
 	// Outras Mensagens
 	public static final String ERRO_METODO_NAO_IMPLEMENTADO = ResourceManager.getMessage("erro.metodo.nao.implementado"); //$NON-NLS-1$
-	
+	public static final String SUCESSO_RELATORIO_CANAL = ResourceManager.getMessage("sucesso.relatorio.canal"); //$NON-NLS-1$
 	private Messages() {}
 
 }
