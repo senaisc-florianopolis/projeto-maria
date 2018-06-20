@@ -4,41 +4,43 @@ import java.util.List;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import br.senai.sc.edu.projetomaria.io.FamiliaDAO;
+import br.senai.sc.edu.projetomaria.dao.FamiliaDAO;
 import br.senai.sc.edu.projetomaria.io.FamiliaReader;
 import br.senai.sc.edu.projetomaria.model.Familia;
 import br.senai.sc.edu.projetomaria.resource.Messages;
+
 
 public class CargaService {
 	
 	public void insertFamilia(Path path) {
 		FamiliaReader familia = new FamiliaReader(path);
-		 List<Familia> familias;
 		try {
-				familias = familia.readFamilia();
+				familia.readFamilia();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 		}
-	}
+	
 		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO); 
-
+	}
+	
 	public void updateFamilia(Path path) {
 		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 	public void deleteFamilia(Path path) {
 		FamiliaReader familia = new FamiliaReader(path);
-		List<Familia> familias = null;
-		try{
-				familias = familia.readFamilia();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		br.senai.sc.edu.projetomaria.dao.FamiliaDAO familiaDAO = new FamiliaDAO();
-		familiaDAO.delete(id);
-		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+			List<Familia> familias = null;
+			
+			try {
+					familias = familia.readFamilia();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			FamiliaDAO familiaDAO = new FamiliaDAO();
+			familiaDAO.delete(familias);
+			//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 	public void insertCanal(Path path) {

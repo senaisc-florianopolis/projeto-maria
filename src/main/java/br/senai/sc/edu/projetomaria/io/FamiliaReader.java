@@ -4,15 +4,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.LinkedList;
 import java.util.List;
-
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import br.senai.sc.edu.projetomaria.dao.FamiliaDAO;
 import br.senai.sc.edu.projetomaria.model.Familia;
 
 public class FamiliaReader {
@@ -28,11 +27,10 @@ public class FamiliaReader {
 	public List<Familia> readFamilia() throws IOException {
 		BufferedReader br = Files.newBufferedReader(this.path);
 		Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader("ID_FAMILIA", "CODIGO").parse(br);
-		FamiliaDAO familia = new Familia();
-		List <FamiliaDAO>list = null;
+		Familia familia = new Familia();
+		List <Familia>list = new LinkedList<>();
 		
 		for (CSVRecord csvRecord: records) {
-			
 			// Acessing Values by Column Index
 			
 			int id_familia = Integer.parseInt(csvRecord.get("ID_FAMILIA"));

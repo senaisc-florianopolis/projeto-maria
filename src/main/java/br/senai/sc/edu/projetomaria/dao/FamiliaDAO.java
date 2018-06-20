@@ -1,17 +1,25 @@
 package br.senai.sc.edu.projetomaria.dao;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.logging.Logger;
 
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+
+import br.senai.sc.edu.projetomaria.exception.DAOLayerException;
 import br.senai.sc.edu.projetomaria.model.Familia;
+import br.senai.sc.edu.projetomaria.resource.Messages;
+
 
 public class FamiliaDAO extends AbstractDAO {
 	
-	public void insert(List<Familia> familia) {
+	
+	public void insert (List<Familia> familia) {
 			Statement stmt = null;
 			ResultSet rs = null;
 			
@@ -60,6 +68,13 @@ public class FamiliaDAO extends AbstractDAO {
 			} catch (SQLException e1) {
 				//TODO Auto-generated catch block
 				e1.printStackTrace();
+			}
+			try {
+					conn.close();
+					
+			} catch (SQLException e) {
+				//TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		
 		}
