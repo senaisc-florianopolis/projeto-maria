@@ -4,7 +4,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 import br.senai.sc.edu.projetomaria.dao.HistoricoDAO;
-import br.senai.sc.edu.projetomaria.io.HistoricoReader;
+import br.senai.sc.edu.projetomaria.io.LeitorCsv;
 import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 
@@ -47,24 +47,21 @@ public class CargaService {
 	}
 
 	public void insertHistorico(Path path) {
-		HistoricoReader leitor = new HistoricoReader();
+		LeitorCsv leitor = new LeitorCsv();
 		List<Historico> listaRegistros = leitor.leitorDeArquivos(path);
 		HistoricoDAO registro = new HistoricoDAO();
 		registro.persist(listaRegistros);
 	}
 
 	public void updateHistorico(Path path) {
-		HistoricoReader leitor = new HistoricoReader();
+		LeitorCsv leitor = new LeitorCsv();
 		List<Historico> listaRegistros = leitor.leitorDeArquivos(path);
 		HistoricoDAO registro = new HistoricoDAO();
 		registro.update(listaRegistros);
 	}
 
 	public void deleteHistorico(Path path) {
-		HistoricoReader leitor = new HistoricoReader();
-		List<Historico> listaRegistros = leitor.leitorDeArquivos(path);
-		HistoricoDAO registro = new HistoricoDAO();
-		registro.delete(listaRegistros);
+		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 }

@@ -31,12 +31,21 @@ public class HistoricoWriter {
 			csvCompiladorDeArquivos = new CSVPrinter(escritorDeArquivos, formatacaoCsv);
 
 			csvCompiladorDeArquivos.printRecord(colunasArquivo);
-
-			// SUBSTITUIR POSTERIORMENTE POR LOGGER? - PERGUNTAR AO LUCIANO
+				
+			for (Historico historico : registro) {
+//				historico.getId();
+//				historico.getPeriodo();
+//				historico.getQuantidade();
+//				historico.getProduto().getSku();
+//				historico.getCanal();
+				csvCompiladorDeArquivos.printRecord(historico.getId(), historico.getPeriodo(), historico.getQuantidade(), historico.getProduto().getSku(), historico.getCanal());
+			}
+			
+			
 			System.out.println("O arquivo CSV criado com sucesso!");
 
 		} catch (Exception e) {
-			// SUBSTITUIR POSTERIORMENTE POR LOGGER? - PERGUNTAR AO LUCIANO
+			
 			System.out.println("Erro no escritorDeArquivos!");
 			e.printStackTrace();
 		} finally {
