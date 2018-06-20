@@ -47,6 +47,9 @@ public class ProdutoDAO extends AbstractDAO{
 	public void salvarProdutos(ArrayList<Produto> produtos){
         String sql = "";
         PreparedStatement stmt;
+        int successes = 0;
+		int failures = 0;
+		
         for(Produto p : produtos){
             sql = "INSERT INTO PRODUTO("
                 + "SKU,"
@@ -56,31 +59,55 @@ public class ProdutoDAO extends AbstractDAO{
             try {
                 stmt = getConnection().prepareStatement(sql);
                 stmt.execute();
+                successes++;
             } catch (SQLException e) {
             	e.printStackTrace();
+            	failures++;
             }        
-        }                 
+        } 
+        if(failures == 0){
+			LOGGER.info("Todos os " + successes+ " produtos inseridos com sucesso.");
+		}else if (failures > 0 && successes > 0){
+			LOGGER.info(successes+" produtos inseridos com sucesso e");
+			LOGGER.info(failures+" produtos não inseridos.");
+		}else if (successes == 0){
+			LOGGER.info("Todos os " +failures+ " produtos não inseridos.");
+		}
     }
 
 	public void updateProduto(ArrayList<Produto> skuIgual) {	
 		String sql= "";
 		PreparedStatement stmt;
+        int successes = 0;
+		int failures = 0;
 		
 		for(Produto p : skuIgual){
 			sql = "UPDATE produto SET NOME_PRODUTO = '"+p.getDescricao()+"', "+"ID_FAMILIA_COMERCIAL = "+p.getIdComercial()+" WHERE SKU = "+p.getSku()+";";
 			try {
 				stmt = getConnection().prepareStatement(sql);
 				stmt.executeUpdate();
-				LOGGER.info("Produto(s) atualizado(s).");
+				successes++;
 			} catch (SQLException e) {
 				e.printStackTrace();
+				failures++;
 			}
-		}	
+		}
+		if(failures == 0){
+			LOGGER.info("Todos os " + successes+ " produtos atualzados com sucesso.");
+		}else if (failures > 0 && successes > 0){
+			LOGGER.info(successes+" produtos atualizados com sucesso e");
+			LOGGER.info(failures+" produtos não atualizados.");
+		}else if (successes == 0){
+			LOGGER.info("Todos os " +failures+ " produtos não atualizados.");
+		}
 	}
 	
 	public void insertSkuPhase(ArrayList<Phase> phase){
 		String sql = "";
         PreparedStatement stmt;
+        int successes = 0;
+		int failures = 0;
+		
         for(Phase p : phase){
         	System.out.print(p.getSkuOld()+" --- "+p.getSkuNew());
             sql = "INSERT INTO sku_phase("
@@ -90,18 +117,27 @@ public class ProdutoDAO extends AbstractDAO{
             try {
                 stmt = getConnection().prepareStatement(sql);
                 stmt.execute();
-				LOGGER.info("Registro incluido.");
+                successes++;
             } catch (SQLException e) {
             	e.printStackTrace();
+            	failures++;
             }        
         }   
+        if(failures == 0){
+			LOGGER.info("Todos os " + successes+ " registros inseridos com sucesso.");
+		}else if (failures > 0 && successes > 0){
+			LOGGER.info(successes+" regitros inseridos com sucesso e");
+			LOGGER.info(failures+" registros não deletados.");
+		}else if (successes == 0){
+			LOGGER.info("Todos os " +failures+ " registros não deletados.");
+		}
 	}
 	
 	public void deleteProd(ArrayList<Produto> delete){
 		String sql = "";
 		PreparedStatement stmt;
-		int success=0;
-		int failures=0;
+		int successes = 0;
+		int failures = 0;
 		
 		for(Produto p : delete){
 			sql = "DELETE FROM PRODUTO WHERE SKU = "+p.getSku()+";";
@@ -109,19 +145,19 @@ public class ProdutoDAO extends AbstractDAO{
 			try {
 				stmt = getConnection().prepareStatement(sql);
 				stmt.execute();
-				success++;
+				successes++;
 			} catch (SQLException e) {
 				failures++;
 				e.printStackTrace();
 			}
 		}
 		if(failures == 0){
-			LOGGER.info("Todos os " + success+ " produtos deletados com sucesso.");
-		}else if (failures > 0 && success > 0){
-			LOGGER.info(success+" produtos deletados com sucesso e");
-			LOGGER.info(failures+" produtos não deletados");
-		}else if (success == 0){
-			LOGGER.info("Todos os " +failures+ " produtos não deletados");
+			LOGGER.info("Todos os " + successes+ " produtos deletados com sucesso.");
+		}else if (failures > 0 && successes > 0){
+			LOGGER.info(successes+" produtos deletados com sucesso e");
+			LOGGER.info(failures+" produtos não deletados.");
+		}else if (successes == 0){
+			LOGGER.info("Todos os " +failures+ " produtos não deletados.");
 		}
 	}
 }
