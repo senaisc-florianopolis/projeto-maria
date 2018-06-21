@@ -5,18 +5,42 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.logging.Logger;
 
 import br.senai.sc.edu.projetomaria.model.Canal;
-import br.senai.sc.edu.projetomaria.resource.Messages;
 
-public class CanalDAO extends AbstractDAO {
 
-	private static final Logger LOGGER = LogManager.getLogger();
-
+public class CanalDao extends AbstractDAO{
+	
+	private Logger LOGGER = Logger.getLogger(CanalDao.class.getName());
+		
+	public ArrayList<Canal> getCanais() {
+		Statement stmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT * FROM maria.canal;";
+		try {
+			stmt = getConnection().createStatement();
+			rs = stmt.executeQuery(sql);
+		} catch (SQLException e) {
+			LOGGER.severe(e.getSQLState() + " - " + e.getMessage());
+		}
+		ArrayList<Canal> canais = new ArrayList<>();
+		 try{
+		 while(rs.next()){
+			 Canal canal = new Canal();
+			 canal.setId(rs.getInt("ID_CANAL"));
+			 canal.setDescricao(rs.getString("DESCRICAO"));
+			 
+			 canais.add(canal);
+		 }
+		 }catch (SQLException e){
+		 LOGGER.severe(e.getSQLState() + " - " + e.getMessage());
+		 }
+		return canais;
+		
+	}
 	public void insert(List<Canal> canal) {
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -61,9 +85,7 @@ public class CanalDAO extends AbstractDAO {
 			}
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
-			LOGGER.info(Messages.ERRO_EXECUCAO_DELETE);
 			e1.printStackTrace();
-			
 		}
 		try {
 			conn.close();
@@ -72,5 +94,7 @@ public class CanalDAO extends AbstractDAO {
 			e.printStackTrace();
 		}
 		}
-		
+	
+	
 }
+
