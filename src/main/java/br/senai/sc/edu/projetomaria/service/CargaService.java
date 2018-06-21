@@ -4,7 +4,7 @@ import java.util.List;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import br.senai.sc.edu.projetomaria.dao.CanalDao;
+import br.senai.sc.edu.projetomaria.dao.CanalDAO;
 import br.senai.sc.edu.projetomaria.io.CanalReader;
 import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.resource.Messages;
@@ -47,8 +47,8 @@ public class CargaService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		CanalDao canalDAO = new CanalDao();
-		canalDAO.delete(canais);
+		CanalDAO CanalDAO = new CanalDAO();
+		CanalDAO.delete(canais);
 		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
