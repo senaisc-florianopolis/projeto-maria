@@ -36,15 +36,17 @@ public class HistoricoReader {
 		CSVFormat formatadorCsv = CSVFormat.DEFAULT.withHeader(mapeamentoColunasArquivo);
 
 		List<Historico> listaRegistros = new LinkedList<>();
+		
+		boolean listIsRight = true;
 
 		try {
 			leitorDeArquivos = new FileReader(pathArquivo.toFile());
 			
 			parseArquivos = new CSVParser(leitorDeArquivos, formatadorCsv);
 			
-			List<CSVRecord> csvRecords = parseArquivos.getRecords(); 
+			List<CSVRecord> csvRecords = parseArquivos.getRecords();
 
-			LOGGER.info("Arquivo lido com sucesso!");
+			LOGGER.info("Leitura realizada, iniciando extração de dados");
 			
 			for (int i = 1; i < csvRecords.size(); i++) {
 				CSVRecord registro = csvRecords.get(i);
@@ -60,9 +62,18 @@ public class HistoricoReader {
 				canal.setId(Integer.parseInt(registro.get(id_canal)));
 				historico.setCanal(canal);
 				listaRegistros.add(historico);
+				if (!historico.isValid()) {
+					listIsRight = false;
+					LOGGER.warn("O produto " + historico.getProduto().getSku() +
+							", relativo ao período" + historico.getPeriodo() + ", não foi inserido");
+				};
 			}
 		}catch (Exception e){
  			LOGGER.error(e.getMessage(), e);
+		}
+		
+		if (listIsRight == false) {
+			System.out.println("Os dados não foram inseridos em sua totalidade. Acesse o log para detalhes");
 		}
 		
 		return listaRegistros;
