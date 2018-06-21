@@ -17,6 +17,7 @@ import br.senai.sc.edu.projetomaria.model.Phase;
 import br.senai.sc.edu.projetomaria.model.Produto;
 
 public class ProdutoReader {
+	//to do : update e delete do PHASE?
 	private static final Logger LOGGER = LogManager.getLogger();
 	Produto novoProduto = null; 
 	Phase novoPhase = null; 
@@ -29,20 +30,22 @@ public class ProdutoReader {
 	          CSVParser conversor = new CSVParser(leitor, CSVFormat.DEFAULT);
 	          )
 	      {
-	    	  
 			  for(CSVRecord gravar : conversor){
-	              String sku = gravar.get(0);
-	              String nomeProduto = gravar.get(1);
-	              String idFamiliaComercial = gravar.get(2);                                              
-	              
-	              novoProduto = new Produto();
-	              novoProduto.setSku(Integer.parseInt(sku));
-	              novoProduto.setDescricao(nomeProduto);
-	              novoProduto.setIdComercial(Integer.parseInt(idFamiliaComercial));
-	              produtos.add(novoProduto);
+				  if(gravar.getRecordNumber() != 1){
+		              String sku = gravar.get(0);
+		              String nomeProduto = gravar.get(1);
+		              String idFamiliaComercial = gravar.get(2);                                              
+		              
+		              novoProduto = new Produto();
+		              novoProduto.setSku(Integer.parseInt(sku));
+		              novoProduto.setDescricao(nomeProduto);
+		              novoProduto.setIdComercial(Integer.parseInt(idFamiliaComercial));
+		              produtos.add(novoProduto);
+				  }
 	          }	  	      
 	      } catch (IOException e) {
 			e.printStackTrace();
+			LOGGER.debug(e);
 	      } 
 	      return produtos;
 	}
@@ -50,34 +53,41 @@ public class ProdutoReader {
 	public ArrayList<Phase> lerCsvPhase(Path caminho){
 		ArrayList<Phase> phase = new ArrayList<>();   
 	     
-	      try (
-	          Reader leitor = Files.newBufferedReader(caminho);
-	          CSVParser conversor = new CSVParser(leitor, CSVFormat.DEFAULT);
-	          )
-	      {
-	          for(CSVRecord gravar : conversor){
-	              String sku_new = gravar.get(0);
-	              String sku_old = gravar.get(1);                                           
-	              
-                  novoPhase = new Phase();
+      try (
+          Reader leitor = Files.newBufferedReader(caminho);
+          CSVParser conversor = new CSVParser(leitor, CSVFormat.DEFAULT);
+          )
+      {
+          for(CSVRecord gravar : conversor){
+        	  if(gravar.getRecordNumber() != 1){
+        		  System.out.println(gravar.getRecordNumber());
+	        	  String sku_new = gravar.get(0);
+	              String sku_old = gravar.get(1);    
+
+        		  novoPhase = new Phase();
                   novoPhase.setSkuNew(Integer.parseInt(sku_new));
                   novoPhase.setSkuOld(Integer.parseInt(sku_old));
-                  
-                  phase.add(novoPhase);
-	          }	         
-	          
-	      } catch (IOException e) {
-			e.printStackTrace();
-	      } 
+	        	  
+	        	  phase.add(novoPhase);
+        	  }
+          }	             
+      } catch (IOException e) {
+    	  e.printStackTrace();
+    	  LOGGER.debug(e);
+        } 
 	      return phase;
 	}
 	
-	//BDD 1
 	public void cargaInicial(Path caminho){
 		ProdutoDAO dao = new ProdutoDAO();
-		dao.salvarProdutos(lerCsvProduto(caminho));
+		
+		if(lerCsvPhase(caminho).size() == 0){
+			LOGGER.info("Não há produtos para inserir.");
+		}else{
+			dao.salvarProdutos(lerCsvProduto(caminho));
+		}
 	} 
-	//BDD 2 e 3
+
 	public void updateProduto(Path caminho){
 		ArrayList<Produto> skuIgual = new ArrayList<>();
 		ProdutoDAO dao = new ProdutoDAO();
@@ -90,7 +100,11 @@ public class ProdutoReader {
 			}
 		}
 		
-		dao.updateProduto(skuIgual);
+		if(lerCsvPhase(caminho).size() == 0){
+			LOGGER.info("Não há produtos para atualizar.");
+		}else{
+			dao.updateProduto(skuIgual);			
+		}
 	}
 	
 	public void insertPhase(Path caminho){
@@ -113,5 +127,3 @@ public class ProdutoReader {
 		}
 	}
 }
-  
-
