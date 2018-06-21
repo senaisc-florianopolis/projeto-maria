@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 import br.senai.sc.edu.projetomaria.model.Canal;
 
 
-public class CanalDao extends AbstractDAO{
+public class CanalDao extends AbstractDAO{  
 	
 	private Logger LOGGER = Logger.getLogger(CanalDao.class.getName());
 		
