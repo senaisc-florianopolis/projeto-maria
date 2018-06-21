@@ -34,12 +34,13 @@ public abstract class AbstractDAO {
 			throw new DAOLayerException(ResourceManager.getMessage(Messages.BD_ERRO_CONEXAO), e);
 		}
 		Properties props = new Properties();
-	    props.put("user", username);
-	    props.put("autoReconnect", "true");	    
-	    if (password.isPresent()) {
-	    	props.put("password", password.get());
-	    }
-	    try {
+
+		props.put("user", username);
+		props.put("autoReconnect", "true");
+		if (password.isPresent()) {
+			props.put("password", password.get());
+		}
+		try {
 			return DriverManager.getConnection(url, props);
 		} catch (SQLException e) {
 			throw new DAOLayerException(ResourceManager.getMessage(Messages.BD_ERRO_CONEXAO), e);
