@@ -8,6 +8,8 @@ import br.senai.sc.edu.projetomaria.io.LeitorCsv;
 import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 
+
+
 public class CargaService {
 
 	public void insertFamilia(Path path) {
@@ -61,7 +63,9 @@ public class CargaService {
 	}
 
 	public void deleteHistorico(Path path) {
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		LeitorCsv leitor = new LeitorCsv();
+		List<Historico> listaRegistros = leitor.leitorDeArquivos(path);
+		HistoricoDAO registro = new HistoricoDAO();
+		registro.delete(listaRegistros);
 	}
-
 }
