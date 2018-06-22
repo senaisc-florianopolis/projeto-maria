@@ -35,12 +35,14 @@ public class FamiliaReader {
 			
 			int id_familia = Integer.parseInt(csvRecord.get("ID_FAMILIA"));
 			String codigo = csvRecord.get("CODIGO");
-			
+			int pk_familia = Integer.parseInt(csvRecord.get("PK_FAMILIA"));
 			
 			familia.setId(id_familia);
 			familia.setCodigo(codigo);
+			familia.setId(pk_familia);
 			list.add(familia);
 		}
+		LOGGER.info("Total de familias lidas: " + list.size());
 		return list;
 	}
 }
