@@ -16,6 +16,9 @@ import br.senai.sc.edu.projetomaria.io.ProdutoReader;
 import br.senai.sc.edu.projetomaria.dao.HistoricoDAO;
 import br.senai.sc.edu.projetomaria.io.LeitorCsv;
 import br.senai.sc.edu.projetomaria.model.Historico;
+import br.senai.sc.edu.projetomaria.dao.CanalDAO;
+import br.senai.sc.edu.projetomaria.io.CanalReader;
+import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 
 
@@ -36,7 +39,14 @@ public class CargaService {
 	}
 
 	public void insertCanal(Path path) {
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		CanalReader canal = new CanalReader(path);
+		try {
+			canal.readCanal();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 	public void updateCanal(Path path) {
@@ -44,7 +54,17 @@ public class CargaService {
 	}
 
 	public void deleteCanal(Path path) {
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		CanalReader canal = new CanalReader(path);
+		List<Canal> canais = null;
+		try {
+			canais =canal.readCanal();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		CanalDAO CanalDAO = new CanalDAO();
+		CanalDAO.delete(canais);
+		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 	public void insertProduto(Path path) {
