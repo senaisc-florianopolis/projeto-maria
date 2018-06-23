@@ -1,5 +1,6 @@
 package br.senai.sc.edu.projetomaria.dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -53,45 +54,36 @@ public class HistoricoDAO extends AbstractDAO {
 		String sql = "INSERT INTO HISTORICO " + "(MES_ANO, QUANTIDADE, PRODUTO_SKU, ID_CANAL) "
 				+ "VALUES ( ?, ?, ?, ?);";
 
-		PreparedStatement ps = null;
 
-		try {
+		try (Connection conn = getConnection()) {
+			PreparedStatement ps = null;
 			ps = getConnection().prepareStatement(sql);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		for (Historico historico : registro) {
-			LOGGER.debug(historico);
-
-			try {
+			for (Historico historico : registro) {
+				LOGGER.debug(historico);
 				ps.setDate(1, java.sql.Date.valueOf(historico.getPeriodo()));
 				ps.setInt(2, historico.getQuantidade());
 				ps.setInt(3, historico.getProduto().getSku());
 				ps.setInt(4, historico.getCanal().getId());
 				LOGGER.debug(ps);
 				ps.execute();
-			} catch (SQLException e) {
-				e.printStackTrace();
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+
 		}
 	}
+
 
 	public void update(List<Historico> registro) {
 
 		String sql = "UPDATE HISTORICO SET MES_ANO = ?, QUANTIDADE = ?, PRODUTO_SKU = ?, ID_CANAL = ?"
 				+ " WHERE ID_HISTORICO = ?";
 
-		PreparedStatement ps = null;
-
-		try {
-			ps = getConnection().prepareStatement(sql);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		for (Historico historico : registro) {
-			LOGGER.debug(historico);
-
-			try {
+		try (Connection conn = getConnection() ) {
+			PreparedStatement ps = null;
+			ps = conn.prepareStatement(sql);
+			for (Historico historico : registro) {
+				LOGGER.debug(historico);
 				ps.setDate(1, java.sql.Date.valueOf(historico.getPeriodo()));
 				ps.setInt(2, historico.getQuantidade());
 				ps.setInt(3, historico.getProduto().getSku());
@@ -99,9 +91,9 @@ public class HistoricoDAO extends AbstractDAO {
 				ps.setInt(5, historico.getId());
 				LOGGER.debug(ps);
 				ps.execute();
-			} catch (SQLException exc) {
-				exc.printStackTrace();
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -109,21 +101,17 @@ public class HistoricoDAO extends AbstractDAO {
 
 		String sql = "DELETE FROM HISTORICO WHERE ID_HISTORICO = ?";
 
-		PreparedStatement ps = null;
-
-		try {
+		try (Connection conn = getConnection()) {
+			PreparedStatement ps = null;
 			ps = getConnection().prepareStatement(sql);
+			for (Historico historico : registro) {
+				LOGGER.debug(historico);
+				ps.setInt(1, historico.getId());
+				LOGGER.debug(ps);
+				ps.execute();
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		for (Historico historico : registro) {
-			LOGGER.debug(historico);
-
-			try {
-				ps.setInt(1, historico.getId());
-			} catch (SQLException exc) {
-				exc.printStackTrace();
-			}
 		}
 	}
 }

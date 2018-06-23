@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.model.Produto;
+import br.senai.sc.edu.projetomaria.resource.Config;
 
 public class HistoricoReader {
 
@@ -30,17 +31,16 @@ public class HistoricoReader {
 
 	public List<Historico> leitorDeArquivos(Path pathArquivo) {
 
-		FileReader leitorDeArquivos = null;
 		CSVParser parseArquivos = null;
 
-		CSVFormat formatadorCsv = CSVFormat.DEFAULT.withHeader(mapeamentoColunasArquivo);
+		CSVFormat formatadorCsv = CSVFormat.DEFAULT.withHeader(mapeamentoColunasArquivo).withDelimiter(Config.CSV_DELIMITADOR);
+		LOGGER.debug("Delimitador CSV: " + Config.CSV_DELIMITADOR);
 
 		List<Historico> listaRegistros = new LinkedList<>();
 		
 		boolean listIsRight = true;
 
-		try {
-			leitorDeArquivos = new FileReader(pathArquivo.toFile());
+		try (FileReader leitorDeArquivos = new FileReader(pathArquivo.toFile())) {
 			
 			parseArquivos = new CSVParser(leitorDeArquivos, formatadorCsv);
 			
@@ -53,7 +53,10 @@ public class HistoricoReader {
 				Historico historico = new Historico();
 				historico.setId(Integer.parseInt(registro.get(id_historico)));
 				String[] mesAno = registro.get(mes_ano).split("/");
+//				String dateFormat = String.format("%1$04d-%2$02d-01", mesAno[1], mesAno[0]);
+//				historico.setPeriodo(LocalDate.parse(dateFormat));
 				historico.setPeriodo(LocalDate.parse(mesAno[1] + "-" + mesAno[0] + "-01"));
+				LOGGER.info(historico.getPeriodo());
 				historico.setQuantidade(Integer.parseInt(registro.get(quantidade)));
 				Produto produto = new Produto();
 				produto.setSku(Integer.parseInt(registro.get(produto_sku)));
@@ -63,7 +66,7 @@ public class HistoricoReader {
 				historico.setCanal(canal);
 				listaRegistros.add(historico);
 				if (!historico.isValid()) {
-					listIsRight = false;
+					listIsRight = false; 
 					LOGGER.warn("O produto " + historico.getProduto().getSku() +
 							", relativo ao período" + historico.getPeriodo() + ", não foi inserido");
 				};
