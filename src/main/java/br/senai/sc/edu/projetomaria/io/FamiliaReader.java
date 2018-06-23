@@ -26,20 +26,18 @@ public class FamiliaReader {
 	
 	public List<Familia> readFamilia() throws IOException {
 		BufferedReader br = Files.newBufferedReader(this.path);
-		Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader("ID_FAMILIA", "CODIGO").parse(br);
+		Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader("ID_FAMILIA_COMERCIAL", "COD_FAMILIA_COMERCIAL").parse(br);
 		Familia familia = new Familia();
 		List <Familia>list = new LinkedList<>();
 		
 		for (CSVRecord csvRecord: records) {
 			// Acessing Values by Column Index
 			
-			int id_familia = Integer.parseInt(csvRecord.get("ID_FAMILIA"));
-			String codigo = csvRecord.get("CODIGO");
-			int pk_familia = Integer.parseInt(csvRecord.get("PK_FAMILIA"));
+			int id_familia = Integer.parseInt(csvRecord.get("ID_FAMILIA_COMERCIAL"));
+			String codigo = csvRecord.get("COD_FAMILIA_COMERCIAL");
 			
 			familia.setId(id_familia);
 			familia.setCodigo(codigo);
-			familia.setId(pk_familia);
 			list.add(familia);
 		}
 		LOGGER.info("Total de familias lidas: " + list.size());

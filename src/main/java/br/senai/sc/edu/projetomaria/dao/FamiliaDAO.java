@@ -24,13 +24,13 @@ public class FamiliaDAO extends AbstractDAO {
 		ResultSet rs = null;
 
 		for (Familia fl: familia) {
-			String sql = "SELECT * FROM familia WHERE ID_FAMILIA = " + "'" + fl.getId() + "'";
+			String sql = "SELECT * FROM familia_comercial WHERE ID_FAMILIA_COMERCIAL = " + "'" + fl.getId() + "'";
 			try {
 
 				stmt = getConnection().createStatement();
 				rs = stmt.executeQuery(sql);
 				if (!rs.next()) {
-					sql = "INSERT INTO Familia (ID_FAMILIA, CODIGO) VALUES ('" + fl.getId() + "','" + fl.getCodigo()
+					sql = "INSERT INTO familia_comercial (ID_FAMILIA_COMERCIAL, COD_FAMILIA_COMERCIAL) VALUES ('" + fl.getId() + "','" + fl.getCodigo()
 					+ "') ";
 				}
 			} catch (SQLException e) {
@@ -43,8 +43,8 @@ public class FamiliaDAO extends AbstractDAO {
 	public void update(Familia familia) {
 		Statement stmt = null;
 		ResultSet rs = null;
-		String sql = "UPDATE familia SET  " + "'" + familia.getCodigo() + "'" +
-				"WHERE ID_FAMILIA = " +"'" + familia.getId() + "'" ;
+		String sql = "UPDATE familia_comercial SET  " + "'" + familia.getCodigo() + "'" +
+				"WHERE ID_FAMILIA_COMERCIAL = " +"'" + familia.getId() + "'" ;
 
 		try {
 			stmt = getConnection().createStatement();
@@ -60,7 +60,7 @@ public class FamiliaDAO extends AbstractDAO {
 		Connection conn = getConnection();
 		PreparedStatement ps;
 		try{
-			ps = conn.prepareStatement("DELETE FROM familia where id = ?");
+			ps = conn.prepareStatement("DELETE FROM familia_comercial where ID_FAMILIA_COMERCIAL = ?");
 			for (Familia familia : familias) {
 				ps.setInt(0, familia.getId());
 				ps.executeQuery();
@@ -78,11 +78,5 @@ public class FamiliaDAO extends AbstractDAO {
 			e.printStackTrace();
 		}
 
-	}
-
-
-	public ArrayList<Familia> getFamilias() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
