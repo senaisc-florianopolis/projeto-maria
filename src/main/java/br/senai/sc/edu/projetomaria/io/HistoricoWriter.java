@@ -23,7 +23,7 @@ public class HistoricoWriter {
 
 		CSVPrinter csvCompiladorDeArquivos = null;
 
-		CSVFormat formatacaoCsv = CSVFormat.DEFAULT.withRecordSeparator(separadorLinhas);
+		CSVFormat formatacaoCsv = CSVFormat.DEFAULT.withRecordSeparator(separadorLinhas).withDelimiter(';');
 
 		try {
 			escritorDeArquivos = new FileWriter(nomeArquivo.toFile());
