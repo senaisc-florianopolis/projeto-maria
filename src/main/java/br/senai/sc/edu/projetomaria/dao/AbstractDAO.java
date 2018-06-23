@@ -10,18 +10,17 @@ import br.senai.sc.edu.projetomaria.exception.DAOLayerException;
 import br.senai.sc.edu.projetomaria.exception.ResourceRequiredException;
 import br.senai.sc.edu.projetomaria.resource.Config;
 import br.senai.sc.edu.projetomaria.resource.Messages;
-import br.senai.sc.edu.projetomaria.resource.ResourceManager;
 
 public abstract class AbstractDAO {
-	
+
 	protected String getURL() {
 		String hostname = Config.DB_HOSTNAME;
 		String database = Config.DB_DATABASE;
 		String port = Config.DB_PORT;
 		String format = "jdbc:mysql://%1s:%2s/%3s";
-		return String.format(format, hostname, port, database);		
+		return String.format(format, hostname, port, database);
 	}
-	
+
 	protected Connection getConnection() {
 		String url;
 		String username;
@@ -31,10 +30,9 @@ public abstract class AbstractDAO {
 			username = Config.DB_USERNAME;
 			password = Config.DB_PASSWORD;
 		} catch (ResourceRequiredException e) {
-			throw new DAOLayerException(ResourceManager.getMessage(Messages.BD_ERRO_CONEXAO), e);
+			throw new DAOLayerException(Messages.BD_ERRO_CONEXAO, e);
 		}
 		Properties props = new Properties();
-
 		props.put("user", username);
 		props.put("autoReconnect", "true");
 		if (password.isPresent()) {
@@ -43,7 +41,7 @@ public abstract class AbstractDAO {
 		try {
 			return DriverManager.getConnection(url, props);
 		} catch (SQLException e) {
-			throw new DAOLayerException(ResourceManager.getMessage(Messages.BD_ERRO_CONEXAO), e);
+			throw new DAOLayerException(Messages.BD_ERRO_CONEXAO, e);
 		}
 	}
 

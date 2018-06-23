@@ -6,6 +6,7 @@ public class Canal implements ValidableModel {
 	
 	private int id;
 	private String descricao;
+	
 
 	public int getId() {
 		return id;
