@@ -25,7 +25,7 @@ public class Canal implements ValidableModel {
 
 	@Override
 	public String toString() {
-		return "Canal [id=" + id + ", descricao=" + descricao + "]";
+		return "" + id;
 	}
 
 	@Override

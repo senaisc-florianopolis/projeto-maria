@@ -13,7 +13,7 @@ import br.senai.sc.edu.projetomaria.model.Historico;
 
 public class HistoricoWriter {
 
-	private static final String separadorLinhas = "/n";
+	private static final String separadorLinhas = "\n";
 	private static final Logger LOGGER = LogManager.getLogger();
 	private  static final Object[] colunasArquivo = { "id_historico", "mes_ano", "quantidade", "produto_sku", "id_canal" };
 
