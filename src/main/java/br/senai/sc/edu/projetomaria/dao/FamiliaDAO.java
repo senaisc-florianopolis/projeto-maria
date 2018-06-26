@@ -1,23 +1,50 @@
 package br.senai.sc.edu.projetomaria.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.logging.Logger;
 
 import br.senai.sc.edu.projetomaria.model.Familia;
-import br.senai.sc.edu.projetomaria.resource.Messages;
 
 
 public class FamiliaDAO extends AbstractDAO {
 
-	private static final Logger LOGGER = LogManager.getLogger();
+	private Logger LOGGER = Logger.getLogger(FamiliaDAO.class.getName());
+
+	
+
+	public ArrayList<Familia>getFamilias() {
+		Statement stmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT * FROM maria.familia;";
+		
+		try {
+			
+			stmt = getConnection().createStatement();
+			rs = stmt.executeQuery(sql);
+			
+		} catch (SQLException e) {
+				LOGGER.severe(e.getSQLState() + " - " + e.getMessage());
+				
+		}
+		ArrayList<Familia> familias = new ArrayList<>();
+		try {
+				while (rs.next()) {
+					Familia familia = new Familia();
+					familia.setId(rs.getInt("ID_FAMILIA"));
+					familia.setCodigo(rs.getString("CODIGO"));
+					familias.add(familia);
+				}
+		} catch (SQLException e) {
+			LOGGER.severe(e.getSQLState() + " - " + e.getMessage());	
+		}
+		return familias;
+		
+		
+	}
 	
 	public void insert (List<Familia> familia) {
 		Statement stmt = null;
@@ -30,11 +57,11 @@ public class FamiliaDAO extends AbstractDAO {
 				stmt = getConnection().createStatement();
 				rs = stmt.executeUpdate(sql);
 			} catch (SQLException e) {
-				// TODO Message for user??
 				System.out.println(e);
 			}
 		}
 	}
+
 
 	public void update(Familia familia) {
 		Statement stmt = null;
@@ -56,6 +83,7 @@ public class FamiliaDAO extends AbstractDAO {
 	public void delete(List<Familia>familias) {
 		Statement stmt = null;
 		int rs;
+		
 		for (Familia fl: familias) {
 			String sql = "DELETE FROM familia_comercial WHERE ID_FAMILIA_COMERCIAL = " + fl.getId() + ";" ;
 			System.out.println(sql);
