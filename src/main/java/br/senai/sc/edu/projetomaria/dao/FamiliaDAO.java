@@ -1,7 +1,5 @@
 package br.senai.sc.edu.projetomaria.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -10,7 +8,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import br.senai.sc.edu.projetomaria.model.Familia;
-import br.senai.sc.edu.projetomaria.resource.Messages;
 
 
 public class FamiliaDAO extends AbstractDAO {
@@ -84,26 +81,19 @@ public class FamiliaDAO extends AbstractDAO {
 
 
 	public void delete(List<Familia>familias) {
-		Connection conn = getConnection();
-		PreparedStatement ps;
-		try{
-			ps = conn.prepareStatement("DELETE FROM familia_comercial where ID_FAMILIA_COMERCIAL = ?");
-			for (Familia familia : familias) {
-				ps.setInt(0, familia.getId());
-				ps.executeQuery();
+		Statement stmt = null;
+		int rs;
+		
+		for (Familia fl: familias) {
+			String sql = "DELETE FROM familia_comercial WHERE ID_FAMILIA_COMERCIAL = " + fl.getId() + ";" ;
+			System.out.println(sql);
+			try {
+				stmt = getConnection().createStatement();
+				rs = stmt.executeUpdate(sql);
+			} catch (SQLException e) {
+				// TODO Message for user??
+				System.out.println(e);
 			}
-		} catch (SQLException e1) {
-			//TODO Auto-generated catch block
-			LOGGER.info(Messages.ERRO_EXECUCAO_DELETE);
-			e1.printStackTrace();
 		}
-		try {
-			conn.close();
-
-		} catch (SQLException e) {
-			//TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 	}
 }
