@@ -64,6 +64,7 @@ public class CanalDAO extends AbstractDAO {
 				if (!rs.next()) {
 					sql = "INSERT INTO canal ( ID_CANAL, DESCRICAO) VALUES ('" + cn.getId() + "','" + cn.getDescricao()
 							+ "') ";
+					
 				}
 			} catch (SQLException e) {
 				// TODO Message for user??

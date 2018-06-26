@@ -18,36 +18,33 @@ import br.senai.sc.edu.projetomaria.resource.Messages;
 public class FamiliaDAO extends AbstractDAO {
 
 	private static final Logger LOGGER = LogManager.getLogger();
-
+	
 	public void insert (List<Familia> familia) {
 		Statement stmt = null;
-		ResultSet rs = null;
+		int rs;
 
 		for (Familia fl: familia) {
-			String sql = "SELECT * FROM familia_comercial WHERE ID_FAMILIA_COMERCIAL = " + "'" + fl.getId() + "'";
+			String sql = "INSERT INTO familia_comercial (ID_FAMILIA_COMERCIAL, COD_FAMILIA_COMERCIAL) VALUES ('" + fl.getId() + "','" + fl.getCodigo()+ "'); ";
+			System.out.println(sql);
 			try {
-
 				stmt = getConnection().createStatement();
-				rs = stmt.executeQuery(sql);
-				if (!rs.next()) {
-					sql = "INSERT INTO familia_comercial (ID_FAMILIA_COMERCIAL, COD_FAMILIA_COMERCIAL) VALUES ('" + fl.getId() + "','" + fl.getCodigo()
-					+ "') ";
-				}
+				rs = stmt.executeUpdate(sql);
 			} catch (SQLException e) {
 				// TODO Message for user??
+				System.out.println(e);
 			}
 		}
 	}
 
-
 	public void update(Familia familia) {
 		Statement stmt = null;
-		ResultSet rs = null;
-		String sql = "UPDATE familia_comercial SET  " + "'" + familia.getCodigo() + "'" +
-				"WHERE ID_FAMILIA_COMERCIAL = " +"'" + familia.getId() + "'" ;
-
+		int rs;
+		String sql = "UPDATE familia_comercial SET COD_FAMILIA_COMERCIAL = " + "'" + familia.getCodigo() + "'" +
+				" WHERE ID_FAMILIA_COMERCIAL = " +"'" + familia.getId() + "';" ;
+		System.out.println(sql);
 		try {
 			stmt = getConnection().createStatement();
+			rs = stmt.executeUpdate(sql);
 		}	catch (SQLException e) {
 			// TODO Message for user??
 
@@ -57,26 +54,18 @@ public class FamiliaDAO extends AbstractDAO {
 
 
 	public void delete(List<Familia>familias) {
-		Connection conn = getConnection();
-		PreparedStatement ps;
-		try{
-			ps = conn.prepareStatement("DELETE FROM familia_comercial where ID_FAMILIA_COMERCIAL = ?");
-			for (Familia familia : familias) {
-				ps.setInt(0, familia.getId());
-				ps.executeQuery();
+		Statement stmt = null;
+		int rs;
+		for (Familia fl: familias) {
+			String sql = "DELETE FROM familia_comercial WHERE ID_FAMILIA_COMERCIAL = " + fl.getId() + ";" ;
+			System.out.println(sql);
+			try {
+				stmt = getConnection().createStatement();
+				rs = stmt.executeUpdate(sql);
+			} catch (SQLException e) {
+				// TODO Message for user??
+				System.out.println(e);
 			}
-		} catch (SQLException e1) {
-			//TODO Auto-generated catch block
-			LOGGER.info(Messages.ERRO_EXECUCAO_DELETE);
-			e1.printStackTrace();
 		}
-		try {
-			conn.close();
-
-		} catch (SQLException e) {
-			//TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 	}
 }
