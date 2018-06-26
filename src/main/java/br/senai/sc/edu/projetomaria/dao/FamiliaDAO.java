@@ -7,9 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.logging.Logger;
 
 import br.senai.sc.edu.projetomaria.model.Familia;
 import br.senai.sc.edu.projetomaria.resource.Messages;
@@ -17,24 +15,52 @@ import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class FamiliaDAO extends AbstractDAO {
 
-	private static final Logger LOGGER = LogManager.getLogger();
+	private Logger LOGGER = Logger.getLogger(FamiliaDAO.class.getName());
 
-	public void insert (List<Familia> familia) {
+	
+
+	public ArrayList<Familia>getFamilias() {
 		Statement stmt = null;
 		ResultSet rs = null;
+		String sql = "SELECT * FROM maria.familia;";
+		
+		try {
+			
+			stmt = getConnection().createStatement();
+			rs = stmt.executeQuery(sql);
+			
+		} catch (SQLException e) {
+				LOGGER.severe(e.getSQLState() + " - " + e.getMessage());
+				
+		}
+		ArrayList<Familia> familias = new ArrayList<>();
+		try {
+				while (rs.next()) {
+					Familia familia = new Familia();
+					familia.setId(rs.getInt("ID_FAMILIA"));
+					familia.setCodigo(rs.getString("CODIGO"));
+					familias.add(familia);
+				}
+		} catch (SQLException e) {
+			LOGGER.severe(e.getSQLState() + " - " + e.getMessage());	
+		}
+		return familias;
+		
+		
+	}
+	
+	public void insert (List<Familia> familia) {
+		Statement stmt = null;
+		int rs;
 
 		for (Familia fl: familia) {
-			String sql = "SELECT * FROM familia_comercial WHERE ID_FAMILIA_COMERCIAL = " + "'" + fl.getId() + "'";
+			String sql = "INSERT INTO familia_comercial (ID_FAMILIA_COMERCIAL, COD_FAMILIA_COMERCIAL) VALUES ('" + fl.getId() + "','" + fl.getCodigo()+ "'); ";
+			System.out.println(sql);
 			try {
-
 				stmt = getConnection().createStatement();
-				rs = stmt.executeQuery(sql);
-				if (!rs.next()) {
-					sql = "INSERT INTO familia_comercial (ID_FAMILIA_COMERCIAL, COD_FAMILIA_COMERCIAL) VALUES ('" + fl.getId() + "','" + fl.getCodigo()
-					+ "') ";
-				}
+				rs = stmt.executeUpdate(sql);
 			} catch (SQLException e) {
-				// TODO Message for user??
+				System.out.println(e);
 			}
 		}
 	}
