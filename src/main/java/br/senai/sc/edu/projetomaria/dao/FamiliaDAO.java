@@ -68,12 +68,13 @@ public class FamiliaDAO extends AbstractDAO {
 
 	public void update(Familia familia) {
 		Statement stmt = null;
-		ResultSet rs = null;
-		String sql = "UPDATE familia_comercial SET  " + "'" + familia.getCodigo() + "'" +
-				"WHERE ID_FAMILIA_COMERCIAL = " +"'" + familia.getId() + "'" ;
-
+		int rs;
+		String sql = "UPDATE familia_comercial SET COD_FAMILIA_COMERCIAL = " + "'" + familia.getCodigo() + "'" +
+				" WHERE ID_FAMILIA_COMERCIAL = " +"'" + familia.getId() + "';" ;
+		System.out.println(sql);
 		try {
 			stmt = getConnection().createStatement();
+			rs = stmt.executeUpdate(sql);
 		}	catch (SQLException e) {
 			// TODO Message for user??
 
