@@ -13,7 +13,7 @@ import java.util.Date;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 
-import br.senai.sc.edu.projetomaria.dao.CanalDao;
+import br.senai.sc.edu.projetomaria.dao.CanalDAO;
 import br.senai.sc.edu.projetomaria.model.Canal;
 
 public class CanalWriter {
@@ -33,7 +33,7 @@ public class CanalWriter {
 
 				CSVPrinter csvPrinter = new CSVPrinter(writer,
 						CSVFormat.DEFAULT.withHeader("ID_CANAL", "DESCRICAO"));) {
-			CanalDao dao = new CanalDao();
+			CanalDAO dao = new CanalDAO();
 			ArrayList<Canal> canais = new ArrayList<>();
 			canais = dao.getCanais();
 			for (Canal canal : canais) {

@@ -40,6 +40,7 @@ public class ProdutoDAO extends AbstractDAO{
            }
        } catch (SQLException e) {
     	   e.printStackTrace();
+    	   LOGGER.debug(e);
        }             
        return p;
     }
@@ -63,6 +64,7 @@ public class ProdutoDAO extends AbstractDAO{
             } catch (SQLException e) {
             	e.printStackTrace();
             	failures++;
+            	LOGGER.debug(e);
             }        
         } 
         if(failures == 0){
@@ -90,6 +92,7 @@ public class ProdutoDAO extends AbstractDAO{
 			} catch (SQLException e) {
 				e.printStackTrace();
 				failures++;
+				LOGGER.debug(e);
 			}
 		}
 		if(failures == 0){
@@ -109,7 +112,7 @@ public class ProdutoDAO extends AbstractDAO{
 		int failures = 0;
 		
         for(Phase p : phase){
-        	System.out.print(p.getSkuOld()+" --- "+p.getSkuNew());
+        	System.out.println(p.getSkuNew() + " --" +p.getSkuOld());
             sql = "INSERT INTO sku_phase("
                 + "SKU_PHASE_IN,"
                 + "SKU_PHASE_OUT) VALUES ("+p.getSkuNew()+","+p.getSkuOld()+");";            
@@ -121,13 +124,14 @@ public class ProdutoDAO extends AbstractDAO{
             } catch (SQLException e) {
             	e.printStackTrace();
             	failures++;
+            	LOGGER.debug(e);
             }        
         }   
         if(failures == 0){
 			LOGGER.info("Todos os " + successes+ " registros inseridos com sucesso.");
 		}else if (failures > 0 && successes > 0){
 			LOGGER.info(successes+" regitros inseridos com sucesso e");
-			LOGGER.info(failures+" registros não deletados.");
+			LOGGER.info(failures+" registros não inseridos.");
 		}else if (successes == 0){
 			LOGGER.info("Todos os " +failures+ " registros não deletados.");
 		}
@@ -141,7 +145,6 @@ public class ProdutoDAO extends AbstractDAO{
 		
 		for(Produto p : delete){
 			sql = "DELETE FROM PRODUTO WHERE SKU = "+p.getSku()+";";
-			
 			try {
 				stmt = getConnection().prepareStatement(sql);
 				stmt.execute();
@@ -149,6 +152,7 @@ public class ProdutoDAO extends AbstractDAO{
 			} catch (SQLException e) {
 				failures++;
 				e.printStackTrace();
+				LOGGER.debug(e);
 			}
 		}
 		if(failures == 0){

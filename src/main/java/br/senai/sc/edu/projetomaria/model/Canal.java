@@ -6,6 +6,7 @@ public class Canal implements ValidableModel {
 	
 	private int id;
 	private String descricao;
+	
 
 	public int getId() {
 		return id;
@@ -25,7 +26,7 @@ public class Canal implements ValidableModel {
 
 	@Override
 	public String toString() {
-		return "Canal [id=" + id + ", descricao=" + descricao + "]";
+		return "" + id;
 	}
 
 	@Override
