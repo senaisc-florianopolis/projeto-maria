@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import br.senai.sc.edu.projetomaria.model.Canal;
+import br.senai.sc.edu.projetomaria.resource.Messages;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,6 +25,10 @@ import br.senai.sc.edu.projetomaria.model.Canal;
 
 public class CanalDAO extends AbstractDAO {
 
+	private static final String SUCESSO_DELETE_CANAL = null;
+	private static final String REGISTRO_INCLUIDO_SUCESSO = null;
+	private static final String REGISTRO_ = null;
+	private static final String REGISTRO_SALVO_SUCESSO = null;
 	private Logger LOGGER = Logger.getLogger(CanalDAO.class.getName());
 
 	public ArrayList<Canal> getCanais() {
@@ -63,10 +68,16 @@ public class CanalDAO extends AbstractDAO {
 				rs = stmt.executeQuery(sql);
 				if (!rs.next()) {
 					sql = "INSERT INTO canal ( ID_CANAL, DESCRICAO) VALUES ('" + cn.getId() + "','" + cn.getDescricao()
+					
 							+ "') ";
+					LOGGER.info(REGISTRO_INCLUIDO_SUCESSO);
+				
+						
 				}
+				
 			} catch (SQLException e) {
 				// TODO Message for user??
+				LOGGER.info(Messages.REGISTRO_CADASTRO_SUCESSO);
 			}
 		}
 	}
@@ -79,8 +90,12 @@ public class CanalDAO extends AbstractDAO {
 
 		try {
 			stmt = getConnection().createStatement();
-		} catch (SQLException e) {
+		
+		LOGGER.info(REGISTRO_SALVO_SUCESSO);
+		}catch (SQLException e) {
 			// TODO Message for user
+			
+			LOGGER.info(Messages.REGISTRO_ALTERADO_SUCESSO);
 		}
 
 	}
@@ -94,6 +109,7 @@ public class CanalDAO extends AbstractDAO {
 				ps.setInt(0, canal.getId());
 				ps.executeQuery();
 			}
+			LOGGER.info(SUCESSO_DELETE_CANAL);
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -102,6 +118,12 @@ public class CanalDAO extends AbstractDAO {
 			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			LOGGER.info(Messages.ERRO_EXECUCAO_DELETE);
+			
+			
+	
+			
+			
 			e.printStackTrace();
 		}
 	}

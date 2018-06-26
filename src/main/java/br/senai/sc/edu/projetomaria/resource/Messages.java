@@ -22,7 +22,14 @@ public abstract class Messages {
 	public static final String ERRO_METODO_NAO_IMPLEMENTADO = ResourceManager.getMessage("erro.metodo.nao.implementado"); //$NON-NLS-1$
   public static final String ERRO_EXECUCAO_DELETE = ResourceManager.getMessage("erro.falta.informacao"); //$NON-NLS-1$
   public static final String SUCESSO_RELATORIO_CANAL = ResourceManager.getMessage("sucesso.relatorio.canal"); //$NON-NLS-1$
+  public static final String SUCESSO_DELETE_CANAL = ResourceManager.getMessage("sucesso.delete.canal"); //$NON-NLS-1$
+  public static final String REISTRO_INCLIDO_SUCESSO = ResourceManager.getMessage("registro.incluido.sucesso"); //$NON-NLS-1$
+  public static final String REGISTRO = null;
+public static final String REGISTRO_CADASTRO_SUCESSO =  ResourceManager.getMessage("registro.cadastro.sucesso"); //$NON-NLS-1$
+public static final String REGISTRO_ALTERADO_SUCESSO =  ResourceManager.getMessage("registro.alterado.sucesso"); //$NON-NLS-1$
+public static final String REGISTRO_SALVO_SUCESSO =  ResourceManager.getMessage("registro.salvo.sucesso"); //$NON-NLS-1$
   
 	private Messages() {}
+	
 
 }
