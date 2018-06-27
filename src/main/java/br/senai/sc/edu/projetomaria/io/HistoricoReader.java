@@ -15,6 +15,7 @@ import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.model.Produto;
 import br.senai.sc.edu.projetomaria.resource.Config;
+import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class HistoricoReader {
 
@@ -46,7 +47,7 @@ public class HistoricoReader {
 			
 			List<CSVRecord> csvRecords = parseArquivos.getRecords();
 
-			LOGGER.info("Leitura realizada, iniciando extração de dados");
+			LOGGER.info(Messages.LEITURA_REALIZADA);
 			
 			for (int i = 1; i < csvRecords.size(); i++) {
 				CSVRecord registro = csvRecords.get(i);
@@ -76,7 +77,7 @@ public class HistoricoReader {
 		}
 		
 		if (listIsRight == false) {
-			System.out.println("Os dados não foram inseridos em sua totalidade. Acesse o log para detalhes");
+			LOGGER.info(Messages.DADOS_NAO_INSERIDOS);
 		}
 		
 		return listaRegistros;

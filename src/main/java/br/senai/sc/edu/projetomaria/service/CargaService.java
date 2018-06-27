@@ -7,7 +7,9 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.senai.sc.edu.projetomaria.dao.CanalDAO;
 import br.senai.sc.edu.projetomaria.dao.HistoricoDAO;
+import br.senai.sc.edu.projetomaria.io.CanalReader;
 import br.senai.sc.edu.projetomaria.io.HistoricoReader;
 import br.senai.sc.edu.projetomaria.io.ProdutoReader;
 import br.senai.sc.edu.projetomaria.model.Historico;
