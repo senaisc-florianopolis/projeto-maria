@@ -12,17 +12,33 @@ import br.senai.sc.edu.projetomaria.dao.HistoricoDAO;
 import br.senai.sc.edu.projetomaria.io.CanalReader;
 import br.senai.sc.edu.projetomaria.io.HistoricoReader;
 import br.senai.sc.edu.projetomaria.io.ProdutoReader;
-import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.model.Historico;
+import br.senai.sc.edu.projetomaria.dao.CanalDAO;
+import br.senai.sc.edu.projetomaria.dao.FamiliaDAO;
+import br.senai.sc.edu.projetomaria.io.CanalReader;
+import br.senai.sc.edu.projetomaria.io.FamiliaReader;
+import br.senai.sc.edu.projetomaria.model.Canal;
+import br.senai.sc.edu.projetomaria.model.Familia;
 import br.senai.sc.edu.projetomaria.resource.Messages;
-
 
 
 public class CargaService {
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	public void insertFamilia(Path path) {
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO); 
+		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		FamiliaReader familia = new FamiliaReader(path);
+		try {
+			List<Familia> list_familia = familia.readFamilia();
+			FamiliaDAO dao = new FamiliaDAO();
+			dao.insert(list_familia);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
+		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 	public void updateFamilia(Path path) {
@@ -30,7 +46,19 @@ public class CargaService {
 	}
 
 	public void deleteFamilia(Path path) {
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		FamiliaReader familia = new FamiliaReader(path);
+		List<Familia> familias = null;
+
+		try {
+			familias = familia.readFamilia();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		FamiliaDAO familiaDAO = new FamiliaDAO();
+		familiaDAO.delete(familias);
+		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 	public void insertCanal(Path path) {

@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.senai.sc.edu.projetomaria.model.Historico;
+import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class HistoricoWriter {
 
@@ -42,20 +43,19 @@ public class HistoricoWriter {
 			}
 			
 			
-			System.out.println("O arquivo CSV criado com sucesso!");
+			LOGGER.info(Messages.ARQUIVO_CRIADO_COM_SUCESSO);
 
 		} catch (Exception e) {
 			
-			System.out.println("Erro no escritorDeArquivos!");
+			LOGGER.info(Messages.ERRO_ESCRITOR_DE_ARQUIVO);
 			e.printStackTrace();
 		} finally {
 			try {
 				escritorDeArquivos.flush();
 				escritorDeArquivos.close();
 				csvCompiladorDeArquivos.close();
-			} catch (IOException e) {
-				// SUBSTITUIR POSTERIORMENTE POR LOGGER? - PERGUNTAR AO LUCIANO
-				System.out.println("Erro ao enviar/fechar o escritorDeArquivos/csvCompiladorDeArquivos!");
+			} catch (IOException e) {		
+				LOGGER.info(Messages.ERRO_AO_ENVIAR);
 				e.printStackTrace();
 			}
 		}
