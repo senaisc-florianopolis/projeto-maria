@@ -7,9 +7,9 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import br.senai.sc.edu.projetomaria.io.CanalWriter;
-import br.senai.sc.edu.projetomaria.io.ProdutoWritter;
 import br.senai.sc.edu.projetomaria.dao.HistoricoDAO;
+import br.senai.sc.edu.projetomaria.io.CanalWriter;
+import br.senai.sc.edu.projetomaria.io.EstimativaWritter;
 import br.senai.sc.edu.projetomaria.io.HistoricoWriter;
 import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.resource.Messages;
@@ -41,7 +41,7 @@ public class RelatorioService {
 	}
 	
 	public void exportRelatorioEstimativa(Path path) {
-		ProdutoWritter writter = new ProdutoWritter();
+		EstimativaWritter writter = new EstimativaWritter();
 		writter.escrever(path);
 		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO); 
 	}

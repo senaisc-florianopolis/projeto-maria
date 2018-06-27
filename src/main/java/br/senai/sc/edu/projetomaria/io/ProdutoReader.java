@@ -1,5 +1,6 @@
 package br.senai.sc.edu.projetomaria.io;
 
+import java.util.List;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -15,15 +16,16 @@ import org.apache.logging.log4j.Logger;
 import br.senai.sc.edu.projetomaria.dao.ProdutoDAO;
 import br.senai.sc.edu.projetomaria.model.Phase;
 import br.senai.sc.edu.projetomaria.model.Produto;
+import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class ProdutoReader {
-	//to do : update e delete do PHASE?
 	private static final Logger LOGGER = LogManager.getLogger();
 	Produto novoProduto = null; 
 	Phase novoPhase = null; 
+	Boolean status;
 	
-	public ArrayList<Produto> lerCsvProduto(Path caminho){
-		ArrayList<Produto> produtos = new ArrayList<>();   
+	public List<Produto> lerCsvProduto(Path caminho){
+		List<Produto> produtos = new ArrayList<>();
 	     
 	      try (
 	          Reader leitor = Files.newBufferedReader(caminho);
@@ -42,11 +44,13 @@ public class ProdutoReader {
 		              novoProduto.setIdComercial(Integer.parseInt(idFamiliaComercial));
 		              produtos.add(novoProduto);
 				  }
-	          }	  	      
+	          }
+			  status = true;
 	      } catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.info(Messages.FS_ERRO_ACESSO);
 			LOGGER.debug(e);
-	      } 
+			status = false;
+	      }
 	      return produtos;
 	}
 	
@@ -60,20 +64,21 @@ public class ProdutoReader {
       {
           for(CSVRecord gravar : conversor){
         	  if(gravar.getRecordNumber() != 1){
-        		  System.out.println(gravar.getRecordNumber());
-	        	  String sku_new = gravar.get(0);
-	              String sku_old = gravar.get(1);    
+	        	  String skuNew = gravar.get(0);
+	              String skuOld = gravar.get(1);    
 
         		  novoPhase = new Phase();
-                  novoPhase.setSkuNew(Integer.parseInt(sku_new));
-                  novoPhase.setSkuOld(Integer.parseInt(sku_old));
+                  novoPhase.setSkuNew(Integer.parseInt(skuNew));
+                  novoPhase.setSkuOld(Integer.parseInt(skuOld));
 	        	  
 	        	  phase.add(novoPhase);
         	  }
-          }	             
+          }
+          status = true;
       } catch (IOException e) {
     	  e.printStackTrace();
     	  LOGGER.debug(e);
+    	  status = false;
         } 
 	      return phase;
 	}
@@ -81,9 +86,9 @@ public class ProdutoReader {
 	public void cargaInicial(Path caminho){
 		ProdutoDAO dao = new ProdutoDAO();
 		
-		if(lerCsvPhase(caminho).size() == 0){
-			LOGGER.info("Não há produtos para inserir.");
-		}else{
+		if(lerCsvProduto(caminho).isEmpty() && status != false){
+			LOGGER.info(Messages.ERRO_VAZIO);
+		}else if (status == true) {
 			dao.salvarProdutos(lerCsvProduto(caminho));
 		}
 	} 
@@ -92,17 +97,18 @@ public class ProdutoReader {
 		ArrayList<Produto> skuIgual = new ArrayList<>();
 		ProdutoDAO dao = new ProdutoDAO();
 		
-		for(Produto exp: dao.exportarProdutos()){
-			for(Produto imp: lerCsvProduto(caminho)){
-				if(exp.getSku() == imp.getSku()){
-					skuIgual.add(imp);
+		
+		if(lerCsvProduto(caminho).isEmpty() && status != false){
+			LOGGER.info(Messages.ERRO_VAZIO);
+		}else if (status == true) {
+			for(Produto exp: dao.exportarProdutos()){
+				for(Produto imp: lerCsvProduto(caminho)){
+					if(exp.getSku() == imp.getSku()){
+						skuIgual.add(imp);
+					}
 				}
 			}
-		}
-		
-		if(lerCsvPhase(caminho).size() == 0){
-			LOGGER.info("Não há produtos para atualizar.");
-		}else{
+			
 			dao.updateProduto(skuIgual);			
 		}
 	}
@@ -110,9 +116,9 @@ public class ProdutoReader {
 	public void insertPhase(Path caminho){
 		ProdutoDAO dao = new ProdutoDAO();
 		
-		if(lerCsvPhase(caminho).size() == 0){
-			LOGGER.info("Não há produtos para inserir.");
-		}else{
+		if(lerCsvPhase(caminho).isEmpty() && status != false){
+			LOGGER.info(Messages.ERRO_VAZIO);
+		}else if (status == true) {
 			dao.insertSkuPhase(lerCsvPhase(caminho));
 		}
 	}
@@ -120,8 +126,8 @@ public class ProdutoReader {
 	public void deleteProduto(Path caminho){
 		ProdutoDAO dao = new ProdutoDAO();
 		
-		if(lerCsvProduto(caminho).size() == 0){
-			LOGGER.info("Não há produtos para excluir.");
+		if(lerCsvProduto(caminho).isEmpty()){
+			LOGGER.info(Messages.ERRO_VAZIO);
 		}else{
 			dao.deleteProd(lerCsvProduto(caminho));
 		}
