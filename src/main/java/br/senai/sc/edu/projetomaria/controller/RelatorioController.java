@@ -26,6 +26,9 @@ public class RelatorioController {
 		case ESTIMATIVA:
 			service.exportRelatorioEstimativa(command.getArquivo());
 			break;
+		case PHASE:
+			service.exportRelatorioPhase(command.getArquivo());
+			break;
 		default:
 			throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 		}
