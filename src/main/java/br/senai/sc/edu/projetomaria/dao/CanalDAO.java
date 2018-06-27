@@ -71,8 +71,7 @@ public class CanalDAO extends AbstractDAO {
 					
 							+ "') ";
 					LOGGER.info(REGISTRO_INCLUIDO_SUCESSO);
-				
-						
+
 				}
 				
 			} catch (SQLException e) {
