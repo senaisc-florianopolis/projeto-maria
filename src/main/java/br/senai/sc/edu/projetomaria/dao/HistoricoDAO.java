@@ -23,9 +23,8 @@ public class HistoricoDAO extends AbstractDAO {
 		ArrayList<Historico> registro = new ArrayList<>();
 		String query = "SELECT ID_CANAL, ID_HISTORICO, PRODUTO_SKU, MES_ANO, QUANTIDADE FROM Historico";
 
-		Statement st;
-
-		try {
+		try (Connection conn = getConnection()) {
+			Statement st = null;
 			st = getConnection().createStatement();
 			ResultSet rs = st.executeQuery(query);
 
@@ -43,7 +42,7 @@ public class HistoricoDAO extends AbstractDAO {
 				registro.add(h);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.error(e);
 		}
 
 		return registro;
@@ -51,7 +50,7 @@ public class HistoricoDAO extends AbstractDAO {
 
 	public void persist(List<Historico> registro) {
 
-		String sql = "INSERT INTO HISTORICO " + "(MES_ANO, QUANTIDADE, PRODUTO_SKU, ID_CANAL) "
+		String sql = "INSERT INTO HISTORICO (MES_ANO, QUANTIDADE, PRODUTO_SKU, ID_CANAL) "
 				+ "VALUES ( ?, ?, ?, ?);";
 
 
@@ -68,8 +67,11 @@ public class HistoricoDAO extends AbstractDAO {
 				ps.execute();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-
+			if(e.getErrorCode() == 1062) {
+				LOGGER.info("Há registros duplicados. Retire-os e tente novamente. Mensagem SQL = " + e.getMessage());
+			}else {
+				LOGGER.error(e);
+			}
 		}
 	}
 
@@ -93,7 +95,7 @@ public class HistoricoDAO extends AbstractDAO {
 				ps.execute();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.error(e);
 		}
 	}
 
@@ -111,7 +113,7 @@ public class HistoricoDAO extends AbstractDAO {
 				ps.execute();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.error(e);
 		}
 	}
 }
