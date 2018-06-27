@@ -23,6 +23,10 @@ public abstract class Messages {
   public static final String ERRO_EXECUCAO_DELETE = ResourceManager.getMessage("erro.falta.informacao"); //$NON-NLS-1$
   public static final String SUCESSO_RELATORIO_CANAL = ResourceManager.getMessage("sucesso.relatorio.canal"); //$NON-NLS-1$
   
+  	// Produtos
+  	public static final String ERRO_VAZIO = ResourceManager.getMessage("erro.vazio"); //$NON-NLS-1$
+  	public static final String SUCCESS_PRODUTO = ResourceManager.getMessage("success.produto"); //$NON-NLS-1$
+  
 	private Messages() {}
 
 }
