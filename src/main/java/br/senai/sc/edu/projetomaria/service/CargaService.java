@@ -1,18 +1,19 @@
 package br.senai.sc.edu.projetomaria.service;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.senai.sc.edu.projetomaria.dao.CanalDAO;
 import br.senai.sc.edu.projetomaria.dao.HistoricoDAO;
+import br.senai.sc.edu.projetomaria.io.CanalReader;
 import br.senai.sc.edu.projetomaria.io.HistoricoReader;
 import br.senai.sc.edu.projetomaria.io.ProdutoReader;
-import br.senai.sc.edu.projetomaria.model.Historico;
-import br.senai.sc.edu.projetomaria.dao.CanalDAO;
-import br.senai.sc.edu.projetomaria.io.CanalReader;
 import br.senai.sc.edu.projetomaria.model.Canal;
+import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 
 

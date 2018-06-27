@@ -20,9 +20,16 @@ public abstract class Messages {
 	
 	// Outras Mensagens
 	public static final String ERRO_METODO_NAO_IMPLEMENTADO = ResourceManager.getMessage("erro.metodo.nao.implementado"); //$NON-NLS-1$
-  public static final String ERRO_EXECUCAO_DELETE = ResourceManager.getMessage("erro.falta.informacao"); //$NON-NLS-1$
-  public static final String SUCESSO_RELATORIO_CANAL = ResourceManager.getMessage("sucesso.relatorio.canal"); //$NON-NLS-1$
-  
+	public static final String ERRO_EXECUCAO_DELETE = ResourceManager.getMessage("erro.falta.informacao"); //$NON-NLS-1$
+  	public static final String SUCESSO_RELATORIO_CANAL = ResourceManager.getMessage("sucesso.relatorio.canal"); //$NON-NLS-1$
+  	
+  // Historico
+	public static final String LEITURA_REALIZADA = ResourceManager.getMessage("leitura.realizada"); //$NON-NLS-1$
+	public static final String DADOS_NAO_INSERIDOS = ResourceManager.getMessage("dados.nao.inseridos");//$NON-NLS-1$
+	public static final String ARQUIVO_CRIADO_COM_SUCESSO = ResourceManager.getMessage("arquivo.criado.com.sucesso");//$NON-NLS-1$
+	public static final String ERRO_ESCRITOR_DE_ARQUIVO = ResourceManager.getMessage("erro.escritor.de.arquivos");//$NON-NLS-1$
+	public static final String ERRO_AO_ENVIAR = ResourceManager.getMessage("erro.ao.enviar");//$NON-NLS-1$
+	
 	private Messages() {}
 
 }

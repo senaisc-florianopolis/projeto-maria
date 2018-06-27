@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.model.Produto;
+import br.senai.sc.edu.projetomaria.resource.SQL;
 
 public class HistoricoDAO extends AbstractDAO {
 
@@ -21,7 +22,7 @@ public class HistoricoDAO extends AbstractDAO {
 
 	public List<Historico> get() {
 		ArrayList<Historico> registro = new ArrayList<>();
-		String query = "SELECT ID_CANAL, ID_HISTORICO, PRODUTO_SKU, MES_ANO, QUANTIDADE FROM Historico";
+		String query = SQL.HISTORICO_SELECT;
 
 		Statement st;
 
@@ -51,8 +52,7 @@ public class HistoricoDAO extends AbstractDAO {
 
 	public void persist(List<Historico> registro) {
 
-		String sql = "INSERT INTO HISTORICO " + "(MES_ANO, QUANTIDADE, PRODUTO_SKU, ID_CANAL) "
-				+ "VALUES ( ?, ?, ?, ?);";
+		String sql = SQL.HISTORICO_INSERT;
 
 
 		try (Connection conn = getConnection()) {
@@ -76,8 +76,7 @@ public class HistoricoDAO extends AbstractDAO {
 
 	public void update(List<Historico> registro) {
 
-		String sql = "UPDATE HISTORICO SET MES_ANO = ?, QUANTIDADE = ?, PRODUTO_SKU = ?, ID_CANAL = ?"
-				+ " WHERE ID_HISTORICO = ?";
+		String sql = SQL.HISTORICO_UPDATE;
 
 		try (Connection conn = getConnection() ) {
 			PreparedStatement ps = null;
@@ -99,7 +98,7 @@ public class HistoricoDAO extends AbstractDAO {
 
 	public void delete(List<Historico> registro) {
 
-		String sql = "DELETE FROM HISTORICO WHERE ID_HISTORICO = ?";
+		String sql = SQL.HISTORICO_DELETE;
 
 		try (Connection conn = getConnection()) {
 			PreparedStatement ps = null;
