@@ -25,7 +25,7 @@ public class HistoricoDAO extends AbstractDAO {
 
 		try (Connection conn = getConnection()) {
 			Statement st = null;
-			st = getConnection().createStatement();
+			st = conn.createStatement();
 			ResultSet rs = st.executeQuery(query);
 
 			while (rs.next()) {
@@ -56,7 +56,7 @@ public class HistoricoDAO extends AbstractDAO {
 
 		try (Connection conn = getConnection()) {
 			PreparedStatement ps = null;
-			ps = getConnection().prepareStatement(sql);
+			ps = conn.prepareStatement(sql);
 			for (Historico historico : registro) {
 				LOGGER.debug(historico);
 				ps.setDate(1, java.sql.Date.valueOf(historico.getPeriodo()));
@@ -105,7 +105,7 @@ public class HistoricoDAO extends AbstractDAO {
 
 		try (Connection conn = getConnection()) {
 			PreparedStatement ps = null;
-			ps = getConnection().prepareStatement(sql);
+			ps = conn.prepareStatement(sql);
 			for (Historico historico : registro) {
 				LOGGER.debug(historico);
 				ps.setInt(1, historico.getId());
