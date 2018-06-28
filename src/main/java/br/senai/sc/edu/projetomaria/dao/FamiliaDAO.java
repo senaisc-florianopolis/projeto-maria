@@ -12,9 +12,10 @@ import br.senai.sc.edu.projetomaria.model.Familia;
 
 public class FamiliaDAO extends AbstractDAO {
 
+	private static final String INSERIR_FAMILIA = null;
+	private static final String ATUALIZAR_FAMILIA = null;
+	private static final String DELETAR_FAMILIA = null;
 	private Logger LOGGER = Logger.getLogger(FamiliaDAO.class.getName());
-
-	
 
 	public ArrayList<Familia>getFamilias() {
 		Statement stmt = null;
@@ -22,13 +23,10 @@ public class FamiliaDAO extends AbstractDAO {
 		String sql = "SELECT * FROM maria.familia;";
 		
 		try {
-			
 			stmt = getConnection().createStatement();
 			rs = stmt.executeQuery(sql);
-			
 		} catch (SQLException e) {
-				LOGGER.severe(e.getSQLState() + " - " + e.getMessage());
-				
+				LOGGER.severe(e.getSQLState() + " - " + e.getMessage());	
 		}
 		ArrayList<Familia> familias = new ArrayList<>();
 		try {
@@ -42,23 +40,36 @@ public class FamiliaDAO extends AbstractDAO {
 			LOGGER.severe(e.getSQLState() + " - " + e.getMessage());	
 		}
 		return familias;
-		
-		
 	}
 	
-	public void insert (List<Familia> familia) {
+	public void insert (List<Familia> familia) throws SQLException {
 		Statement stmt = null;
 		int rs;
-
+		int id;
+		ResultSet id_reference = null;
+		String id_reference_sql = "SELECT ID_FAMILIA_COMERCIAL from familia_comercial order by ID_FAMILIA_COMERCIAL desc limit 1;";
+		stmt = getConnection().createStatement();
+		id_reference = stmt.executeQuery(id_reference_sql);
+		id = id_reference.getInt("ID_FAMILIA");
 		for (Familia fl: familia) {
-			String sql = "INSERT INTO familia_comercial (ID_FAMILIA_COMERCIAL, COD_FAMILIA_COMERCIAL) VALUES ('" + fl.getId() + "','" + fl.getCodigo()+ "'); ";
-			System.out.println(sql);
-			try {
-				stmt = getConnection().createStatement();
-				rs = stmt.executeUpdate(sql);
-			} catch (SQLException e) {
-				System.out.println(e);
+			if(fl.getId() <= id){
+				String sql = "INSERT INTO familia_comercial (ID_FAMILIA_COMERCIAL, COD_FAMILIA_COMERCIAL) VALUES ('" + fl.getId() + 1 + "','" + fl.getCodigo()+ "'); ";
+				try {
+					stmt = getConnection().createStatement();
+					rs = stmt.executeUpdate(sql);
+				} catch (SQLException e) {
+					System.out.println(e);
+				}
+			}else{
+				String sql = "INSERT INTO familia_comercial (ID_FAMILIA_COMERCIAL, COD_FAMILIA_COMERCIAL) VALUES ('" + fl.getId() + "','" + fl.getCodigo()+ "'); ";
+				try {
+					stmt = getConnection().createStatement();
+					rs = stmt.executeUpdate(sql);
+				} catch (SQLException e) {
+					System.out.println(e);
+				}
 			}
+			LOGGER.info(INSERIR_FAMILIA);
 		}
 	}
 
@@ -72,6 +83,7 @@ public class FamiliaDAO extends AbstractDAO {
 		try {
 			stmt = getConnection().createStatement();
 			rs = stmt.executeUpdate(sql);
+			LOGGER.info(ATUALIZAR_FAMILIA);
 		}	catch (SQLException e) {
 			// TODO Message for user??
 
@@ -90,6 +102,7 @@ public class FamiliaDAO extends AbstractDAO {
 			try {
 				stmt = getConnection().createStatement();
 				rs = stmt.executeUpdate(sql);
+				LOGGER.info(DELETAR_FAMILIA);
 			} catch (SQLException e) {
 				// TODO Message for user??
 				System.out.println(e);

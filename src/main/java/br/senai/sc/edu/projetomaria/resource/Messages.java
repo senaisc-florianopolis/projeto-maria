@@ -43,7 +43,12 @@ public abstract class Messages {
   	public static final String ERRO_VAZIO = ResourceManager.getMessage("erro.vazio"); //$NON-NLS-1$
   	public static final String SUCCESS_PRODUTO = ResourceManager.getMessage("success.produto"); //$NON-NLS-1$
   
-	private Messages() {}
+  
+  public static final String INSERIR_FAMILIA =  ResourceManager.getMessage("inserir.familia"); //$NON-NLS-1$
+  public static final String ATUALIZAR_FAMILIA =  ResourceManager.getMessage("atualizar.familia"); //$NON-NLS-1$
+  public static final String DELETAR_FAMILIA =  ResourceManager.getMessage("deletar.familia"); //$NON-NLS-1$
+  
+  private Messages() {}
 	
 
 }
