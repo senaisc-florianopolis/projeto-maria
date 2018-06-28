@@ -25,22 +25,26 @@ public class FamiliaReader {
 	}
 	
 	public List<Familia> readFamilia() throws IOException {
-		BufferedReader br = Files.newBufferedReader(this.path);
-		Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader("ID_FAMILIA_COMERCIAL", "COD_FAMILIA_COMERCIAL").parse(br);
-		Familia familia = new Familia();
-		List <Familia>list = new LinkedList<>();
-		
-		for (CSVRecord csvRecord: records) {
-			// Acessing Values by Column Index
+		try (BufferedReader br = Files.newBufferedReader(this.path)) {
+			Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader("ID_FAMILIA_COMERCIAL", "COD_FAMILIA_COMERCIAL").parse(br);
+			Familia familia = new Familia();
+			List <Familia>list = new LinkedList<>();
 			
-			int id_familia = Integer.parseInt(csvRecord.get("ID_FAMILIA_COMERCIAL"));
-			String codigo = csvRecord.get("COD_FAMILIA_COMERCIAL");
-			
-			familia.setId(id_familia);
-			familia.setCodigo(codigo);
-			list.add(familia);
+			for (CSVRecord csvRecord: records) {
+				// Acessing Values by Column Index
+				
+				int id_familia = Integer.parseInt(csvRecord.get("ID_FAMILIA_COMERCIAL"));
+				String codigo = csvRecord.get("COD_FAMILIA_COMERCIAL");
+				
+				familia.setId(id_familia);
+				familia.setCodigo(codigo);
+				list.add(familia);
+			}
+			LOGGER.info("Total de familias lidas: " + list.size());
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		LOGGER.info("Total de familias lidas: " + list.size());
-		return list;
+		return null;
 	}
 }
