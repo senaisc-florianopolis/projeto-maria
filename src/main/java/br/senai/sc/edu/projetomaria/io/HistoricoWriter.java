@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.senai.sc.edu.projetomaria.model.Historico;
+import br.senai.sc.edu.projetomaria.resource.Config;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class HistoricoWriter {
@@ -24,7 +25,7 @@ public class HistoricoWriter {
 
 		CSVPrinter csvCompiladorDeArquivos = null;
 
-		CSVFormat formatacaoCsv = CSVFormat.DEFAULT.withRecordSeparator(separadorLinhas).withDelimiter(';');
+		CSVFormat formatacaoCsv = CSVFormat.DEFAULT.withRecordSeparator(separadorLinhas).withDelimiter(Config.CSV_DELIMITADOR);
 
 		try (FileWriter escritorDeArquivos = new FileWriter(nomeArquivo.toFile())) {
 
@@ -33,11 +34,6 @@ public class HistoricoWriter {
 			csvCompiladorDeArquivos.printRecord(colunasArquivo);
 
 			for (Historico historico : registro) {
-				// historico.getId();
-				// historico.getPeriodo();
-				// historico.getQuantidade();
-				// historico.getProduto().getSku();
-				// historico.getCanal();
 				csvCompiladorDeArquivos.printRecord(historico.getId(), historico.getPeriodo(),
 						historico.getQuantidade(), historico.getProduto().getSku(), historico.getCanal());
 			}
