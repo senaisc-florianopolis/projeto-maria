@@ -94,19 +94,16 @@ public class CargaService {
 	public void insertProduto(Path path) {
 		ProdutoReader reader = new ProdutoReader();
 		reader.cargaInicial(path);
-		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 	public void updateProduto(Path path) {
 		ProdutoReader reader = new ProdutoReader();
 		reader.updateProduto(path);
-		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 	public void deleteProduto(Path path) {
 		ProdutoReader reader = new ProdutoReader();
 		reader.deleteProduto(path);
-		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 	public void insertHistorico(Path path) {
@@ -133,7 +130,6 @@ public class CargaService {
 	public void insertPhase(Path path) {
 		ProdutoReader reader = new ProdutoReader();
 		reader.insertPhase(path);
-		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 	public void updatePhase(Path path) {
@@ -143,5 +139,4 @@ public class CargaService {
 	public void deletePhase(Path path) {
 		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
-
 }
