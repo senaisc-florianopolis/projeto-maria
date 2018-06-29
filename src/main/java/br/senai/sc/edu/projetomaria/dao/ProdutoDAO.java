@@ -43,8 +43,8 @@ public class ProdutoDAO extends AbstractDAO {
 		}
 		return p;
 	}
-	
-	public List<Phase> exportarPhase(){
+
+	public List<Phase> exportarPhase() {
 		Statement stmt = null;
 		ResultSet rs = null;
 		String sql = null;
@@ -66,9 +66,9 @@ public class ProdutoDAO extends AbstractDAO {
 		}
 		return ph;
 	}
-	
-	//confirmar se há update do phase, e qual criterio para encontrar no banco
-	public void updatePhase(List<Phase> phase){
+
+	// confirmar se há update do phase, e qual criterio para encontrar no banco
+	public void updatePhase(List<Phase> phase) {
 		String sql = "";
 		PreparedStatement stmt;
 		int successes = 0;
@@ -89,7 +89,7 @@ public class ProdutoDAO extends AbstractDAO {
 		}
 		LOGGER.info(successes + " de " + total + " " + Messages.SUCCESS_PRODUTO);
 	}
-	
+
 	public void salvarProdutos(List<Produto> list) {
 		String sql = "";
 		PreparedStatement stmt;

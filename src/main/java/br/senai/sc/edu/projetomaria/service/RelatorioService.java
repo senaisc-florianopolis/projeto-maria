@@ -40,7 +40,7 @@ public class RelatorioService {
 		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO); 
 	}
 	
-	public void exportRelatorioEstimativa(Path path) {
+	public void exportRelatorioEstimativa(Path path, int periodoAnterior) {
 		EstimativaWritter writter = new EstimativaWritter();
 		writter.escrever(path);
 		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO); 

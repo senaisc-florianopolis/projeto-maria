@@ -13,8 +13,12 @@ import org.apache.commons.csv.CSVPrinter;
 import br.senai.sc.edu.projetomaria.model.Historico;
 
 public class EstimativaWritter {
-	//to do : verificar com o professo se havera entrada de meses utilizados para estimativa
 		public void escrever(Path path){	
+			
+			// QUARTA FASE
+			// RETORNO LAYOUT DO BANCO DE DADOS:
+			// SKU / CANAL / HISTÓRICO / ESTATISCA
+			
 		    try(             
 		        BufferedWriter arquivo = Files.newBufferedWriter(path);                        
 		        CSVPrinter escrever = new CSVPrinter(arquivo, CSVFormat.DEFAULT.withHeader("SKU", "NOME_PRODUTO", "ID_FAMILIA_COMERCIAL"));

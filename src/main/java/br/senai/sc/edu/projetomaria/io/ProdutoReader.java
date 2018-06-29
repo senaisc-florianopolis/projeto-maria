@@ -25,8 +25,8 @@ public class ProdutoReader {
 	Produto novoProduto = null;
 	Phase novoPhase = null;
 	Boolean status;
-
-	public List<Produto> lerCsvProduto(Path caminho) {
+	
+	public List<Produto> lerCsvProduto(Path caminho) throws Exception {
 		List<Produto> produtos = new ArrayList<>();
 		try (Reader leitor = Files.newBufferedReader(caminho);
 				CSVParser conversor = new CSVParser(leitor, CSVFormat.DEFAULT);) {
@@ -35,20 +35,24 @@ public class ProdutoReader {
 					String sku = gravar.get(0);
 					String nomeProduto = gravar.get(1);
 					String idFamiliaComercial = gravar.get(2);
-
-					novoProduto = new Produto();
-					novoProduto.setSku(Integer.parseInt(sku));
-					novoProduto.setDescricao(nomeProduto);
-					novoProduto.setIdComercial(Integer
-							.parseInt(idFamiliaComercial));
-					produtos.add(novoProduto);
-				}
+					
+					if(sku == "" || nomeProduto.equals("") || idFamiliaComercial == ""){
+						throw new Exception("Registro invalido: " + sku + ", " + nomeProduto + ", " + idFamiliaComercial);
+					}else{
+						status = true;
+						novoProduto = new Produto();
+						novoProduto.setSku(Integer.parseInt(sku));
+						novoProduto.setDescricao(nomeProduto);
+						novoProduto.setIdComercial(Integer
+								.parseInt(idFamiliaComercial));
+						produtos.add(novoProduto);
+					}
+				}				
 			}
-			status = true;
+			
 		} catch (IOException e) {
 			LOGGER.info(Messages.FS_ERRO_ACESSO);
 			LOGGER.debug(e);
-			status = false;
 		}
 		return produtos;
 	}
@@ -80,55 +84,68 @@ public class ProdutoReader {
 
 	public void cargaInicial(Path caminho) {
 		ProdutoDAO dao = new ProdutoDAO();
-		if (lerCsvProduto(caminho).isEmpty() && status != false) {
-			LOGGER.info(Messages.ERRO_VAZIO);
-		} else if (status) {
-			dao.salvarProdutos(lerCsvProduto(caminho));
+		int contro = 0;
+		
+		try {
+			lerCsvProduto(caminho);
+			LOGGER.info("entrei");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			LOGGER.info("erro na linha");
 		}
-	}
-
-	public void updateProduto(Path caminho) {
-		List<Produto> skuIgual = new ArrayList<>();
-		ProdutoDAO dao = new ProdutoDAO();
-
-		if (lerCsvProduto(caminho).isEmpty() && !status) {
-			LOGGER.info(Messages.ERRO_VAZIO);
-		} else if (status) {
-			for (Produto exp : dao.exportarProdutos()) {
-				for (Produto imp : lerCsvProduto(caminho)) {
-					if (exp.getSku() == imp.getSku()) {
-						skuIgual.add(imp);
+		/*if (status){
+			for(Produto p : dao.exportarProdutos()){
+				for(Produto p2: lerCsvProduto(caminho)){
+					if(p.getSku() == p2.getSku()){
+						contro++;
+						break;	
 					}
-				}
+				}				
 			}
-			dao.updateProduto(skuIgual);
-		}
-	}
-	
-	public void updatePhase(Path caminho){
-		List<Produto> skuIgual = new ArrayList<>();
-		ProdutoDAO dao = new ProdutoDAO();
-	
+			if(contro == 0){
+				dao.salvarProdutos(lerCsvProduto(caminho));
+			}else{
+				LOGGER.info("Há Sku's já existentes na base.");
+				LOGGER.info(Messages.EXEC_ABORTADA);
+			}	*/	
 		
 	}
+
+//	public void updateProduto(Path caminho) {
+//		List<Produto> skuIgual = new ArrayList<>();
+//		ProdutoDAO dao = new ProdutoDAO();
+//
+//		if (lerCsvProduto(caminho).isEmpty() && !status) {
+//			LOGGER.info(Messages.ERRO_VAZIO);
+//		} else if (status) {
+//			for (Produto exp : dao.exportarProdutos()) {
+//				for (Produto imp : lerCsvProduto(caminho)) {
+//					if (exp.getSku() == imp.getSku()) {
+//						skuIgual.add(imp);
+//					}
+//				}
+//			}
+//			dao.updateProduto(skuIgual);
+//		}
+//	}
 
 	public void insertPhase(Path caminho) {
 		ProdutoDAO dao = new ProdutoDAO();
-		
+
 		if (lerCsvPhase(caminho).isEmpty() && !status) {
 			LOGGER.info(Messages.ERRO_VAZIO);
 		} else if (status) {
 			dao.insertSkuPhase(lerCsvPhase(caminho));
 		}
 	}
-
-	public void deleteProduto(Path caminho) {
-		ProdutoDAO dao = new ProdutoDAO();
-
-		if (lerCsvProduto(caminho).isEmpty()) {
-			LOGGER.info(Messages.ERRO_VAZIO);
-		} else {
-			dao.deleteProd(lerCsvProduto(caminho));
-		}
-	}
+//
+//	public void deleteProduto(Path caminho) {
+//		ProdutoDAO dao = new ProdutoDAO();
+//
+//		if (lerCsvProduto(caminho).isEmpty()) {
+//			LOGGER.info(Messages.ERRO_VAZIO);
+//		} else {
+//			dao.deleteProd(lerCsvProduto(caminho));
+//		}
+//	}
 }

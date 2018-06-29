@@ -22,7 +22,6 @@ import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.model.Familia;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 
-
 public class CargaService {
 	private static final Logger LOGGER = LogManager.getLogger();
 
@@ -38,28 +37,24 @@ public class CargaService {
 			e.printStackTrace();
 		}
 		
-
-		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 	public void updateFamilia(Path path) {
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		throw new UnsupportedOperationException(
+				Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 	public void deleteFamilia(Path path) {
-		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 		FamiliaReader familia = new FamiliaReader(path);
 		List<Familia> familias = null;
 
 		try {
 			familias = familia.readFamilia();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		FamiliaDAO familiaDAO = new FamiliaDAO();
 		familiaDAO.delete(familias);
-		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 	public void insertCanal(Path path) {
@@ -70,25 +65,28 @@ public class CargaService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		// throw new
+		// UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 	public void updateCanal(Path path) {
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		throw new UnsupportedOperationException(
+				Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 	public void deleteCanal(Path path) {
 		CanalReader canal = new CanalReader(path);
 		List<Canal> canais = null;
 		try {
-			canais =canal.readCanal();
+			canais = canal.readCanal();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		CanalDAO CanalDAO = new CanalDAO();
 		CanalDAO.delete(canais);
-		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		// throw new
+		// UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 	public void insertProduto(Path path) {
@@ -98,12 +96,12 @@ public class CargaService {
 
 	public void updateProduto(Path path) {
 		ProdutoReader reader = new ProdutoReader();
-		reader.updateProduto(path);
+//		reader.updateProduto(path);
 	}
 
 	public void deleteProduto(Path path) {
 		ProdutoReader reader = new ProdutoReader();
-		reader.deleteProduto(path);
+//		reader.deleteProduto(path);
 	}
 
 	public void insertHistorico(Path path) {
@@ -126,17 +124,19 @@ public class CargaService {
 		HistoricoDAO registro = new HistoricoDAO();
 		registro.delete(listaRegistros);
 	}
-	
+
 	public void insertPhase(Path path) {
 		ProdutoReader reader = new ProdutoReader();
 		reader.insertPhase(path);
 	}
 
 	public void updatePhase(Path path) {
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		throw new UnsupportedOperationException(
+				Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 	public void deletePhase(Path path) {
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		throw new UnsupportedOperationException(
+				Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 }
