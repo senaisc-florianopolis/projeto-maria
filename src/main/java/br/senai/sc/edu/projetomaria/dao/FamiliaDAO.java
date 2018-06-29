@@ -1,5 +1,6 @@
 package br.senai.sc.edu.projetomaria.dao;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -22,22 +23,18 @@ public class FamiliaDAO extends AbstractDAO {
 		ResultSet rs = null;
 		String sql = "SELECT * FROM maria.familia;";
 		
-		try {
-			stmt = getConnection().createStatement();
+		ArrayList<Familia> familias = new ArrayList<>();
+		try (Connection conn = getConnection()) {
+			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				Familia familia = new Familia();
+				familia.setId(rs.getInt("ID_FAMILIA"));
+				familia.setCodigo(rs.getString("CODIGO"));
+				familias.add(familia);
+			}
 		} catch (SQLException e) {
 				LOGGER.severe(e.getSQLState() + " - " + e.getMessage());	
-		}
-		ArrayList<Familia> familias = new ArrayList<>();
-		try {
-				while (rs.next()) {
-					Familia familia = new Familia();
-					familia.setId(rs.getInt("ID_FAMILIA"));
-					familia.setCodigo(rs.getString("CODIGO"));
-					familias.add(familia);
-				}
-		} catch (SQLException e) {
-			LOGGER.severe(e.getSQLState() + " - " + e.getMessage());	
 		}
 		return familias;
 	}
@@ -54,6 +51,7 @@ public class FamiliaDAO extends AbstractDAO {
 		for (Familia fl: familia) {
 			if(fl.getId() <= id){
 				String sql = "INSERT INTO familia_comercial (ID_FAMILIA_COMERCIAL, COD_FAMILIA_COMERCIAL) VALUES ('" + fl.getId() + 1 + "','" + fl.getCodigo()+ "'); ";
+				
 				try {
 					stmt = getConnection().createStatement();
 					rs = stmt.executeUpdate(sql);
@@ -79,7 +77,7 @@ public class FamiliaDAO extends AbstractDAO {
 		int rs;
 		String sql = "UPDATE familia_comercial SET COD_FAMILIA_COMERCIAL = " + "'" + familia.getCodigo() + "'" +
 				" WHERE ID_FAMILIA_COMERCIAL = " +"'" + familia.getId() + "';" ;
-		System.out.println(sql);
+		System.out.println(sql);	
 		try {
 			stmt = getConnection().createStatement();
 			rs = stmt.executeUpdate(sql);
