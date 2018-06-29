@@ -104,8 +104,6 @@ public class CanalDAO extends AbstractDAO {
 		try {
 			PreparedStatement ps = conn.prepareStatement(sql);
 			for (Canal canal : canais) {
-				
-				
 				ps.setInt(0, canal.getId());
 				ps.execute();
 			}
@@ -118,12 +116,7 @@ public class CanalDAO extends AbstractDAO {
 			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			LOGGER.info(Messages.ERRO_EXECUCAO_DELETE);
-			
-			
-	
-			
-			
+			LOGGER.info(Messages.ERRO_EXECUCAO_DELETE);		
 			e.printStackTrace();
 		}
 	}

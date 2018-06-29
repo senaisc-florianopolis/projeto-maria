@@ -60,7 +60,7 @@ public class CommandCarga {
 		if (this.delete) {
 			nrOperations++;
 		}
-		return nrOperations == 1;
+		return (nrOperations == 1 ? true : false);
 	}
 
 	protected boolean isValidFile() {
