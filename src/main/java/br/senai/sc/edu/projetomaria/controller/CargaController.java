@@ -1,12 +1,14 @@
 package br.senai.sc.edu.projetomaria.controller;
 
+import java.sql.SQLException;
+
 import br.senai.sc.edu.projetomaria.cli.CommandCarga;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 import br.senai.sc.edu.projetomaria.service.CargaService;
 
 public class CargaController {
 
-	public void exec(CommandCarga command) {
+	public void exec(CommandCarga command) throws SQLException {
 		switch (command.getTipo()) {
 		case CANAL:
 			this.execCanal(command);
@@ -50,7 +52,7 @@ public class CargaController {
 		}
 	}
 
-	protected void execFamilia(CommandCarga command) {
+	protected void execFamilia(CommandCarga command) throws SQLException {
 		CargaService service = new CargaService();
 		if (command.isInsert()) {
 			service.insertFamilia(command.getArquivo());
