@@ -42,8 +42,8 @@ public class HistoricoWriter {
 
 		} catch (Exception expc) {
 
-			LOGGER.info(Messages.ERRO_ESCRITOR_DE_ARQUIVO);
-			expc.printStackTrace();
+			LOGGER.warn(Messages.ERRO_ESCRITOR_DE_ARQUIVO, expc);
+			
 		}
 	}
 }
