@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.model.Produto;
+import br.senai.sc.edu.projetomaria.resource.Messages;
 import br.senai.sc.edu.projetomaria.resource.SQL;
 
 public class HistoricoDAO extends AbstractDAO {
@@ -24,11 +25,7 @@ public class HistoricoDAO extends AbstractDAO {
 		ArrayList<Historico> registro = new ArrayList<>();
 		String query = SQL.HISTORICO_SELECT;
 
-		try (Connection conn = getConnection()) {
-			Statement st = null;
-			st = conn.createStatement();
-			ResultSet rs = st.executeQuery(query);
-
+		try (Connection conn = getConnection(); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(query)) {
 			while (rs.next()) {
 				Historico h = new Historico();
 				Canal canal = new Canal();
@@ -54,9 +51,7 @@ public class HistoricoDAO extends AbstractDAO {
 		String sql = SQL.HISTORICO_INSERT;
 
 
-		try (Connection conn = getConnection()) {
-			PreparedStatement ps = null;
-			ps = conn.prepareStatement(sql);
+		try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 			for (Historico historico : registro) {
 				LOGGER.debug(historico);
 				ps.setDate(1, java.sql.Date.valueOf(historico.getPeriodo()));
@@ -80,9 +75,7 @@ public class HistoricoDAO extends AbstractDAO {
 
 		String sql = SQL.HISTORICO_UPDATE;
 
-		try (Connection conn = getConnection() ) {
-			PreparedStatement ps = null;
-			ps = conn.prepareStatement(sql);
+		try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 			for (Historico historico : registro) {
 				LOGGER.debug(historico);
 				ps.setDate(1, java.sql.Date.valueOf(historico.getPeriodo()));
@@ -102,9 +95,7 @@ public class HistoricoDAO extends AbstractDAO {
 
 		String sql = SQL.HISTORICO_DELETE;
 
-		try (Connection conn = getConnection()) {
-			PreparedStatement ps = null;
-			ps = conn.prepareStatement(sql);
+		try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 			for (Historico historico : registro) {
 				LOGGER.debug(historico);
 				ps.setInt(1, historico.getId());
@@ -114,5 +105,6 @@ public class HistoricoDAO extends AbstractDAO {
 		} catch (SQLException e) {
 			LOGGER.error(e);
 		}
+		LOGGER.info(Messages.SUCESSO_DELETE_CANAL);
 	}
 }

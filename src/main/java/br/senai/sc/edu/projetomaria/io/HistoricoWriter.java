@@ -1,7 +1,6 @@
 package br.senai.sc.edu.projetomaria.io;
 
 import java.io.FileWriter;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -16,7 +15,7 @@ import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class HistoricoWriter {
 
-	private static final String separadorLinhas = "\n";
+	private static final String SEPARADORLINHAS = "\n";
 	private static final Logger LOGGER = LogManager.getLogger();
 	private static final Object[] colunasArquivo = { "id_historico", "mes_ano", "quantidade", "produto_sku",
 			"id_canal" };
@@ -25,7 +24,7 @@ public class HistoricoWriter {
 
 		CSVPrinter csvCompiladorDeArquivos = null;
 
-		CSVFormat formatacaoCsv = CSVFormat.DEFAULT.withRecordSeparator(separadorLinhas).withDelimiter(Config.CSV_DELIMITADOR);
+		CSVFormat formatacaoCsv = CSVFormat.DEFAULT.withRecordSeparator(SEPARADORLINHAS).withDelimiter(Config.CSV_DELIMITADOR);
 
 		try (FileWriter escritorDeArquivos = new FileWriter(nomeArquivo.toFile())) {
 
