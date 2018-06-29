@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import br.senai.sc.edu.projetomaria.model.Canal;
+import br.senai.sc.edu.projetomaria.resource.Messages;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -55,18 +56,20 @@ public class CanalDAO extends AbstractDAO {
 	public void insert(List<Canal> canal) {
 		Statement stmt = null;
 		ResultSet rs = null;
-
+		
 		for (Canal cn : canal) {
 			String sql = "SELECT * FROM canal WHERE ID_CANAL = " + "'" + cn.getId() + "'";
-			try {
-				stmt = getConnection().createStatement();
-				rs = stmt.executeQuery(sql);
-				if (!rs.next()) {
-					sql = "INSERT INTO canal ( ID_CANAL, DESCRICAO) VALUES ('" + cn.getId() + "','" + cn.getDescricao()
-							+ "') ";
+			if(cn.isValid()){
+				try (Connection conn = getConnection()) {
+					stmt = conn.createStatement();
+					rs = stmt.executeQuery(sql);
+					if (!rs.next()) {
+						sql = "INSERT INTO canal ( ID_CANAL, DESCRICAO) VALUES ('" + cn.getId() + "','" + cn.getDescricao()
+								+ "') ";
+					}
+				} catch (SQLException e) {
+					// TODO Message for user??
 				}
-			} catch (SQLException e) {
-				// TODO Message for user??
 			}
 		}
 	}
@@ -77,7 +80,7 @@ public class CanalDAO extends AbstractDAO {
 		String sql = "UPDATE canal SET  " + "'" + canal.getDescricao() + "'" + "WHERE ID_CANAL = " + "'" + canal.getId()
 				+ "'";
 
-		try {
+		try(Connection conn = getConnection()) {
 			stmt = getConnection().createStatement();
 		} catch (SQLException e) {
 			// TODO Message for user
@@ -86,24 +89,18 @@ public class CanalDAO extends AbstractDAO {
 	}
 
 	public void delete(List<Canal> canais) {
-		Connection conn = getConnection();
 		PreparedStatement ps;
-		try {
+		try (Connection conn = getConnection()) {
 			ps = conn.prepareStatement("DELETE FROM canal where id = ?");
 			for (Canal canal : canais) {
 				ps.setInt(0, canal.getId());
 				ps.executeQuery();
 			}
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 
 }
