@@ -29,7 +29,7 @@ public class CanalDAO extends AbstractDAO {
 	private static final String SUCESSO_DELETE_CANAL = null;
 	private static final String REGISTRO_INCLUIDO_SUCESSO = null;
 	private static final String REGISTRO_ = null;
-	private static final String REGISTRO_SALVO_SUCESSO = null;
+	private static final String REGISTRO_CADASTRO_SUCESSO = null;
 	private Logger LOGGER = Logger.getLogger(CanalDAO.class.getName());
 
 	public ArrayList<Canal> getCanais() {
