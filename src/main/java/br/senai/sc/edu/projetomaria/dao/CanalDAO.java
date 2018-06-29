@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.resource.Messages;
+import br.senai.sc.edu.projetomaria.resource.SQL;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -58,23 +59,19 @@ public class CanalDAO extends AbstractDAO {
 	}
 
 	public void insert(List<Canal> canal) {
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		ResultSet rs = null;
 
 		for (Canal cn : canal) {
-			String sql = "SELECT * FROM canal WHERE ID_CANAL = " + "'" + cn.getId() + "'";
+			String sql =  SQL.INSERT_CANAL;
 			try {
-				stmt = getConnection().createStatement();
-				rs = stmt.executeQuery(sql);
-				if (!rs.next()) {
-					sql = "INSERT INTO canal ( ID_CANAL, DESCRICAO) VALUES ('" + cn.getId() + "','" + cn.getDescricao()
-					
-							+ "') ";
-					LOGGER.info(REGISTRO_INCLUIDO_SUCESSO);
+				stmt =  getConnection().prepareStatement(sql);
 				
-						
-				}
+				stmt.setInt(1, cn.getId());
+				stmt.setString(2, cn.getDescricao());
 				
+				stmt.executeQuery();				
+				LOGGER.info(REGISTRO_INCLUIDO_SUCESSO);
 			} catch (SQLException e) {
 				// TODO Message for user??
 				LOGGER.info(Messages.REGISTRO_CADASTRO_SUCESSO);
@@ -83,16 +80,17 @@ public class CanalDAO extends AbstractDAO {
 	}
 
 	public void update(Canal canal) {
-		Statement stmt = null;
-		ResultSet rs = null;
-		String sql = "UPDATE canal SET  " + "'" + canal.getDescricao() + "'" + "WHERE ID_CANAL = " + "'" + canal.getId()
-				+ "'";
+		Connection conn = getConnection();
+		String sql = SQL.UPDATE_CANAL;
 
 		try {
-			stmt = getConnection().createStatement();
+			PreparedStatement ps = conn.prepareStatement(sql);
+				
+				ps.setInt(0, canal.getId());
+				ps.execute();
+				LOGGER.info(Messages.REGISTRO_SALVO_SUCESSO);
 		
-		LOGGER.info(REGISTRO_SALVO_SUCESSO);
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			// TODO Message for user
 			
 			LOGGER.info(Messages.REGISTRO_ALTERADO_SUCESSO);
@@ -102,12 +100,14 @@ public class CanalDAO extends AbstractDAO {
 
 	public void delete(List<Canal> canais) {
 		Connection conn = getConnection();
-		PreparedStatement ps;
+		String sql = SQL.DELETE_CANAL;
 		try {
-			ps = conn.prepareStatement("DELETE FROM canal where id = ?");
+			PreparedStatement ps = conn.prepareStatement(sql);
 			for (Canal canal : canais) {
+				
+				
 				ps.setInt(0, canal.getId());
-				ps.executeQuery();
+				ps.execute();
 			}
 			LOGGER.info(SUCESSO_DELETE_CANAL);
 		} catch (SQLException e1) {
