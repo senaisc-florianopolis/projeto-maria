@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.model.Familia;
 import br.senai.sc.edu.projetomaria.resource.Messages;
+import br.senai.sc.edu.projetomaria.resource.SQL;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,7 +30,7 @@ public class CanalDAO extends AbstractDAO {
 	private static final String SUCESSO_DELETE_CANAL = null;
 	private static final String REGISTRO_INCLUIDO_SUCESSO = null;
 	private static final String REGISTRO_ = null;
-	private static final String REGISTRO_SALVO_SUCESSO = null;
+	private static final String REGISTRO_CADASTRO_SUCESSO = null;
 	private Logger LOGGER = Logger.getLogger(CanalDAO.class.getName());
 
 	public ArrayList<Canal> getCanais() {
@@ -58,18 +59,36 @@ public class CanalDAO extends AbstractDAO {
 
 	}
 
+	public void insert(List<Canal> canal) {
+		PreparedStatement stmt = null;
+		String sql =  SQL.INSERT_CANAL;
+		try {
+			stmt =  getConnection().prepareStatement(sql);
+			for (Canal cn : canal) {
+					stmt.setInt(1, cn.getId());
+					stmt.setString(2, cn.getDescricao());
+					stmt.execute();				
+					LOGGER.info(REGISTRO_INCLUIDO_SUCESSO);
+			}
+		} catch (SQLException e) {
+			// TODO Message for user??
+			LOGGER.info(Messages.REGISTRO_CADASTRO_SUCESSO);
+		}
+	}
 
 	public void update(Canal canal) {
-		Statement stmt = null;
-		int rs = 0;
-		String sql = "UPDATE canal SET  " + "'" + canal.getDescricao() + "'" + "WHERE ID_CANAL = " + "'" + canal.getId()
-				+ "'";
+		Connection conn = getConnection();
+		String sql = SQL.UPDATE_CANAL;
 
 		try {
-			stmt = getConnection().createStatement();
-			rs = stmt.executeUpdate(sql);
-		LOGGER.info(REGISTRO_SALVO_SUCESSO);
-		}catch (SQLException e) {
+			PreparedStatement ps = conn.prepareStatement(sql);
+				
+				ps.setInt(0, canal.getId());
+				ps.setString(1, canal.getDescricao());
+				ps.execute();
+				LOGGER.info(Messages.REGISTRO_SALVO_SUCESSO);
+					
+		} catch (SQLException e) {
 			// TODO Message for user
 			LOGGER.info(Messages.REGISTRO_ALTERADO_SUCESSO);
 		}
@@ -78,12 +97,12 @@ public class CanalDAO extends AbstractDAO {
 
 	public void delete(List<Canal> canais) {
 		Connection conn = getConnection();
-		PreparedStatement ps;
+		String sql = SQL.DELETE_CANAL;
 		try {
-			ps = conn.prepareStatement("DELETE FROM canal where id = ?");
+			PreparedStatement ps = conn.prepareStatement(sql);
 			for (Canal canal : canais) {
 				ps.setInt(0, canal.getId());
-				ps.executeQuery();
+				ps.execute();
 			}
 			LOGGER.info(SUCESSO_DELETE_CANAL);
 		} catch (SQLException e1) {
@@ -94,12 +113,7 @@ public class CanalDAO extends AbstractDAO {
 			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			LOGGER.info(Messages.ERRO_EXECUCAO_DELETE);
-			
-			
-	
-			
-			
+			LOGGER.info(Messages.ERRO_EXECUCAO_DELETE);		
 			e.printStackTrace();
 		}
 	}
