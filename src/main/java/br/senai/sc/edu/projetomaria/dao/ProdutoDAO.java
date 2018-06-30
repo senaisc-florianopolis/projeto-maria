@@ -67,7 +67,7 @@ public class ProdutoDAO extends AbstractDAO {
 		return ph;
 	}
 
-	// confirmar se há update do phase, e qual criterio para encontrar no banco
+	// confirmar se hï¿½ update do phase, e qual criterio para encontrar no banco
 	public void updatePhase(List<Phase> phase) {
 		String sql = "";
 		PreparedStatement stmt;
@@ -106,7 +106,7 @@ public class ProdutoDAO extends AbstractDAO {
 				stmt.execute();
 				successes++;
 			} catch (SQLException e) {
-				LOGGER.debug(e);
+				LOGGER.error(e);
 			}
 			total++;
 		}
