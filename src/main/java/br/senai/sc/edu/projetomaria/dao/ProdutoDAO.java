@@ -51,15 +51,13 @@ public class ProdutoDAO extends AbstractDAO {
 	}
 
 	public List<Produto> exportarProdutos() {
-		Statement stmt = null;
-		ResultSet rs = null;
-		String sql = null;
-		sql = "SELECT * FROM PRODUTO;";
+		String sql = "SELECT * FROM PRODUTO;";
 
 		List<Produto> p = new ArrayList<>();
-		try (Connection conn = getConnection()) {
-			stmt = conn.prepareStatement(sql);
-			rs = stmt.executeQuery(sql);
+		try (Connection conn = getConnection();
+				Statement stmt = conn.prepareStatement(sql);
+				ResultSet rs = stmt.executeQuery(sql);) {
+
 			while (rs.next()) {
 				Produto produtos = null;
 				produtos = new Produto();
@@ -75,15 +73,13 @@ public class ProdutoDAO extends AbstractDAO {
 	}
 
 	public List<Phase> exportarPhase() {
-		Statement stmt = null;
-		ResultSet rs = null;
-		String sql = null;
-		sql = "SELECT * FROM PHASE;";
+		String sql = "SELECT * FROM PHASE;";
 
 		List<Phase> ph = new ArrayList<>();
-		try (Connection conn = getConnection()) {
-			stmt = conn.prepareStatement(sql);
-			rs = stmt.executeQuery(sql);
+		try (Connection conn = getConnection();
+				Statement stmt = conn.prepareStatement(sql);
+				ResultSet rs = stmt.executeQuery(sql);) {
+
 			while (rs.next()) {
 				Phase phase = null;
 				phase = new Phase();
