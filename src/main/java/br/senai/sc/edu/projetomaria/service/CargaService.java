@@ -14,8 +14,11 @@ import org.apache.logging.log4j.Logger;
 
 import br.senai.sc.edu.projetomaria.io.ProdutoReader;
 import br.senai.sc.edu.projetomaria.dao.HistoricoDAO;
+import br.senai.sc.edu.projetomaria.dao.ProdutoDAO;
 import br.senai.sc.edu.projetomaria.io.LeitorCsv;
 import br.senai.sc.edu.projetomaria.model.Historico;
+import br.senai.sc.edu.projetomaria.model.Phase;
+import br.senai.sc.edu.projetomaria.model.Produto;
 import br.senai.sc.edu.projetomaria.dao.CanalDAO;
 import br.senai.sc.edu.projetomaria.io.CanalReader;
 import br.senai.sc.edu.projetomaria.model.Canal;
@@ -73,17 +76,23 @@ public class CargaService {
 
 	public void insertProduto(Path path) {
 		ProdutoReader reader = new ProdutoReader();
-		reader.cargaInicial(path);
+		List<Produto> produtos = reader.lerCsvProduto(path);
+		ProdutoDAO dao = new ProdutoDAO();
+		dao.salvarProdutos(produtos);
 	}
 
 	public void updateProduto(Path path) {
 		ProdutoReader reader = new ProdutoReader();
-//		reader.updateProduto(path);
+		List<Produto> produtos = reader.lerCsvProduto(path);
+		ProdutoDAO dao = new ProdutoDAO();
+		dao.updateProduto(produtos);
 	}
 
 	public void deleteProduto(Path path) {
 		ProdutoReader reader = new ProdutoReader();
-//		reader.deleteProduto(path);
+		List<Produto> produtos = reader.lerCsvProduto(path);
+		ProdutoDAO dao = new ProdutoDAO();
+		dao.deleteProd(produtos);
 	}
 
 	public void insertHistorico(Path path) {
@@ -109,7 +118,9 @@ public class CargaService {
 
 	public void insertPhase(Path path) {
 		ProdutoReader reader = new ProdutoReader();
-		reader.insertPhase(path);
+		List<Phase> phase = reader.lerCsvPhase(path);
+		ProdutoDAO dao = new ProdutoDAO();
+		dao.insertSkuPhase(phase);		
 	}
 
 	public void updatePhase(Path path) {

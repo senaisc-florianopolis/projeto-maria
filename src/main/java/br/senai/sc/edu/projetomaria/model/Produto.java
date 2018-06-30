@@ -39,7 +39,11 @@ public class Produto implements ValidableModel {
 
 	@Override
 	public boolean isValid() {
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		boolean ok = true;
+		if (this.descricao != null && this.descricao.isEmpty()) {
+			ok = false;
+		}
+		return ok;
 	}
 
 }
