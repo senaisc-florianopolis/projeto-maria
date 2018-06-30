@@ -83,6 +83,7 @@ public class CanalDAO extends AbstractDAO {
 			PreparedStatement ps = conn.prepareStatement(sql);
 				
 				ps.setInt(0, canal.getId());
+				ps.setString(1, canal.getDescricao());
 				ps.execute();
 				LOGGER.info(Messages.REGISTRO_SALVO_SUCESSO);
 					
