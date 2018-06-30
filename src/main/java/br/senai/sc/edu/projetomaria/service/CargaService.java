@@ -61,8 +61,10 @@ public class CargaService {
 
 	public void insertCanal(Path path) {
 		CanalReader canal = new CanalReader(path);
+		CanalDAO dao = new CanalDAO();
 		try {
-			canal.readCanal();
+			List<Canal> canais = canal.readCanal();
+			dao.insert(canais);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

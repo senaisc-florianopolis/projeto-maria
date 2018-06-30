@@ -60,22 +60,18 @@ public class CanalDAO extends AbstractDAO {
 
 	public void insert(List<Canal> canal) {
 		PreparedStatement stmt = null;
-		ResultSet rs = null;
-
-		for (Canal cn : canal) {
-			String sql =  SQL.INSERT_CANAL;
-			try {
-				stmt =  getConnection().prepareStatement(sql);
-				
-				stmt.setInt(1, cn.getId());
-				stmt.setString(2, cn.getDescricao());
-				
-				stmt.executeQuery();				
-				LOGGER.info(REGISTRO_INCLUIDO_SUCESSO);
-			} catch (SQLException e) {
-				// TODO Message for user??
-				LOGGER.info(Messages.REGISTRO_CADASTRO_SUCESSO);
+		String sql =  SQL.INSERT_CANAL;
+		try {
+			stmt =  getConnection().prepareStatement(sql);
+			for (Canal cn : canal) {
+					stmt.setInt(1, cn.getId());
+					stmt.setString(2, cn.getDescricao());
+					stmt.execute();				
+					LOGGER.info(REGISTRO_INCLUIDO_SUCESSO);
 			}
+		} catch (SQLException e) {
+			// TODO Message for user??
+			LOGGER.info(Messages.REGISTRO_CADASTRO_SUCESSO);
 		}
 	}
 
@@ -89,7 +85,7 @@ public class CanalDAO extends AbstractDAO {
 				ps.setInt(0, canal.getId());
 				ps.execute();
 				LOGGER.info(Messages.REGISTRO_SALVO_SUCESSO);
-		
+					
 		} catch (SQLException e) {
 			// TODO Message for user
 			
