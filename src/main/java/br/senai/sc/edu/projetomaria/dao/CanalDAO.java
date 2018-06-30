@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import br.senai.sc.edu.projetomaria.model.Canal;
+import br.senai.sc.edu.projetomaria.model.Familia;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 import br.senai.sc.edu.projetomaria.resource.SQL;
 
@@ -89,7 +90,6 @@ public class CanalDAO extends AbstractDAO {
 					
 		} catch (SQLException e) {
 			// TODO Message for user
-			
 			LOGGER.info(Messages.REGISTRO_ALTERADO_SUCESSO);
 		}
 
@@ -115,6 +115,40 @@ public class CanalDAO extends AbstractDAO {
 			// TODO Auto-generated catch block
 			LOGGER.info(Messages.ERRO_EXECUCAO_DELETE);		
 			e.printStackTrace();
+		}
+	}
+
+	
+	public void insert(List<Canal> canal) throws SQLException {
+		Statement stmt = null;
+		int rs;
+		int id;
+		ResultSet id_reference = null;
+		String id_reference_sql = "SELECT ID_CANAL from canal order by ID_CANAL desc limit 1;";
+		stmt = getConnection().createStatement();
+		id_reference = stmt.executeQuery(id_reference_sql);
+		id = id_reference.getInt("ID_CANAL");
+		for (Canal cn: canal) {
+			if(cn.getId() <= id){
+				String sql = "INSERT INTO canal ( ID_CANAL, DESCRICAO) VALUES ('" + cn.getId() +1 + "','" + cn.getDescricao()+ "'); ";
+				try {
+					stmt = getConnection().createStatement();
+					rs = stmt.executeUpdate(sql);
+					LOGGER.info(REGISTRO_INCLUIDO_SUCESSO);
+				} catch (SQLException e) {
+					System.out.println(e);
+				}
+			}else{
+				String sql = "INSERT INTO canal ( ID_CANAL, DESCRICAO) VALUES ('" + cn.getId()  + "','" + cn.getDescricao()+ "'); ";
+				try {
+					stmt = getConnection().createStatement();
+					rs = stmt.executeUpdate(sql);
+					LOGGER.info(REGISTRO_INCLUIDO_SUCESSO);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			LOGGER.info(Messages.REGISTRO_CADASTRO_SUCESSO);
 		}
 	}
 

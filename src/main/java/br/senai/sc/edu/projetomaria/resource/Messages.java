@@ -31,7 +31,12 @@ public abstract class Messages {
   public static final String REGISTRO_CADASTRO_SUCESSO =  ResourceManager.getMessage("registro.cadastro.sucesso"); //$NON-NLS-1$
   public static final String REGISTRO_ALTERADO_SUCESSO =  ResourceManager.getMessage("registro.alterado.sucesso"); //$NON-NLS-1$
   public static final String REGISTRO_SALVO_SUCESSO =  ResourceManager.getMessage("registro.salvo.sucesso"); //$NON-NLS-1$
-	private Messages() {}
+  
+  public static final String INSERIR_FAMILIA =  ResourceManager.getMessage("inserir.familia"); //$NON-NLS-1$
+  public static final String ATUALIZAR_FAMILIA =  ResourceManager.getMessage("atualizar.familia"); //$NON-NLS-1$
+  public static final String DELETAR_FAMILIA =  ResourceManager.getMessage("deletar.familia"); //$NON-NLS-1$
+  
+  private Messages() {}
 	
 
 }
