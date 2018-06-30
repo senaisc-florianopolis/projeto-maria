@@ -23,25 +23,33 @@ public class CanalWriter {
 	}
 
 	public static void generateRelatorio(Path export_path) throws IOException {
+
 		DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd");
+
 		Date date = new Date();
+
 		String file_path = export_path.toString();
+
 		try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(file_path))) {
-			CSVPrinter csvPrinter = new CSVPrinter(writer,
-					CSVFormat.DEFAULT.withHeader("ID_CANAL", "DESCRICAO")); {
-						CanalDAO dao = new CanalDAO();
-						ArrayList<Canal> canais = new ArrayList<>();
-						canais = dao.getCanais();
-						for (Canal canal : canais) {
-							csvPrinter.printRecord(canal.getId(), canal.getDescricao());
-							// csvPrinter.printRecord(canal.getId());
-							// csvPrinter.printRecord(canal.getDescricao());
-						}
-						csvPrinter.flush();
-					}
+
+			CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.withHeader("ID_CANAL", "DESCRICAO"));
+			{
+
+				CanalDAO dao = new CanalDAO();
+
+				ArrayList<Canal> canais = new ArrayList<>();
+
+				canais = dao.getCanais();
+
+				for (Canal canal : canais) {
+					csvPrinter.printRecord(canal.getId(), canal.getDescricao());
+				}
+				csvPrinter.flush();
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
-}
+		}
+	}
 
 }

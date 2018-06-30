@@ -1,5 +1,6 @@
 package br.senai.sc.edu.projetomaria.dao;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,10 +16,39 @@ import br.senai.sc.edu.projetomaria.model.Phase;
 import br.senai.sc.edu.projetomaria.model.Produto;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 import br.senai.sc.edu.projetomaria.dao.AbstractDAO;
+import br.senai.sc.edu.projetomaria.io.ProdutoWriter;
 
 public class ProdutoDAO extends AbstractDAO {
 	private static final Logger LOGGER = LogManager.getLogger();
 	int total;
+
+	public List<Produto> listarTodos() throws IOException {
+		ArrayList<Produto> listaProdutos = new ArrayList<Produto>();
+		try {
+			String sql = "select * from produto";
+			Statement stmt = getConnection().createStatement();
+
+			ResultSet rs = stmt.executeQuery(sql);
+
+			while (rs.next()) {
+				Produto p = new Produto();
+				p.setSku(rs.getInt("SKU"));
+				p.setDescricao(rs.getString("NOME_PRODUTO"));
+				p.setIdComercial(rs.getInt("ID_FAMILIA_COMERCIAL"));
+
+				listaProdutos.add(p);
+			}
+
+			for (Produto produto : listaProdutos) {
+				LOGGER.info("=== {} | {} ===", produto.toString(), Messages.PROJETO_VERSAO); //$NON-NLS-1$
+			}
+
+			ProdutoWriter.CSVWriter("C:\\Users\\Andrey Freitas\\segundo.CSV", listaProdutos);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return listaProdutos;
+	}
 
 	public List<Produto> exportarProdutos() {
 		Statement stmt = null;
@@ -67,7 +97,7 @@ public class ProdutoDAO extends AbstractDAO {
 		return ph;
 	}
 
-	// confirmar se hï¿½ update do phase, e qual criterio para encontrar no banco
+	// confirmar se há update do phase, e qual criterio para encontrar no banco
 	public void updatePhase(List<Phase> phase) {
 		String sql = "";
 		PreparedStatement stmt;
@@ -75,8 +105,7 @@ public class ProdutoDAO extends AbstractDAO {
 		total = 0;
 
 		for (Phase ph : phase) {
-			sql = "UPDATE sku_phase SET SKU_PHASE_IN = " + ph.getSkuNew()
-					+ ", " + "SKU_PHASE_OUT = " + ph.getSkuOld()
+			sql = "UPDATE sku_phase SET SKU_PHASE_IN = " + ph.getSkuNew() + ", " + "SKU_PHASE_OUT = " + ph.getSkuOld()
 					+ " WHERE SKU = " + ph.getSkuNew() + ";";
 			try (Connection conn = getConnection()) {
 				stmt = conn.prepareStatement(sql);
@@ -97,9 +126,8 @@ public class ProdutoDAO extends AbstractDAO {
 		total = 0;
 
 		for (Produto p : list) {
-			sql = "INSERT INTO PRODUTO(" + "SKU," + "NOME_PRODUTO,"
-					+ "ID_FAMILIA_COMERCIAL) VALUES (" + p.getSku() + ",'"
-					+ p.getDescricao() + "'," + p.getIdComercial() + ");";
+			sql = "INSERT INTO PRODUTO(" + "SKU," + "NOME_PRODUTO," + "ID_FAMILIA_COMERCIAL) VALUES (" + p.getSku()
+					+ ",'" + p.getDescricao() + "'," + p.getIdComercial() + ");";
 
 			try (Connection conn = getConnection()) {
 				stmt = conn.prepareStatement(sql);
@@ -120,9 +148,8 @@ public class ProdutoDAO extends AbstractDAO {
 		total = 0;
 
 		for (Produto p : skuIgual) {
-			sql = "UPDATE produto SET NOME_PRODUTO = '" + p.getDescricao()
-					+ "', " + "ID_FAMILIA_COMERCIAL = " + p.getIdComercial()
-					+ " WHERE SKU = " + p.getSku() + ";";
+			sql = "UPDATE produto SET NOME_PRODUTO = '" + p.getDescricao() + "', " + "ID_FAMILIA_COMERCIAL = "
+					+ p.getIdComercial() + " WHERE SKU = " + p.getSku() + ";";
 			try (Connection conn = getConnection()) {
 				stmt = conn.prepareStatement(sql);
 				stmt.executeUpdate();
@@ -142,8 +169,7 @@ public class ProdutoDAO extends AbstractDAO {
 		total = 0;
 
 		for (Phase p : phase) {
-			sql = "INSERT INTO sku_phase(" + "SKU_PHASE_IN,"
-					+ "SKU_PHASE_OUT) VALUES (" + p.getSkuNew() + ","
+			sql = "INSERT INTO sku_phase(" + "SKU_PHASE_IN," + "SKU_PHASE_OUT) VALUES (" + p.getSkuNew() + ","
 					+ p.getSkuOld() + ");";
 
 			try (Connection conn = getConnection()) {
