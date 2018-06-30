@@ -60,16 +60,26 @@ public class FamiliaDAO extends AbstractDAO {
 		}
 	}
 
+	
+	/**
+	 * @return o último id da tabela de familia
+	 */
 	private int getLastId() {
 		Statement stmt;
 
 		ResultSet id_reference;
-		String id_reference_sql = "SELECT ID_FAMILIA_COMERCIAL from familia_comercial order by ID_FAMILIA_COMERCIAL desc limit 1;";
-
+		String id_reference_sql = "SELECT ID_FAMILIA_COMERCIAL from familia_comercial order by ID_FAMILIA_COMERCIAL desc limit 1;";		
+		
 		try (Connection conn = getConnection()) {
 			stmt = getConnection().createStatement();
 			id_reference = stmt.executeQuery(id_reference_sql);
-			return id_reference.getInt("ID_FAMILIA");
+			
+			LOGGER.info("Executando: " + id_reference_sql);
+			
+			int id = id_reference.getInt("ID_FAMILIA_COMERCIAL");
+			LOGGER.info("Retornado ate ultimo id: " + id);
+			return id;
+			
 
 		} catch (SQLException e) {
 			throw new DAOLayerException(Messages.INSERIR_FAMILIA);
