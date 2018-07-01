@@ -40,22 +40,29 @@ public class CargaService {
 		
 	}
 
-	public void updateFamilia(Path path) {
-		throw new UnsupportedOperationException(
-				Messages.ERRO_METODO_NAO_IMPLEMENTADO);
-	}
-
-	public void deleteFamilia(Path path) {
-		FamiliaReader familia = new FamiliaReader(path);
-		List<Familia> familias = null;
-
+	public void updateFamilia(Path path) throws SQLException {
+		FamiliaReader familiaReader = new FamiliaReader(path);
+		FamiliaDAO dao = new FamiliaDAO();
 		try {
-			familias = familia.readFamilia();
+			List<Familia> familias = familiaReader.readFamilia();
+			for (Familia f : familias) {
+				dao.update(f);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		FamiliaDAO familiaDAO = new FamiliaDAO();
-		familiaDAO.delete(familias);
+	}
+
+	public void deleteFamilia(Path path) throws SQLException {
+		FamiliaReader familiaReader = new FamiliaReader(path);
+		FamiliaDAO dao = new FamiliaDAO();
+		try {
+			List<Familia> familias = familiaReader.readFamilia();
+			dao.delete(familias);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void insertCanal(Path path) throws SQLException {

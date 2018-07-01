@@ -56,6 +56,9 @@ public abstract class Messages {
   public static final String SUCESSO_CANAL_ATUALIZAR =  ResourceManager.getMessage("sucesso.canal.atualizar"); //$NON-NLS-1$
   public static final String SUCESSO_CANAL_DELETAR =  ResourceManager.getMessage("sucesso.canal.deletar"); //$NON-NLS-1$
 
+  public static final String ERRO_FAMILIA_INSERIR =  ResourceManager.getMessage("erro.familia.inserir"); //$NON-NLS-1$
+  public static final String ERRO_FAMILIA_ATUALIZAR =  ResourceManager.getMessage("erro.familia.atualizar"); //$NON-NLS-1$
+  public static final String ERRO_FAMILIA_DELETAR =  ResourceManager.getMessage("erro.familia.deletar"); //$NON-NLS-1$
   
   private Messages() {}
 	
