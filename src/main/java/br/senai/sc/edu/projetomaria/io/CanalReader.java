@@ -45,5 +45,6 @@ public class CanalReader {
 			e.printStackTrace();
 		}
 		return null;
+
 	}
 }

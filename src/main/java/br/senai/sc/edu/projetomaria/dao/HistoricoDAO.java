@@ -14,6 +14,8 @@ import org.apache.logging.log4j.Logger;
 import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.model.Produto;
+import br.senai.sc.edu.projetomaria.resource.Messages;
+import br.senai.sc.edu.projetomaria.resource.SQL;
 
 public class HistoricoDAO extends AbstractDAO {
 
@@ -21,14 +23,9 @@ public class HistoricoDAO extends AbstractDAO {
 
 	public List<Historico> get() {
 		ArrayList<Historico> registro = new ArrayList<>();
-		String query = "SELECT ID_CANAL, ID_HISTORICO, PRODUTO_SKU, MES_ANO, QUANTIDADE FROM Historico";
+		String query = SQL.HISTORICO_SELECT;
 
-		Statement st;
-
-		try {
-			st = getConnection().createStatement();
-			ResultSet rs = st.executeQuery(query);
-
+		try (Connection conn = getConnection(); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(query)) {
 			while (rs.next()) {
 				Historico h = new Historico();
 				Canal canal = new Canal();
@@ -43,7 +40,7 @@ public class HistoricoDAO extends AbstractDAO {
 				registro.add(h);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.error(e);
 		}
 
 		return registro;
@@ -51,13 +48,10 @@ public class HistoricoDAO extends AbstractDAO {
 
 	public void persist(List<Historico> registro) {
 
-		String sql = "INSERT INTO HISTORICO " + "(MES_ANO, QUANTIDADE, PRODUTO_SKU, ID_CANAL) "
-				+ "VALUES ( ?, ?, ?, ?);";
+		String sql = SQL.HISTORICO_INSERT;
 
 
-		try (Connection conn = getConnection()) {
-			PreparedStatement ps = null;
-			ps = getConnection().prepareStatement(sql);
+		try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 			for (Historico historico : registro) {
 				LOGGER.debug(historico);
 				ps.setDate(1, java.sql.Date.valueOf(historico.getPeriodo()));
@@ -68,20 +62,20 @@ public class HistoricoDAO extends AbstractDAO {
 				ps.execute();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-
+			if(e.getErrorCode() == 1062) {
+				LOGGER.info("Há registros duplicados. Retire-os e tente novamente. Mensagem SQL = " + e.getMessage());
+			}else {
+				LOGGER.error(e);
+			}
 		}
 	}
 
 
 	public void update(List<Historico> registro) {
 
-		String sql = "UPDATE HISTORICO SET MES_ANO = ?, QUANTIDADE = ?, PRODUTO_SKU = ?, ID_CANAL = ?"
-				+ " WHERE ID_HISTORICO = ?";
+		String sql = SQL.HISTORICO_UPDATE;
 
-		try (Connection conn = getConnection() ) {
-			PreparedStatement ps = null;
-			ps = conn.prepareStatement(sql);
+		try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 			for (Historico historico : registro) {
 				LOGGER.debug(historico);
 				ps.setDate(1, java.sql.Date.valueOf(historico.getPeriodo()));
@@ -93,17 +87,15 @@ public class HistoricoDAO extends AbstractDAO {
 				ps.execute();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.error(e);
 		}
 	}
 
 	public void delete(List<Historico> registro) {
 
-		String sql = "DELETE FROM HISTORICO WHERE ID_HISTORICO = ?";
+		String sql = SQL.HISTORICO_DELETE;
 
-		try (Connection conn = getConnection()) {
-			PreparedStatement ps = null;
-			ps = getConnection().prepareStatement(sql);
+		try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 			for (Historico historico : registro) {
 				LOGGER.debug(historico);
 				ps.setInt(1, historico.getId());
@@ -111,7 +103,8 @@ public class HistoricoDAO extends AbstractDAO {
 				ps.execute();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.error(e);
 		}
+		LOGGER.info(Messages.SUCESSO_DELETE_CANAL);
 	}
 }

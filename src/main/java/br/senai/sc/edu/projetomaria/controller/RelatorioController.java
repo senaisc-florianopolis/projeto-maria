@@ -24,7 +24,7 @@ public class RelatorioController {
 			service.exportRelatorioHistorico(command.getArquivo());
 			break;
 		case ESTIMATIVA:
-			service.exportRelatorioEstimativa(command.getArquivo());
+			service.exportRelatorioEstimativa(command.getArquivo(), command.getPeriodoAnterior());
 			break;
 		case PHASE:
 			service.exportRelatorioPhase(command.getArquivo());
