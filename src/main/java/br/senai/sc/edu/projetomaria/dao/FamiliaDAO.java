@@ -1,20 +1,20 @@
 package br.senai.sc.edu.projetomaria.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-
 import br.senai.sc.edu.projetomaria.model.Familia;
+import br.senai.sc.edu.projetomaria.resource.Messages;
+import br.senai.sc.edu.projetomaria.resource.SQL;
 
 
 public class FamiliaDAO extends AbstractDAO {
 
-	private static final String INSERIR_FAMILIA = null;
-	private static final String ATUALIZAR_FAMILIA = null;
-	private static final String DELETAR_FAMILIA = null;
 	private Logger LOGGER = Logger.getLogger(FamiliaDAO.class.getName());
 
 	public ArrayList<Familia>getFamilias() {
@@ -42,71 +42,50 @@ public class FamiliaDAO extends AbstractDAO {
 		return familias;
 	}
 	
-	public void insert (List<Familia> familia) throws SQLException {
-		Statement stmt = null;
-		int rs;
-		int id;
-		ResultSet id_reference = null;
-		String id_reference_sql = "SELECT ID_FAMILIA_COMERCIAL from familia_comercial order by ID_FAMILIA_COMERCIAL desc limit 1;";
-		stmt = getConnection().createStatement();
-		id_reference = stmt.executeQuery(id_reference_sql);
-		id = id_reference.getInt("ID_FAMILIA");
-		for (Familia fl: familia) {
-			if(fl.getId() <= id){
-				String sql = "INSERT INTO familia_comercial (ID_FAMILIA_COMERCIAL, COD_FAMILIA_COMERCIAL) VALUES ('" + fl.getId() + 1 + "','" + fl.getCodigo()+ "'); ";
-				try {
-					stmt = getConnection().createStatement();
-					rs = stmt.executeUpdate(sql);
-				} catch (SQLException e) {
-					System.out.println(e);
-				}
-			}else{
-				String sql = "INSERT INTO familia_comercial (ID_FAMILIA_COMERCIAL, COD_FAMILIA_COMERCIAL) VALUES ('" + fl.getId() + "','" + fl.getCodigo()+ "'); ";
-				try {
-					stmt = getConnection().createStatement();
-					rs = stmt.executeUpdate(sql);
-				} catch (SQLException e) {
-					System.out.println(e);
-				}
+	public void insert(List<Familia> familia) throws SQLException {
+		String sql =  SQL.INSERT_FAMILIA;
+		try (PreparedStatement stmt =  getConnection().prepareStatement(sql)){
+			for (Familia f : familia) {
+				stmt.setInt(1, f.getId());
+				stmt.setString(2, f.getCodigo());
+				stmt.execute();				
+				LOGGER.info(Messages.INSERIR_FAMILIA);
 			}
-			LOGGER.info(INSERIR_FAMILIA);
-		}
-	}
-
-
-	public void update(Familia familia) {
-		Statement stmt = null;
-		int rs;
-		String sql = "UPDATE familia_comercial SET COD_FAMILIA_COMERCIAL = " + "'" + familia.getCodigo() + "'" +
-				" WHERE ID_FAMILIA_COMERCIAL = " +"'" + familia.getId() + "';" ;
-		System.out.println(sql);
-		try {
-			stmt = getConnection().createStatement();
-			rs = stmt.executeUpdate(sql);
-			LOGGER.info(ATUALIZAR_FAMILIA);
-		}	catch (SQLException e) {
+		} catch (SQLException e) {
 			// TODO Message for user??
-
+			e.printStackTrace();
+			LOGGER.warning(Messages.ERRO_FAMILIA_INSERIR);
+		}
+	}
+	
+	public void update(Familia familia) throws SQLException {
+		String sql = SQL.UPDATE_FAMILIA;
+		try (PreparedStatement stmt =  getConnection().prepareStatement(sql)){
+			stmt.setString(1, familia.getCodigo());
+			stmt.setInt(2, familia.getId());
+			stmt.execute();
+			LOGGER.info(Messages.ATUALIZAR_FAMILIA);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			LOGGER.warning(Messages.ERRO_FAMILIA_ATUALIZAR);
 		}
 
 	}
 
-
-	public void delete(List<Familia>familias) {
-		Statement stmt = null;
-		int rs;
-		
-		for (Familia fl: familias) {
-			String sql = "DELETE FROM familia_comercial WHERE ID_FAMILIA_COMERCIAL = " + fl.getId() + ";" ;
-			System.out.println(sql);
-			try {
-				stmt = getConnection().createStatement();
-				rs = stmt.executeUpdate(sql);
-				LOGGER.info(DELETAR_FAMILIA);
-			} catch (SQLException e) {
-				// TODO Message for user??
-				System.out.println(e);
+	public void delete(List<Familia> familias) throws SQLException {
+		Connection conn = getConnection();
+		String sql = SQL.DELETE_FAMILIA;
+		try (PreparedStatement ps = conn.prepareStatement(sql)){
+			for (Familia familia : familias) {
+				ps.setInt(1, familia.getId());
+				ps.execute();
 			}
+			LOGGER.info(Messages.DELETAR_FAMILIA);
+		} catch (SQLException e1) {
+			LOGGER.warning(Messages.ERRO_FAMILIA_DELETAR);
+			e1.printStackTrace();
+		}finally {
+			conn.close();
 		}
 	}
 }
