@@ -27,13 +27,9 @@ import br.senai.sc.edu.projetomaria.model.Canal;
 
 public class CanalDAO extends AbstractDAO {
 
-	private static final String SUCESSO_DELETE_CANAL = null;
-	private static final String REGISTRO_INCLUIDO_SUCESSO = null;
-	private static final String REGISTRO_ = null;
-	private static final String REGISTRO_CADASTRO_SUCESSO = null;
 	private Logger LOGGER = Logger.getLogger(CanalDAO.class.getName());
 
-	public ArrayList<Canal> getCanais() {
+	public ArrayList<Canal> getCanais() throws SQLException {
 		Statement stmt = null;
 		ResultSet rs = null;
 		String sql = "SELECT * FROM maria.canal;";
@@ -54,102 +50,69 @@ public class CanalDAO extends AbstractDAO {
 			}
 		} catch (SQLException e) {
 			LOGGER.severe(e.getSQLState() + " - " + e.getMessage());
+		}finally {
+			stmt.close();
+			rs.close();
 		}
 		return canais;
 
 	}
 
-	public void insert(List<Canal> canal) {
+	public void insert(List<Canal> canal) throws SQLException {
 		PreparedStatement stmt = null;
 		String sql =  SQL.INSERT_CANAL;
 		try {
 			stmt =  getConnection().prepareStatement(sql);
 			for (Canal cn : canal) {
-					stmt.setInt(1, cn.getId());
-					stmt.setString(2, cn.getDescricao());
-					stmt.execute();				
-					LOGGER.info(REGISTRO_INCLUIDO_SUCESSO);
+				stmt.setInt(1, cn.getId());
+				stmt.setString(2, cn.getDescricao());
+				stmt.execute();				
+				LOGGER.info(Messages.SUCESSO_CANAL_INSERIR);
 			}
 		} catch (SQLException e) {
 			// TODO Message for user??
-			LOGGER.info(Messages.REGISTRO_CADASTRO_SUCESSO);
+			LOGGER.warning(Messages.ERRO_CANAL_INSERIR);
+		}finally {
+			stmt.close();
 		}
 	}
 
-	public void update(Canal canal) {
-		Connection conn = getConnection();
+	public void update(Canal canal) throws SQLException {
+		PreparedStatement stmt = null;
 		String sql = SQL.UPDATE_CANAL;
-
 		try {
-			PreparedStatement ps = conn.prepareStatement(sql);
-				
-				ps.setInt(0, canal.getId());
-				ps.setString(1, canal.getDescricao());
-				ps.execute();
-				LOGGER.info(Messages.REGISTRO_SALVO_SUCESSO);
-					
+			stmt =  getConnection().prepareStatement(sql);
+			stmt.setString(1, canal.getDescricao());
+			stmt.setInt(2, canal.getId());
+			stmt.execute();
+			LOGGER.info(Messages.SUCESSO_CANAL_ATUALIZAR);
+
 		} catch (SQLException e) {
 			// TODO Message for user
-			LOGGER.info(Messages.REGISTRO_ALTERADO_SUCESSO);
+			e.printStackTrace();
+			LOGGER.warning(Messages.ERRO_CANAL_ATUALIZAR);
+		}finally {
+			stmt.close();
 		}
 
 	}
 
-	public void delete(List<Canal> canais) {
+	public void delete(List<Canal> canais) throws SQLException {
 		Connection conn = getConnection();
 		String sql = SQL.DELETE_CANAL;
 		try {
 			PreparedStatement ps = conn.prepareStatement(sql);
 			for (Canal canal : canais) {
-				ps.setInt(0, canal.getId());
+				ps.setInt(1, canal.getId());
 				ps.execute();
 			}
-			LOGGER.info(SUCESSO_DELETE_CANAL);
+			LOGGER.info(Messages.SUCESSO_CANAL_DELETAR);
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
+			LOGGER.warning(Messages.ERRO_CANAL_DELETAR);
 			e1.printStackTrace();
-		}
-		try {
+		}finally {
 			conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			LOGGER.info(Messages.ERRO_EXECUCAO_DELETE);		
-			e.printStackTrace();
 		}
 	}
-
-	
-	public void insert(List<Canal> canal) throws SQLException {
-		Statement stmt = null;
-		int rs;
-		int id;
-		ResultSet id_reference = null;
-		String id_reference_sql = "SELECT ID_CANAL from canal order by ID_CANAL desc limit 1;";
-		stmt = getConnection().createStatement();
-		id_reference = stmt.executeQuery(id_reference_sql);
-		id = id_reference.getInt("ID_CANAL");
-		for (Canal cn: canal) {
-			if(cn.getId() <= id){
-				String sql = "INSERT INTO canal ( ID_CANAL, DESCRICAO) VALUES ('" + cn.getId() +1 + "','" + cn.getDescricao()+ "'); ";
-				try {
-					stmt = getConnection().createStatement();
-					rs = stmt.executeUpdate(sql);
-					LOGGER.info(REGISTRO_INCLUIDO_SUCESSO);
-				} catch (SQLException e) {
-					System.out.println(e);
-				}
-			}else{
-				String sql = "INSERT INTO canal ( ID_CANAL, DESCRICAO) VALUES ('" + cn.getId()  + "','" + cn.getDescricao()+ "'); ";
-				try {
-					stmt = getConnection().createStatement();
-					rs = stmt.executeUpdate(sql);
-					LOGGER.info(REGISTRO_INCLUIDO_SUCESSO);
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			LOGGER.info(Messages.REGISTRO_CADASTRO_SUCESSO);
-		}
-	}
-
 }

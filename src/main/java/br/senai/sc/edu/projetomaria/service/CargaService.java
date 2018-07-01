@@ -60,7 +60,7 @@ public class CargaService {
 		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
-	public void insertCanal(Path path) {
+	public void insertCanal(Path path) throws SQLException {
 		CanalReader canal = new CanalReader(path);
 		CanalDAO dao = new CanalDAO();
 		try {
@@ -73,22 +73,28 @@ public class CargaService {
 		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
-	public void updateCanal(Path path) {
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
-	}
-
-	public void deleteCanal(Path path) {
+	public void updateCanal(Path path) throws SQLException {
 		CanalReader canal = new CanalReader(path);
-		List<Canal> canais = null;
+		CanalDAO dao = new CanalDAO();
 		try {
-			canais =canal.readCanal();
+			List<Canal> canais = canal.readCanal();
+			for (Canal canal2 : canais) {
+				dao.update(canal2);
+			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public void deleteCanal(Path path) throws SQLException {
+		CanalReader canal = new CanalReader(path);
 		CanalDAO CanalDAO = new CanalDAO();
-		CanalDAO.delete(canais);
-		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		try {
+			List<Canal> canais = canal.readCanal();
+			CanalDAO.delete(canais);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void insertProduto(Path path) {
