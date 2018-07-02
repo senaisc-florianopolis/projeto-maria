@@ -1,5 +1,7 @@
 package br.senai.sc.edu.projetomaria.resource;
 
+import javax.annotation.Resource;
+
 public abstract class Messages {
 
 	// Dados do Projeto
@@ -59,8 +61,11 @@ public abstract class Messages {
   public static final String ERRO_FAMILIA_INSERIR =  ResourceManager.getMessage("erro.familia.inserir"); //$NON-NLS-1$
   public static final String ERRO_FAMILIA_ATUALIZAR =  ResourceManager.getMessage("erro.familia.atualizar"); //$NON-NLS-1$
   public static final String ERRO_FAMILIA_DELETAR =  ResourceManager.getMessage("erro.familia.deletar"); //$NON-NLS-1$
-  
-  private Messages() {}
-	
-
+ 
+  //Canal
+  	public static final String ERROR_TOREAD = ResourceManager.getMessage("erro.canal.reader");
+  	public static final String ERROR_DESCRICAO_CARACTER = ResourceManager.getMessage("erro.canal.descricao.naocaracter");
+  	public static final String ERROR_DESCRICAO_NULO = ResourceManager.getMessage("erro.canal.descricao.isnull");
+  	public static final String ERROR_DESCRICAO_TAMANHO = ResourceManager.getMessage("erro.canal.descricao.tamanho");
+	private Messages() {}
 }
