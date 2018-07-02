@@ -18,30 +18,25 @@ public class FamiliaDAO extends AbstractDAO {
 	private Logger LOGGER = Logger.getLogger(FamiliaDAO.class.getName());
 
 	public ArrayList<Familia>getFamilias() {
-		Statement stmt = null;
-		ResultSet rs = null;
 		String sql = "SELECT * FROM maria.familia;";
-		
-		try {
-			stmt = getConnection().createStatement();
-			rs = stmt.executeQuery(sql);
-		} catch (SQLException e) {
-				LOGGER.severe(e.getSQLState() + " - " + e.getMessage());	
-		}
 		ArrayList<Familia> familias = new ArrayList<>();
-		try {
+		try (Statement stmt = getConnection().createStatement()){
+			try(ResultSet rs = stmt.executeQuery(sql)){
 				while (rs.next()) {
 					Familia familia = new Familia();
 					familia.setId(rs.getInt("ID_FAMILIA"));
 					familia.setCodigo(rs.getString("CODIGO"));
 					familias.add(familia);
 				}
+			} catch (SQLException e) {
+				LOGGER.severe(e.getSQLState() + " - " + e.getMessage());	
+			}
 		} catch (SQLException e) {
 			LOGGER.severe(e.getSQLState() + " - " + e.getMessage());	
 		}
 		return familias;
 	}
-	
+
 	public void insert(List<Familia> familia) throws SQLException {
 		String sql =  SQL.INSERT_FAMILIA;
 		try (PreparedStatement stmt =  getConnection().prepareStatement(sql)){
@@ -57,7 +52,7 @@ public class FamiliaDAO extends AbstractDAO {
 			LOGGER.warning(Messages.ERRO_FAMILIA_INSERIR);
 		}
 	}
-	
+
 	public void update(Familia familia) throws SQLException {
 		String sql = SQL.UPDATE_FAMILIA;
 		try (PreparedStatement stmt =  getConnection().prepareStatement(sql)){
