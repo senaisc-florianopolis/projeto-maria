@@ -2,8 +2,6 @@ package br.senai.sc.edu.projetomaria.model;
 
 import java.time.LocalDate;
 
-import br.senai.sc.edu.projetomaria.resource.Messages;
-
 public class Historico implements ValidableModel {
 
 	private int id;
@@ -60,7 +58,10 @@ public class Historico implements ValidableModel {
 
 	@Override
 	public boolean isValid() {
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		boolean ok = true;
+		if (this.produto.getSku() == 0 || this.canal.getId() == 0 || this.id == 0 || this.periodo == null) {
+			ok = false;
+		}
+		return ok;
 	}
-
 }

@@ -1,12 +1,14 @@
 package br.senai.sc.edu.projetomaria.controller;
 
+import java.sql.SQLException;
+
 import br.senai.sc.edu.projetomaria.cli.CommandCarga;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 import br.senai.sc.edu.projetomaria.service.CargaService;
 
 public class CargaController {
 
-	public void exec(CommandCarga command) {
+	public void exec(CommandCarga command) throws SQLException {
 		switch (command.getTipo()) {
 		case CANAL:
 			this.execCanal(command);
@@ -20,12 +22,26 @@ public class CargaController {
 		case HISTORICO:
 			this.execHistorico(command);
 			break;
+		case PHASE:
+			this.execPhase(command);
+			break;
 		default:
 			throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 		}
 	}
+	
+	protected void execPhase(CommandCarga command) {
+		CargaService service = new CargaService();
+		if (command.isInsert()) {
+			service.insertPhase(command.getArquivo());
+		} else if (command.isDelete()) {
+			service.deletePhase(command.getArquivo());
+		} else if (command.isUpdate()) {
+			service.updatePhase(command.getArquivo());
+		}
+	}
 
-	protected void execCanal(CommandCarga command) {
+	protected void execCanal(CommandCarga command) throws SQLException {
 		CargaService service = new CargaService();
 		if (command.isInsert()) {
 			service.insertCanal(command.getArquivo());
@@ -36,7 +52,7 @@ public class CargaController {
 		}
 	}
 
-	protected void execFamilia(CommandCarga command) {
+	protected void execFamilia(CommandCarga command) throws SQLException {
 		CargaService service = new CargaService();
 		if (command.isInsert()) {
 			service.insertFamilia(command.getArquivo());

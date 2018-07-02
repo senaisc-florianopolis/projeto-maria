@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import br.senai.sc.edu.projetomaria.model.Canal;
+import br.senai.sc.edu.projetomaria.model.Familia;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 import br.senai.sc.edu.projetomaria.resource.SQL;
 
@@ -27,29 +28,17 @@ import br.senai.sc.edu.projetomaria.model.Canal;
 
 public class CanalDAO extends AbstractDAO {
 
-	private static final String SUCESSO_DELETE_CANAL = null;
-	private static final String REGISTRO_INCLUIDO_SUCESSO = null;
-	private static final String REGISTRO_ = null;
-	private static final String REGISTRO_SALVO_SUCESSO = null;
 	private Logger LOGGER = Logger.getLogger(CanalDAO.class.getName());
 
-	public ArrayList<Canal> getCanais() {
-		Statement stmt = null;
-		ResultSet rs = null;
-		String sql = "SELECT * FROM maria.canal;";
-		try {
-			stmt = getConnection().createStatement();
-			rs = stmt.executeQuery(sql);
-		} catch (SQLException e) {
-			LOGGER.severe(e.getSQLState() + " - " + e.getMessage());
-		}
+	public ArrayList<Canal> getCanais() throws SQLException {
+		String sql = SQL.GET_CANAL;
 		ArrayList<Canal> canais = new ArrayList<>();
-		try {
+		try (Statement stmt = getConnection().createStatement()){
+			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 				Canal canal = new Canal();
 				canal.setId(rs.getInt("ID_CANAL"));
 				canal.setDescricao(rs.getString("DESCRICAO"));
-
 				canais.add(canal);
 			}
 		} catch (SQLException e) {
@@ -59,59 +48,47 @@ public class CanalDAO extends AbstractDAO {
 
 	}
 
-	public void insert(List<Canal> canal) {
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		
-		for (Canal cn : canal) {
-			String sql =  SQL.INSERT_CANAL;
-			if(cn.isValid()){
-				try (Connection conn = getConnection()) {
-					stmt =  getConnection().prepareStatement(sql);
-					rs = stmt.executeQuery(sql);
-					
-					if (!rs.next()) {
-						sql = "INSERT INTO canal ( ID_CANAL, DESCRICAO) VALUES ('" + cn.getId() + "','" + cn.getDescricao()
-								+ "') ";
-						stmt.executeQuery();				
-						LOGGER.info(REGISTRO_INCLUIDO_SUCESSO);
-					}
-				} catch (SQLException e) {
-					LOGGER.info(Messages.REGISTRO_CADASTRO_SUCESSO);
-				}
+	public void insert(List<Canal> canal) throws SQLException {
+		String sql =  SQL.INSERT_CANAL;
+		try (PreparedStatement stmt =  getConnection().prepareStatement(sql)){
+			for (Canal cn : canal) {
+				stmt.setInt(1, cn.getId());
+				stmt.setString(2, cn.getDescricao());
+				stmt.execute();				
+				LOGGER.info(Messages.SUCESSO_CANAL_INSERIR);
 			}
-		}
-	}
-
-	public void update(Canal canal) {
-		String sql = SQL.UPDATE_CANAL;
-
-		try(Connection conn = getConnection()) {
-			PreparedStatement stmt = conn.prepareStatement(sql);
-				stmt.setInt(0, canal.getId());
-				stmt.execute();
-				LOGGER.info(Messages.REGISTRO_SALVO_SUCESSO);
 		} catch (SQLException e) {
-			LOGGER.info(Messages.REGISTRO_ALTERADO_SUCESSO);
+			LOGGER.warning(Messages.ERRO_CANAL_INSERIR);
+		}
+	}
+
+	public void update(Canal canal) throws SQLException {
+		String sql = SQL.UPDATE_CANAL;
+		try (PreparedStatement stmt =  getConnection().prepareStatement(sql)){
+			stmt.setString(1, canal.getDescricao());
+			stmt.setInt(2, canal.getId());
+			stmt.execute();
+			LOGGER.info(Messages.SUCESSO_CANAL_ATUALIZAR);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			LOGGER.warning(Messages.ERRO_CANAL_ATUALIZAR);
 		}
 
 	}
-
-	public void delete(List<Canal> canais) {
+	public void delete(List<Canal> canais) throws SQLException {
+		Connection conn = getConnection();
 		String sql = SQL.DELETE_CANAL;
-		try (Connection conn = getConnection()) {
-			PreparedStatement ps = conn.prepareStatement(sql);
+		try (PreparedStatement ps = conn.prepareStatement(sql)){
 			for (Canal canal : canais) {
-				
-				ps.setInt(0, canal.getId());
+				ps.setInt(1, canal.getId());
 				ps.execute();
 			}
-			LOGGER.info(SUCESSO_DELETE_CANAL);
+			LOGGER.info(Messages.SUCESSO_CANAL_DELETAR);
 		} catch (SQLException e1) {
-			LOGGER.info(Messages.ERRO_EXECUCAO_DELETE);
+			LOGGER.warning(Messages.ERRO_CANAL_DELETAR);
 			e1.printStackTrace();
+		}finally {
+			conn.close();
 		}
-		
 	}
-
 }
