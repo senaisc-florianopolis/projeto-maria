@@ -12,6 +12,8 @@ import java.util.logging.Logger;
 
 import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.resource.Messages;
+import br.senai.sc.edu.projetomaria.resource.SQL;
+
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,6 +27,10 @@ import br.senai.sc.edu.projetomaria.model.Canal;
 
 public class CanalDAO extends AbstractDAO {
 
+	private static final String SUCESSO_DELETE_CANAL = null;
+	private static final String REGISTRO_INCLUIDO_SUCESSO = null;
+	private static final String REGISTRO_ = null;
+	private static final String REGISTRO_SALVO_SUCESSO = null;
 	private Logger LOGGER = Logger.getLogger(CanalDAO.class.getName());
 
 	public ArrayList<Canal> getCanais() {
@@ -54,51 +60,56 @@ public class CanalDAO extends AbstractDAO {
 	}
 
 	public void insert(List<Canal> canal) {
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
 		for (Canal cn : canal) {
-			String sql = "SELECT * FROM canal WHERE ID_CANAL = " + "'" + cn.getId() + "'";
+			String sql =  SQL.INSERT_CANAL;
 			if(cn.isValid()){
 				try (Connection conn = getConnection()) {
-					stmt = conn.createStatement();
+					stmt =  getConnection().prepareStatement(sql);
 					rs = stmt.executeQuery(sql);
+					
 					if (!rs.next()) {
 						sql = "INSERT INTO canal ( ID_CANAL, DESCRICAO) VALUES ('" + cn.getId() + "','" + cn.getDescricao()
 								+ "') ";
+						stmt.executeQuery();				
+						LOGGER.info(REGISTRO_INCLUIDO_SUCESSO);
 					}
 				} catch (SQLException e) {
-					// TODO Message for user??
+					LOGGER.info(Messages.REGISTRO_CADASTRO_SUCESSO);
 				}
 			}
 		}
 	}
 
 	public void update(Canal canal) {
-		Statement stmt = null;
-		ResultSet rs = null;
-		String sql = "UPDATE canal SET  " + "'" + canal.getDescricao() + "'" + "WHERE ID_CANAL = " + "'" + canal.getId()
-				+ "'";
+		String sql = SQL.UPDATE_CANAL;
 
 		try(Connection conn = getConnection()) {
-			stmt = getConnection().createStatement();
+			PreparedStatement stmt = conn.prepareStatement(sql);
+				stmt.setInt(0, canal.getId());
+				stmt.execute();
+				LOGGER.info(Messages.REGISTRO_SALVO_SUCESSO);
 		} catch (SQLException e) {
-			// TODO Message for user
+			LOGGER.info(Messages.REGISTRO_ALTERADO_SUCESSO);
 		}
 
 	}
 
 	public void delete(List<Canal> canais) {
-		PreparedStatement ps;
+		String sql = SQL.DELETE_CANAL;
 		try (Connection conn = getConnection()) {
-			ps = conn.prepareStatement("DELETE FROM canal where id = ?");
+			PreparedStatement ps = conn.prepareStatement(sql);
 			for (Canal canal : canais) {
+				
 				ps.setInt(0, canal.getId());
-				ps.executeQuery();
+				ps.execute();
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.info(SUCESSO_DELETE_CANAL);
+		} catch (SQLException e1) {
+			LOGGER.info(Messages.ERRO_EXECUCAO_DELETE);
+			e1.printStackTrace();
 		}
 		
 	}
