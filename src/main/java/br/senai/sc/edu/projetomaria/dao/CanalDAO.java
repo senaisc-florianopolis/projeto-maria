@@ -15,6 +15,7 @@ import br.senai.sc.edu.projetomaria.model.Familia;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 import br.senai.sc.edu.projetomaria.resource.SQL;
 
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -74,7 +75,6 @@ public class CanalDAO extends AbstractDAO {
 		}
 
 	}
-
 	public void delete(List<Canal> canais) throws SQLException {
 		Connection conn = getConnection();
 		String sql = SQL.DELETE_CANAL;
@@ -85,7 +85,6 @@ public class CanalDAO extends AbstractDAO {
 			}
 			LOGGER.info(Messages.SUCESSO_CANAL_DELETAR);
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			LOGGER.warning(Messages.ERRO_CANAL_DELETAR);
 			e1.printStackTrace();
 		}finally {
