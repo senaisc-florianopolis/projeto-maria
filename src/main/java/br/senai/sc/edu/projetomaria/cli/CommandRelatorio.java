@@ -15,6 +15,9 @@ public class CommandRelatorio {
 	
 	@Parameter(names = {"-t", "--tipo" }, required = true, description = "Tipo do relatório")
 	private RelatorioEnum tipo = null;		
+	
+	@Parameter(names = {"-pa", "--periodoanterior" }, required = false, description = "Periodo anterior")
+	private int periodoAnterior = 0;		
 
 	public Path getArquivo() {
 		return arquivo;
@@ -22,6 +25,10 @@ public class CommandRelatorio {
 
 	public RelatorioEnum getTipo() {
 		return tipo;
+	}
+
+	public int getPeriodoAnterior() {
+		return periodoAnterior;
 	}
 
 	public boolean isValidParameters() {

@@ -1,7 +1,5 @@
 package br.senai.sc.edu.projetomaria.dao;
-
 import java.sql.Connection;
-
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,6 +9,10 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import br.senai.sc.edu.projetomaria.model.Canal;
+import br.senai.sc.edu.projetomaria.model.Familia;
+import br.senai.sc.edu.projetomaria.resource.Messages;
+import br.senai.sc.edu.projetomaria.resource.SQL;
+
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,85 +28,67 @@ public class CanalDAO extends AbstractDAO {
 
 	private Logger LOGGER = Logger.getLogger(CanalDAO.class.getName());
 
-	public ArrayList<Canal> getCanais() {
-		Statement stmt = null;
-		ResultSet rs = null;
-		String sql = "SELECT * FROM maria.canal;";
-		try {
-			stmt = getConnection().createStatement();
-			rs = stmt.executeQuery(sql);
-		} catch (SQLException e) {
-			LOGGER.severe(e.getSQLState() + " - " + e.getMessage());
-		}
+	public ArrayList<Canal> getCanais() throws SQLException {
+		String sql = SQL.GET_CANAL;
 		ArrayList<Canal> canais = new ArrayList<>();
-		try {
-			while (rs.next()) {
-				Canal canal = new Canal();
-				canal.setId(rs.getInt("ID_CANAL"));
-				canal.setDescricao(rs.getString("DESCRICAO"));
-
-				canais.add(canal);
+		try (Statement stmt = getConnection().createStatement()){
+			try (ResultSet rs = stmt.executeQuery(sql)){
+				while (rs.next()) {
+					Canal canal = new Canal();
+					canal.setId(rs.getInt("ID_CANAL"));
+					canal.setDescricao(rs.getString("DESCRICAO"));
+					canais.add(canal);
+				}
+			} catch (SQLException e){
+				LOGGER.severe(e.getSQLState() + " - " + e.getMessage());
 			}
 		} catch (SQLException e) {
 			LOGGER.severe(e.getSQLState() + " - " + e.getMessage());
 		}
 		return canais;
-
 	}
 
-	public void insert(List<Canal> canal) {
-		Statement stmt = null;
-		ResultSet rs = null;
-
-		for (Canal cn : canal) {
-			String sql = "SELECT * FROM canal WHERE ID_CANAL = " + "'" + cn.getId() + "'";
-			try {
-				stmt = getConnection().createStatement();
-				rs = stmt.executeQuery(sql);
-				if (!rs.next()) {
-					sql = "INSERT INTO canal ( ID_CANAL, DESCRICAO) VALUES ('" + cn.getId() + "','" + cn.getDescricao()
-							+ "') ";
-					
-				}
-			} catch (SQLException e) {
-				// TODO Message for user??
+	public void insert(List<Canal> canal) throws SQLException {
+		String sql =  SQL.INSERT_CANAL;
+		try (PreparedStatement stmt =  getConnection().prepareStatement(sql)){
+			for (Canal cn : canal) {
+				stmt.setInt(1, cn.getId());
+				stmt.setString(2, cn.getDescricao());
+				stmt.execute();				
+				LOGGER.info(Messages.SUCESSO_CANAL_INSERIR);
 			}
+		} catch (SQLException e) {
+			LOGGER.warning(Messages.ERRO_CANAL_INSERIR);
 		}
 	}
 
-	public void update(Canal canal) {
-		Statement stmt = null;
-		ResultSet rs = null;
-		String sql = "UPDATE canal SET  " + "'" + canal.getDescricao() + "'" + "WHERE ID_CANAL = " + "'" + canal.getId()
-				+ "'";
-
-		try {
-			stmt = getConnection().createStatement();
+	public void update(Canal canal) throws SQLException {
+		String sql = SQL.UPDATE_CANAL;
+		try (PreparedStatement stmt =  getConnection().prepareStatement(sql)){
+			stmt.setString(1, canal.getDescricao());
+			stmt.setInt(2, canal.getId());
+			stmt.execute();
+			LOGGER.info(Messages.SUCESSO_CANAL_ATUALIZAR);
 		} catch (SQLException e) {
-			// TODO Message for user
-		}
-
-	}
-
-	public void delete(List<Canal> canais) {
-		Connection conn = getConnection();
-		PreparedStatement ps;
-		try {
-			ps = conn.prepareStatement("DELETE FROM canal where id = ?");
-			for (Canal canal : canais) {
-				ps.setInt(0, canal.getId());
-				ps.executeQuery();
-			}
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			LOGGER.warning(Messages.ERRO_CANAL_ATUALIZAR);
+		}
+
+	}
+	public void delete(List<Canal> canais) throws SQLException {
+		Connection conn = getConnection();
+		String sql = SQL.DELETE_CANAL;
+		try (PreparedStatement ps = conn.prepareStatement(sql)){
+			for (Canal canal : canais) {
+				ps.setInt(1, canal.getId());
+				ps.execute();
+			}
+			LOGGER.info(Messages.SUCESSO_CANAL_DELETAR);
+		} catch (SQLException e1) {
+			LOGGER.warning(Messages.ERRO_CANAL_DELETAR);
+			e1.printStackTrace();
+		}finally {
+			conn.close();
 		}
 	}
-
 }

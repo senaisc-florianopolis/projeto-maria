@@ -8,10 +8,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-
-import br.senai.sc.edu.projetomaria.exception.DAOLayerException;
 import br.senai.sc.edu.projetomaria.model.Familia;
 import br.senai.sc.edu.projetomaria.resource.Messages;
+import br.senai.sc.edu.projetomaria.resource.SQL;
+
 
 public class FamiliaDAO extends AbstractDAO {
 
@@ -20,20 +20,20 @@ public class FamiliaDAO extends AbstractDAO {
 	private static final String DELETAR_FAMILIA = null;
 	private Logger LOGGER = Logger.getLogger(FamiliaDAO.class.getName());
 
-	public ArrayList<Familia> getFamilias() {
-		Statement stmt = null;
-		ResultSet rs = null;
-		String sql = "SELECT * FROM maria.familia;";
 
+	public ArrayList<Familia>getFamilias() {
+		String sql = "SELECT * FROM maria.familia;";
 		ArrayList<Familia> familias = new ArrayList<>();
-		try (Connection conn = getConnection()) {
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql);
-			while (rs.next()) {
-				Familia familia = new Familia();
-				familia.setId(rs.getInt("ID_FAMILIA"));
-				familia.setCodigo(rs.getString("CODIGO"));
-				familias.add(familia);
+		try (Statement stmt = getConnection().createStatement()){
+			try(ResultSet rs = stmt.executeQuery(sql)){
+				while (rs.next()) {
+					Familia familia = new Familia();
+					familia.setId(rs.getInt("ID_FAMILIA"));
+					familia.setCodigo(rs.getString("CODIGO"));
+					familias.add(familia);
+				}
+			} catch (SQLException e) {
+				LOGGER.severe(e.getSQLState() + " - " + e.getMessage());	
 			}
 		} catch (SQLException e) {
 			LOGGER.severe(e.getSQLState() + " - " + e.getMessage());
@@ -41,81 +41,51 @@ public class FamiliaDAO extends AbstractDAO {
 		return familias;
 	}
 
-	public void insert(List<Familia> familia) {
-		Statement stmt = null;
-		int id = getLastId();
-		try (Connection conn = getConnection()) {
-			for (Familia fl : familia) {
-				fl.setId(id++);
-				String sql = "INSERT INTO familia_comercial (ID_FAMILIA_COMERCIAL, COD_FAMILIA_COMERCIAL) VALUES ('"
-						+ fl.getId() + 1 + "','" + fl.getCodigo() + "'); ";
-
-				stmt = getConnection().createStatement();
-				stmt.executeUpdate(sql);
-
-				LOGGER.info(INSERIR_FAMILIA);
+  public void insert(List<Familia> familia) throws SQLException {
+		String sql =  SQL.INSERT_FAMILIA_INCREMENT;
+		try (PreparedStatement stmt =  getConnection().prepareStatement(sql)){
+			for (int i = 0; i < familia.size(); i++) {
+				stmt.setString(1, familia.get(i).getCodigo());
+				stmt.setString(2, familia.get(i).getNome());
+				stmt.execute();				
+				LOGGER.info(Messages.INSERIR_FAMILIA);
 			}
 		} catch (SQLException e) {
-			throw new DAOLayerException(Messages.INSERIR_FAMILIA);
+			// TODO Message for user??
+			e.printStackTrace();
+			LOGGER.warning(Messages.ERRO_FAMILIA_INSERIR);
 		}
 	}
 
-	
-	/**
-	 * @return o último id da tabela de familia
-	 */
-	private int getLastId() {
-		Statement stmt;
-
-		ResultSet id_reference;
-		String id_reference_sql = "SELECT ID_FAMILIA_COMERCIAL from familia_comercial order by ID_FAMILIA_COMERCIAL desc limit 1;";		
-		
-		try (Connection conn = getConnection()) {
-			stmt = getConnection().createStatement();
-			id_reference = stmt.executeQuery(id_reference_sql);
-			
-			LOGGER.info("Executando: " + id_reference_sql);
-			
-			int id = id_reference.getInt("ID_FAMILIA_COMERCIAL");
-			LOGGER.info("Retornado ate ultimo id: " + id);
-			return id;
-			
-
+	public void update(Familia familia) throws SQLException {
+		String sql = SQL.UPDATE_FAMILIA;
+		try (PreparedStatement stmt =  getConnection().prepareStatement(sql)){
+			stmt.setString(1, familia.getCodigo());
+			stmt.setString(2, familia.getNome());
+			stmt.setInt(3, familia.getId());
+			stmt.execute();
+			LOGGER.info(Messages.ATUALIZAR_FAMILIA);
 		} catch (SQLException e) {
-			throw new DAOLayerException(Messages.INSERIR_FAMILIA);
+			e.printStackTrace();
+			LOGGER.warning(Messages.ERRO_FAMILIA_ATUALIZAR);
 		}
 
 	}
 
-	public void update(Familia familia) {
-		Statement stmt = null;
-		try (Connection conn = getConnection()) {
-			String sql = "UPDATE familia_comercial SET COD_FAMILIA_COMERCIAL = " + "'" + familia.getCodigo() + "'"
-					+ " WHERE ID_FAMILIA_COMERCIAL = " + "'" + familia.getId() + "';";
-
-			stmt = getConnection().createStatement();
-			stmt.executeUpdate(sql);
-			LOGGER.info(ATUALIZAR_FAMILIA);
-		} catch (SQLException e) {
-			throw new DAOLayerException(Messages.INSERIR_FAMILIA);
-
-		}
-
-	}
-
-	public void delete(List<Familia> familias) {
-		try (Connection conn = getConnection()) {
-
-			PreparedStatement ps = conn
-					.prepareStatement("DELETE FROM familia_comercial WHERE ID_FAMILIA_COMERCIAL = ?");
+	public void delete(List<Familia> familias) throws SQLException {
+		Connection conn = getConnection();
+		String sql = SQL.DELETE_FAMILIA;
+		try (PreparedStatement ps = conn.prepareStatement(sql)){
 			for (Familia familia : familias) {
-				ps.setInt(0, familia.getId());
-				ps.executeQuery();
+				ps.setInt(1, familia.getId());
+				ps.execute();
 			}
-
-			LOGGER.info(DELETAR_FAMILIA);
-		} catch (SQLException e) {
-			throw new DAOLayerException(Messages.DELETAR_FAMILIA);
+			LOGGER.info(Messages.DELETAR_FAMILIA);
+		} catch (SQLException e1) {
+			LOGGER.warning(Messages.ERRO_FAMILIA_DELETAR);
+			e1.printStackTrace();
+		}finally {
+			conn.close();
 		}
 	}
 }
