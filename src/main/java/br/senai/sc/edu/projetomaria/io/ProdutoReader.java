@@ -39,7 +39,7 @@ public class ProdutoReader {
 					boolean idFamiliaComercialR = idFamiliaComercial.matches("^[0-9]{1,20}$");
 
 					if (skuR && nomeProdutoR && idFamiliaComercialR) {	
-						Produto novoProduto = new Produto();
+						novoProduto = new Produto();
 						novoProduto.setSku(Integer.parseInt(sku));
 						novoProduto.setDescricao(nomeProduto);
 						novoProduto.setIdComercial(Integer.parseInt(idFamiliaComercial));
@@ -57,14 +57,14 @@ public class ProdutoReader {
 		if (contErrosP == 0) {
 			return produtos;
 		} else {			
-			throw new Erros(erros);
+			throw new ErrosProduto(erros);
 		}
 	}
 
-	public class Erros extends Exception {
-		List<String> erros;
+	public class ErrosProduto extends Exception {
+		private final List<String> erros;
 
-		public Erros(List<String> erros) {
+		public ErrosProduto(List<String> erros) {
 			this.erros = erros;
 		}
 

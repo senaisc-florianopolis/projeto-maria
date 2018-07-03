@@ -65,7 +65,6 @@ public class ProdutoDAO extends AbstractDAO {
 
 	public void salvarProdutos(List<Produto> list) {
 		String sql = "";
-		PreparedStatement stmt;
 		int successes = 0;
 		total = 0;
 
@@ -74,8 +73,8 @@ public class ProdutoDAO extends AbstractDAO {
 					+ "ID_FAMILIA_COMERCIAL) VALUES (" + p.getSku() + ",'"
 					+ p.getDescricao() + "'," + p.getIdComercial() + ");";
 
-			try (Connection conn = getConnection()) {
-				stmt = conn.prepareStatement(sql);
+			try (Connection conn = getConnection();
+					PreparedStatement stmt = conn.prepareStatement(sql);) {
 				stmt.execute();
 				successes++;
 			} catch (SQLException e) {
@@ -88,7 +87,6 @@ public class ProdutoDAO extends AbstractDAO {
 
 	public void updateProduto(List<Produto> skuIgual) {
 		String sql = "";
-		PreparedStatement stmt;
 		int successes = 0;
 		total = 0;
 
@@ -96,8 +94,8 @@ public class ProdutoDAO extends AbstractDAO {
 			sql = "UPDATE produto SET NOME_PRODUTO = '" + p.getDescricao()
 					+ "', " + "ID_FAMILIA_COMERCIAL = " + p.getIdComercial()
 					+ " WHERE SKU = " + p.getSku() + ";";
-			try (Connection conn = getConnection()) {
-				stmt = conn.prepareStatement(sql);
+			try (Connection conn = getConnection();
+					PreparedStatement stmt = conn.prepareStatement(sql);) {
 				stmt.executeUpdate();
 				successes++;
 			} catch (SQLException e) {
@@ -110,7 +108,6 @@ public class ProdutoDAO extends AbstractDAO {
 
 	public void insertSkuPhase(List<Phase> phase) {
 		String sql = "";
-		PreparedStatement stmt;
 		int successes = 0;
 		total = 0;
 
@@ -119,8 +116,8 @@ public class ProdutoDAO extends AbstractDAO {
 					+ "SKU_PHASE_OUT) VALUES (" + p.getSkuNew() + ","
 					+ p.getSkuOld() + ");";
 
-			try (Connection conn = getConnection()) {
-				stmt = conn.prepareStatement(sql);
+			try (Connection conn = getConnection();
+					PreparedStatement stmt = conn.prepareStatement(sql);) {
 				stmt.execute();
 				successes++;
 			} catch (SQLException e) {
@@ -133,14 +130,13 @@ public class ProdutoDAO extends AbstractDAO {
 
 	public void deleteProd(List<Produto> list) {
 		String sql = "";
-		PreparedStatement stmt;
 		int successes = 0;
 		total = 0;
 
 		for (Produto p : list) {
 			sql = "DELETE FROM PRODUTO WHERE SKU = " + p.getSku() + ";";
-			try (Connection conn = getConnection()) {
-				stmt = conn.prepareStatement(sql);
+			try (Connection conn = getConnection();
+					PreparedStatement stmt = conn.prepareStatement(sql);) {
 				stmt.execute();
 				successes++;
 			} catch (SQLException e) {
