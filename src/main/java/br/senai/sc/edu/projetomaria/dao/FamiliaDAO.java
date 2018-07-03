@@ -15,7 +15,11 @@ import br.senai.sc.edu.projetomaria.resource.SQL;
 
 public class FamiliaDAO extends AbstractDAO {
 
+	private static final String INSERIR_FAMILIA = null;
+	private static final String ATUALIZAR_FAMILIA = null;
+	private static final String DELETAR_FAMILIA = null;
 	private Logger LOGGER = Logger.getLogger(FamiliaDAO.class.getName());
+
 
 	public ArrayList<Familia>getFamilias() {
 		String sql = "SELECT * FROM maria.familia;";
@@ -32,12 +36,12 @@ public class FamiliaDAO extends AbstractDAO {
 				LOGGER.severe(e.getSQLState() + " - " + e.getMessage());	
 			}
 		} catch (SQLException e) {
-			LOGGER.severe(e.getSQLState() + " - " + e.getMessage());	
+			LOGGER.severe(e.getSQLState() + " - " + e.getMessage());
 		}
 		return familias;
 	}
 
-	public void insert(List<Familia> familia) throws SQLException {
+  public void insert(List<Familia> familia) throws SQLException {
 		String sql =  SQL.INSERT_FAMILIA_INCREMENT;
 		try (PreparedStatement stmt =  getConnection().prepareStatement(sql)){
 			for (int i = 0; i < familia.size(); i++) {

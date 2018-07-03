@@ -33,6 +33,7 @@ public abstract class Messages {
   public static final String REGISTRO_CADASTRO_SUCESSO =  ResourceManager.getMessage("registro.cadastro.sucesso"); //$NON-NLS-1$
   public static final String REGISTRO_ALTERADO_SUCESSO =  ResourceManager.getMessage("registro.alterado.sucesso"); //$NON-NLS-1$
   public static final String REGISTRO_SALVO_SUCESSO =  ResourceManager.getMessage("registro.salvo.sucesso"); //$NON-NLS-1$
+
   	
   // Historico
 	public static final String LEITURA_REALIZADA = ResourceManager.getMessage("leitura.realizada"); //$NON-NLS-1$
@@ -45,11 +46,11 @@ public abstract class Messages {
   	public static final String ERRO_VAZIO = ResourceManager.getMessage("erro.vazio"); //$NON-NLS-1$
   	public static final String SUCCESS_PRODUTO = ResourceManager.getMessage("success.produto"); //$NON-NLS-1$
   
-  
   public static final String INSERIR_FAMILIA =  ResourceManager.getMessage("inserir.familia"); //$NON-NLS-1$
   public static final String ATUALIZAR_FAMILIA =  ResourceManager.getMessage("atualizar.familia"); //$NON-NLS-1$
   public static final String DELETAR_FAMILIA =  ResourceManager.getMessage("deletar.familia"); //$NON-NLS-1$
   
+
   public static final String ERRO_CANAL_INSERIR =  ResourceManager.getMessage("erro.canal.inserir"); //$NON-NLS-1$
   public static final String ERRO_CANAL_ATUALIZAR =  ResourceManager.getMessage("erro.canal.atualizar"); //$NON-NLS-1$
   public static final String ERRO_CANAL_DELETAR =  ResourceManager.getMessage("erro.canal.deletar"); //$NON-NLS-1$
