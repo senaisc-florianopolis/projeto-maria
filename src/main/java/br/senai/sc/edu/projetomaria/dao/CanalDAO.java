@@ -1,7 +1,5 @@
 package br.senai.sc.edu.projetomaria.dao;
-
 import java.sql.Connection;
-
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -34,18 +32,20 @@ public class CanalDAO extends AbstractDAO {
 		String sql = SQL.GET_CANAL;
 		ArrayList<Canal> canais = new ArrayList<>();
 		try (Statement stmt = getConnection().createStatement()){
-			ResultSet rs = stmt.executeQuery(sql);
-			while (rs.next()) {
-				Canal canal = new Canal();
-				canal.setId(rs.getInt("ID_CANAL"));
-				canal.setDescricao(rs.getString("DESCRICAO"));
-				canais.add(canal);
+			try (ResultSet rs = stmt.executeQuery(sql)){
+				while (rs.next()) {
+					Canal canal = new Canal();
+					canal.setId(rs.getInt("ID_CANAL"));
+					canal.setDescricao(rs.getString("DESCRICAO"));
+					canais.add(canal);
+				}
+			} catch (SQLException e){
+				LOGGER.severe(e.getSQLState() + " - " + e.getMessage());
 			}
 		} catch (SQLException e) {
 			LOGGER.severe(e.getSQLState() + " - " + e.getMessage());
 		}
 		return canais;
-
 	}
 
 	public void insert(List<Canal> canal) throws SQLException {

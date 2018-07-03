@@ -33,13 +33,14 @@ public class CanalReader {
 	public List<Canal> readCanal() throws IOException {
 		try(BufferedReader br = Files.newBufferedReader(this.path)){
 			Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader("ID_CANAL", "DESCRICAO").parse(br);
-			Canal canal = new Canal();
+			
 			ArrayList<Canal> list = new ArrayList<>();
 
 			for (CSVRecord csvRecord : records) {
-				int id_canal = Integer.parseInt(csvRecord.get("ID_CANAL"));
+				String id_canal = csvRecord.get("ID_CANAL");
 				String descricao = csvRecord.get("DESCRICAO");
-				canal.setId(id_canal);
+				Canal canal = new Canal();
+				canal.setId(Integer.parseInt(id_canal));
 				canal.setDescricao(descricao);
 				list.add(canal);
 			}

@@ -6,6 +6,17 @@ public class Familia implements ValidableModel {
 	
 	private int id;
 	private String codigo;
+	private String nome;
+	
+	
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
 	public int getId() {
 		return id;
@@ -23,9 +34,10 @@ public class Familia implements ValidableModel {
 		this.codigo = codigo;
 	}
 
+	
 	@Override
 	public String toString() {
-		return "Familia [id=" + id + ", codigo=" + codigo + "]";
+		return "Familia [id=" + id + ", codigo=" + codigo + ", nome=" + nome + "]";
 	}
 
 	@Override
