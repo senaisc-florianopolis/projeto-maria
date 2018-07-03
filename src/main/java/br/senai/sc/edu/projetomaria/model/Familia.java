@@ -8,8 +8,6 @@ public class Familia implements ValidableModel {
 	private String codigo;
 	private String nome;
 	
-	
-
 	public String getNome() {
 		return nome;
 	}

@@ -4,20 +4,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.LinkedList;
-import javax.annotation.Resource;
-import javax.xml.bind.ParseConversionEvent;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.senai.sc.edu.projetomaria.model.Canal;
-import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class CanalReader {
 
@@ -46,6 +41,29 @@ public class CanalReader {
 			}
 			return list;
 		} catch (Exception e) {
+			LOGGER.warn(e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public List<Canal> readCanalIncrement() throws IOException {
+		try(BufferedReader br = Files.newBufferedReader(this.path)){
+			Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader("DESCRICAO").parse(br);
+			
+			ArrayList<Canal> list = new ArrayList<>();
+
+			for (CSVRecord csvRecord : records) {
+//				String id_canal = csvRecord.get("ID_CANAL");
+				String descricao = csvRecord.get("DESCRICAO");
+				Canal canal = new Canal();
+//				canal.setId(Integer.parseInt(id_canal));
+				canal.setDescricao(descricao);
+				list.add(canal);
+			}
+			return list;
+		} catch (Exception e) {
+			LOGGER.warn(e.getMessage());
 			e.printStackTrace();
 		}
 		return null;
