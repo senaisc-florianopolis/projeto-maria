@@ -36,19 +36,19 @@ public class Canal implements ValidableModel {
 	public boolean isValid() {
 		boolean teste = false;
 
-		if (descricao.contains("^[a-Z]")) {
+		if (this.descricao.contains("^[a-Z]")) {
 			teste = true;
 		} else {
 			LOGGER.error(Messages.ERROR_DESCRICAO_CARACTER);
 		}
 
-		if (descricao != null) {
+		if (this.descricao != null) {
 			teste = true;
 		} else {
 			LOGGER.error(Messages.ERROR_DESCRICAO_NULO);
 		}
 
-		if (descricao.length() > 255) {
+		if (this.descricao.length() > 255) {
 			teste = true;
 		} else {
 			LOGGER.error(Messages.ERROR_DESCRICAO_TAMANHO);
