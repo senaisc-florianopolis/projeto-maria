@@ -25,7 +25,7 @@ public class EstimativaWritter {
 			Estimativa estimativa = new Estimativa();
 			String periodoEstimativa = "";
 
-			for (Resultado linha : estimativa.Calculo(periodo)) {
+			for (Resultado linha : estimativa.calculo(periodo)) {
 				periodoEstimativa = "";
 				int tamanho = linha.getPeriodo_utilizado().length;
 				int cont = 0;

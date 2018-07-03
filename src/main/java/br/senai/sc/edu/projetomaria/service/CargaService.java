@@ -22,7 +22,7 @@ import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.model.Familia;
 import br.senai.sc.edu.projetomaria.io.PhaseReader;
 import br.senai.sc.edu.projetomaria.io.PhaseReader.ErrosPhase;
-import br.senai.sc.edu.projetomaria.io.ProdutoReader.Erros;
+import br.senai.sc.edu.projetomaria.io.ProdutoReader.ErrosProduto;
 import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.model.Phase;
 import br.senai.sc.edu.projetomaria.model.Produto;
@@ -138,7 +138,7 @@ public class CargaService {
 					dao.salvarProdutos(produtos);
 				}
 			}
-		} catch (Erros e) {
+		} catch (ErrosProduto e) {
 			LOGGER.info(Messages.ARQUIVO_INVALIDO);
 			for (String p : e.getErro()) {
 				LOGGER.info(p);
@@ -161,7 +161,7 @@ public class CargaService {
 				ProdutoDAO dao = new ProdutoDAO();
 				dao.updateProduto(produtos);
 			}
-		} catch (Erros e) {
+		} catch (ErrosProduto e) {
 			LOGGER.info(Messages.ARQUIVO_INVALIDO);
 			for (String p : e.getErro()) {
 				LOGGER.info(p);
@@ -202,7 +202,7 @@ public class CargaService {
 					dao.deleteProd(produtos);
 				}
 			}
-		} catch (Erros e) {
+		} catch (ErrosProduto e) {
 			LOGGER.info(Messages.ARQUIVO_INVALIDO);
 			for (String p : e.getErro()) {
 				LOGGER.info(p);

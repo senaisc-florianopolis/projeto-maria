@@ -1,7 +1,5 @@
 package br.senai.sc.edu.projetomaria.model;
 
-import br.senai.sc.edu.projetomaria.resource.Messages;
-
 public class Produto implements ValidableModel {
 
 	private int sku;
