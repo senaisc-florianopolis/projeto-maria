@@ -25,6 +25,7 @@ public abstract class SQL {
 
 	public static final String DELETE_FAMILIA;
 
+	public static final String INSERT_FAMILIA_INCREMENT ;
 	static {
 
 		HISTORICO_SELECT = ResourceManager.getSQL("historico.select"); //$NON-NLS-1$
@@ -38,6 +39,7 @@ public abstract class SQL {
 		INSERT_FAMILIA = ResourceManager.getSQL("sql.insert.familia"); //$NON-NLS-1$
 		UPDATE_FAMILIA = ResourceManager.getSQL("sql.update.familia"); //$NON-NLS-1$
 		DELETE_FAMILIA = ResourceManager.getSQL("sql.delete.familia"); //$NON-NLS-1$
+		INSERT_FAMILIA_INCREMENT = ResourceManager.getSQL("sql.insert.familia.incremental"); //$NON-NLS-1$
 	}
 
 	private SQL() {

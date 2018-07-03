@@ -34,27 +34,28 @@ public class Canal implements ValidableModel {
 
 	@Override
 	public boolean isValid() {
-		boolean teste = false;
-
-		if (this.descricao.contains("^[a-Z]")) {
-			teste = true;
-		} else {
-			LOGGER.error(Messages.ERROR_DESCRICAO_CARACTER);
-		}
-
-		if (this.descricao != null) {
-			teste = true;
-		} else {
-			LOGGER.error(Messages.ERROR_DESCRICAO_NULO);
-		}
-
-		if (this.descricao.length() > 255) {
-			teste = true;
-		} else {
-			LOGGER.error(Messages.ERROR_DESCRICAO_TAMANHO);
-		}
-
-		return teste;
+		return false;
+//		boolean teste = false;
+//
+//		if (this.descricao.contains("^[a-Z]")) {
+//			teste = true;
+//		} else {
+//			LOGGER.error(Messages.ERROR_DESCRICAO_CARACTER);
+//		}
+//
+//		if (this.descricao != null) {
+//			teste = true;
+//		} else {
+//			LOGGER.error(Messages.ERROR_DESCRICAO_NULO);
+//		}
+//
+//		if (this.descricao.length() > 255) {
+//			teste = true;
+//		} else {
+//			LOGGER.error(Messages.ERROR_DESCRICAO_TAMANHO);
+//		}
+//
+//		return teste;
 	}
 
 }

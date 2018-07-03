@@ -38,11 +38,11 @@ public class FamiliaDAO extends AbstractDAO {
 	}
 
 	public void insert(List<Familia> familia) throws SQLException {
-		String sql =  SQL.INSERT_FAMILIA;
+		String sql =  SQL.INSERT_FAMILIA_INCREMENT;
 		try (PreparedStatement stmt =  getConnection().prepareStatement(sql)){
-			for (Familia f : familia) {
-//				stmt.setInt(1, f.getId());
-				stmt.setString(1, f.getCodigo());
+			for (int i = 0; i < familia.size(); i++) {
+				stmt.setString(1, familia.get(i).getCodigo());
+				stmt.setString(2, familia.get(i).getNome());
 				stmt.execute();				
 				LOGGER.info(Messages.INSERIR_FAMILIA);
 			}
@@ -57,7 +57,8 @@ public class FamiliaDAO extends AbstractDAO {
 		String sql = SQL.UPDATE_FAMILIA;
 		try (PreparedStatement stmt =  getConnection().prepareStatement(sql)){
 			stmt.setString(1, familia.getCodigo());
-			stmt.setInt(2, familia.getId());
+			stmt.setString(2, familia.getNome());
+			stmt.setInt(3, familia.getId());
 			stmt.execute();
 			LOGGER.info(Messages.ATUALIZAR_FAMILIA);
 		} catch (SQLException e) {

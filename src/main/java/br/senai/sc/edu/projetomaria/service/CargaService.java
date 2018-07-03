@@ -30,7 +30,7 @@ public class CargaService {
 		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 		FamiliaReader familia = new FamiliaReader(path);
 		try {
-			List<Familia> list_familia = familia.readFamiliaToInsert();
+			List<Familia> list_familia = familia.readFamiliaInterable();
 			FamiliaDAO dao = new FamiliaDAO();
 			dao.insert(list_familia);
 		} catch (IOException e) {
