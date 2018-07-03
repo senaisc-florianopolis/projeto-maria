@@ -29,6 +29,7 @@ public abstract class Messages {
   	public static final String ARQUIVO_GERADO = ResourceManager.getMessage("arquivo.gerado"); //$NON-NLS-1$
   	public static final String ERRO_ARQUIVO = ResourceManager.getMessage("erro.arquivo"); //$NON-NLS-1$
   	public static final String ARQUIVO_INVALIDO = ResourceManager.getMessage("arquivo.invalido"); //$NON-NLS-1$
+  	public static final String ARQUIVO_INVALIDO2 = ResourceManager.getMessage("arquivo.invalido2"); //$NON-NLS-1$
   	public static final String ERRO_DELETE_PHASE = ResourceManager.getMessage("erro.delete.phase"); //$NON-NLS-1$
   	public static final String ERRO_SKU_IGUAL = ResourceManager.getMessage("erro.sku.igual"); //$NON-NLS-1$
   	public static final String ERRO_PRODUTO_IGUAL = ResourceManager.getMessage("erro.produto.igual"); //$NON-NLS-1$

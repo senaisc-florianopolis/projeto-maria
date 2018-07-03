@@ -1,15 +1,11 @@
 package br.senai.sc.edu.projetomaria.service;
 
 import java.io.IOException;
-import java.io.Reader;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,6 +14,7 @@ import br.senai.sc.edu.projetomaria.dao.HistoricoDAO;
 import br.senai.sc.edu.projetomaria.dao.ProdutoDAO;
 import br.senai.sc.edu.projetomaria.io.LeitorCsv;
 import br.senai.sc.edu.projetomaria.io.PhaseReader;
+import br.senai.sc.edu.projetomaria.io.PhaseReader.ErrosPhase;
 import br.senai.sc.edu.projetomaria.io.ProdutoReader.Erros;
 import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.model.Phase;
@@ -29,8 +26,6 @@ import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class CargaService {
 	private static final Logger LOGGER = LogManager.getLogger();
-	private List<String> prods;
-	private int sku;
 
 	public void insertFamilia(Path path) {
 		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
@@ -80,6 +75,7 @@ public class CargaService {
 		List<Produto> produtos;
 		int existeBase = 0;
 		String errosReg = "";
+		int linha = 1;
 
 		try {
 			produtos = reader.lerCsvProduto(path);
@@ -89,10 +85,12 @@ public class CargaService {
 				LOGGER.info(Messages.ERRO_VAZIO);
 			} else {
 				for (Produto p : produtos) {
+					linha++;
 					for (Produto base : dao.exportarProdutos()) {
 						if (p.getSku() == base.getSku()) {
 							existeBase++;
-							errosReg = p.getSku() + ", " + p.getDescricao() + ", " + p.getIdComercial() + "\n";
+							errosReg += "Linha " + linha + ": " + p.getSku() + ", " + p.getDescricao() + ", "
+									+ p.getIdComercial() + "\n";
 						}
 					}
 				}
@@ -105,12 +103,13 @@ public class CargaService {
 				}
 			}
 		} catch (Erros e) {
-			for(String p: e.getErro()){
+			LOGGER.info(Messages.ARQUIVO_INVALIDO);
+			for (String p : e.getErro()) {
 				LOGGER.info(p);
 			}
-		} catch(Exception i){
-			LOGGER.info(Messages.ARQUIVO_INVALIDO);
-			LOGGER.debug(i);
+			LOGGER.info(Messages.EXEC_ABORTADA);
+		} catch (Exception i) {
+			LOGGER.info(Messages.ARQUIVO_INVALIDO2);
 		}
 	}
 
@@ -126,8 +125,14 @@ public class CargaService {
 				ProdutoDAO dao = new ProdutoDAO();
 				dao.updateProduto(produtos);
 			}
-		} catch (Exception e) {
+		} catch (Erros e) {
 			LOGGER.info(Messages.ARQUIVO_INVALIDO);
+			for (String p : e.getErro()) {
+				LOGGER.info(p);
+			}
+			LOGGER.info(Messages.EXEC_ABORTADA);
+		} catch (Exception i) {
+			LOGGER.info(Messages.ARQUIVO_INVALIDO2);
 		}
 	}
 
@@ -135,7 +140,7 @@ public class CargaService {
 		ProdutoReader reader = new ProdutoReader();
 		List<Produto> produtos;
 		int regPhase = 0;
-		String erroRegPhase = "";
+		Set<String> set = new HashSet<>();
 
 		try {
 			produtos = reader.lerCsvProduto(path);
@@ -147,22 +152,28 @@ public class CargaService {
 					for (Phase expPh : dao.exportarPhase()) {
 						if (imp.getSku() == expPh.getSkuNew() || imp.getSku() == expPh.getSkuOld()) {
 							regPhase++;
-							erroRegPhase += (imp.getSku() + ", " + imp.getDescricao() + ", " + imp.getIdComercial())
-									+ "\n";
+							set.add(imp.getSku() + ", " + imp.getDescricao() + ", " + imp.getIdComercial() + "\n");
 						}
 					}
 				}
 				if (regPhase > 0) {
 					LOGGER.info(Messages.ERRO_DELETE_PHASE);
-					LOGGER.info(erroRegPhase);
+					for (String s : set) {
+						LOGGER.info(s);
+					}
 					LOGGER.info(Messages.EXEC_ABORTADA);
 				} else {
 					dao.deleteProd(produtos);
 				}
 			}
-		} catch (Exception e) {
+		} catch (Erros e) {
 			LOGGER.info(Messages.ARQUIVO_INVALIDO);
-			LOGGER.debug(e);
+			for (String p : e.getErro()) {
+				LOGGER.info(p);
+			}
+			LOGGER.info(Messages.EXEC_ABORTADA);
+		} catch (Exception i) {
+			LOGGER.info(Messages.ARQUIVO_INVALIDO2);
 		}
 	}
 
@@ -197,11 +208,16 @@ public class CargaService {
 				LOGGER.info(Messages.ERRO_VAZIO);
 			} else {
 				ProdutoDAO dao = new ProdutoDAO();
-				dao.insertSkuPhase(phase);
+				dao.insertSkuPhase(phase);				
 			}
-		} catch (Exception e) {
+		} catch (ErrosPhase e) {
 			LOGGER.info(Messages.ARQUIVO_INVALIDO);
-			LOGGER.debug(e);
+			for (String p : e.getErro()) {
+				LOGGER.info(p);
+			}
+			LOGGER.info(Messages.EXEC_ABORTADA);
+		} catch (Exception i) {
+			LOGGER.info(Messages.ARQUIVO_INVALIDO2);
 		}
 	}
 

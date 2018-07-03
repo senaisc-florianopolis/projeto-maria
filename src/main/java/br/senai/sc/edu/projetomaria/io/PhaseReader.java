@@ -19,11 +19,12 @@ import br.senai.sc.edu.projetomaria.resource.Messages;
 public class PhaseReader {
 	private static final Logger LOGGER = LogManager.getLogger();
 	Phase novoPhase = null;
-	int contErrosP = 0;
 
 	public List<Phase> lerCsvPhase(Path caminho) throws Exception {
 		List<Phase> phase = new ArrayList<>();
-
+		List<String> erros = new ArrayList<>();
+		int contErrosP = 0;
+		
 		try (Reader leitor = Files.newBufferedReader(caminho);
 				CSVParser conversor = new CSVParser(leitor, CSVFormat.DEFAULT);) {
 			for (CSVRecord ler : conversor) {
@@ -31,16 +32,17 @@ public class PhaseReader {
 					String skuNew = ler.get(0);
 					String skuOld = ler.get(1);
 
-					boolean skuNewR = skuNew.matches("[0,9],{1,20}");
-					boolean skuOldR = skuOld.matches("[0,9],{1,20}");
+					boolean skuNewR = skuNew.matches("^[0-9]{1,20}$");
+					boolean skuOldR = skuOld.matches("^[0-9]{1,20}$");
 
-					if (skuNewR || skuOldR) {
-						contErrosP++;
-					} else {
+					if (skuNewR && skuOldR) {
 						novoPhase = new Phase();
 						novoPhase.setSkuNew(Integer.parseInt(skuNew));
 						novoPhase.setSkuOld(Integer.parseInt(skuOld));
 						phase.add(novoPhase);
+					} else {
+						contErrosP++;
+						erros.add("Linha " + ler.getRecordNumber() + ": " + skuNew + ", " + skuOld + "\n");
 					}
 				}
 			}
@@ -51,7 +53,19 @@ public class PhaseReader {
 		if (contErrosP == 0) {
 			return phase;
 		} else {
-			throw new Exception();
+			throw new ErrosPhase(erros);
+		}
+	}
+
+	public class ErrosPhase extends Exception {
+		List<String> erros;
+
+		public ErrosPhase(List<String> erros) {
+			this.erros = erros;
+		}
+
+		public List<String> getErro() {
+			return this.erros;
 		}
 	}
 }

@@ -29,23 +29,24 @@ public class ProdutoReader {
 				CSVParser conversor = new CSVParser(leitor, CSVFormat.DEFAULT);) {
 			for (CSVRecord ler : conversor) {
 				if (ler.getRecordNumber() != 1) {
+					
 					String sku = ler.get(0);
 					String nomeProduto = ler.get(1);
 					String idFamiliaComercial = ler.get(2);
 
-					boolean skuR = sku.matches("[A-z]");
-					boolean nomeProdutoR = nomeProduto.matches("{1,255}");
-					boolean idFamiliaComercialR = idFamiliaComercial.matches("[0,9],{1,20}");
+					boolean skuR = sku.matches("^[0-9]{1,20}$");
+					boolean nomeProdutoR = nomeProduto.matches("^.{1,255}$");
+					boolean idFamiliaComercialR = idFamiliaComercial.matches("^[0-9]{1,20}$");
 
-					if (!skuR || !nomeProdutoR || !idFamiliaComercialR) {
-						contErrosP++;
-						erros.add(sku+", "+nomeProduto+", "+idFamiliaComercial);
-					} else {
+					if (skuR && nomeProdutoR && idFamiliaComercialR) {	
 						Produto novoProduto = new Produto();
 						novoProduto.setSku(Integer.parseInt(sku));
 						novoProduto.setDescricao(nomeProduto);
 						novoProduto.setIdComercial(Integer.parseInt(idFamiliaComercial));
 						produtos.add(novoProduto);
+					} else {
+						contErrosP++;
+						erros.add("Linha "+ler.getRecordNumber() + ": "+sku + ", " + nomeProduto + ", " + idFamiliaComercial+"\n");
 					}
 				}
 			}
@@ -55,17 +56,19 @@ public class ProdutoReader {
 		}
 		if (contErrosP == 0) {
 			return produtos;
-		} else {
+		} else {			
 			throw new Erros(erros);
 		}
 	}
-	
-	public class Erros extends Exception{
+
+	public class Erros extends Exception {
 		List<String> erros;
-		public Erros(List<String> erros){
+
+		public Erros(List<String> erros) {
 			this.erros = erros;
 		}
-		public List<String> getErro(){
+
+		public List<String> getErro() {
 			return this.erros;
 		}
 	}
