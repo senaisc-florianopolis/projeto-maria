@@ -1,19 +1,5 @@
 package br.senai.sc.edu.projetomaria.dao;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
-
-import br.senai.sc.edu.projetomaria.model.Canal;
-import br.senai.sc.edu.projetomaria.model.Familia;
-import br.senai.sc.edu.projetomaria.resource.Messages;
-import br.senai.sc.edu.projetomaria.resource.SQL;
-
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,6 +9,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import br.senai.sc.edu.projetomaria.model.Canal;
+import br.senai.sc.edu.projetomaria.resource.Messages;
+import br.senai.sc.edu.projetomaria.resource.SQL;
 
 public class CanalDAO extends AbstractDAO {
 
@@ -52,8 +40,8 @@ public class CanalDAO extends AbstractDAO {
 		String sql =  SQL.INSERT_CANAL;
 		try (PreparedStatement stmt =  getConnection().prepareStatement(sql)){
 			for (Canal cn : canal) {
-				stmt.setInt(1, cn.getId());
-				stmt.setString(2, cn.getDescricao());
+//				stmt.setInt(1, cn.getId());
+				stmt.setString(1, cn.getDescricao());
 				stmt.execute();				
 				LOGGER.info(Messages.SUCESSO_CANAL_INSERIR);
 			}

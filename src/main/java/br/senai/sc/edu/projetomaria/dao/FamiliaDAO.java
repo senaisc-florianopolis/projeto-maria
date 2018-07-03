@@ -1,5 +1,4 @@
 package br.senai.sc.edu.projetomaria.dao;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+
 import br.senai.sc.edu.projetomaria.model.Familia;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 import br.senai.sc.edu.projetomaria.resource.SQL;
@@ -15,9 +15,6 @@ import br.senai.sc.edu.projetomaria.resource.SQL;
 
 public class FamiliaDAO extends AbstractDAO {
 
-	private static final String INSERIR_FAMILIA = null;
-	private static final String ATUALIZAR_FAMILIA = null;
-	private static final String DELETAR_FAMILIA = null;
 	private Logger LOGGER = Logger.getLogger(FamiliaDAO.class.getName());
 
 
