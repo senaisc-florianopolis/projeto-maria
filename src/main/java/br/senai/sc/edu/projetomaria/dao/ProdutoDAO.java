@@ -43,7 +43,7 @@ public class ProdutoDAO extends AbstractDAO {
 	}
 
 	public List<Phase> exportarPhase() {
-		String sql = "SELECT * FROM PHASE;";
+		String sql = "SELECT * FROM SKU_PHASE;";
 
 		List<Phase> ph = new ArrayList<>();
 		try (Connection conn = getConnection();
@@ -61,29 +61,6 @@ public class ProdutoDAO extends AbstractDAO {
 			LOGGER.error(e);
 		}
 		return ph;
-	}
-
-	// confirmar se há update do phase, e qual criterio para encontrar no banco
-	public void updatePhase(List<Phase> phase) {
-		String sql = "";
-		PreparedStatement stmt;
-		int successes = 0;
-		total = 0;
-
-		for (Phase ph : phase) {
-			sql = "UPDATE sku_phase SET SKU_PHASE_IN = " + ph.getSkuNew()
-					+ ", " + "SKU_PHASE_OUT = " + ph.getSkuOld()
-					+ " WHERE SKU = " + ph.getSkuNew() + ";";
-			try (Connection conn = getConnection()) {
-				stmt = conn.prepareStatement(sql);
-				stmt.executeUpdate();
-				successes++;
-			} catch (SQLException e) {
-				LOGGER.debug(e);
-			}
-			total++;
-		}
-		LOGGER.info(successes + " de " + total + " " + Messages.SUCCESS_PRODUTO);
 	}
 
 	public void salvarProdutos(List<Produto> list) {

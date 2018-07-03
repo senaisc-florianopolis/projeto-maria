@@ -13,64 +13,60 @@ import org.apache.commons.csv.CSVRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import br.senai.sc.edu.projetomaria.model.Phase;
 import br.senai.sc.edu.projetomaria.model.Produto;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class ProdutoReader {
 	private static final Logger LOGGER = LogManager.getLogger();
 	Produto novoProduto = null;
-	Phase novoPhase = null;
-	Boolean status;
-	
-	public List<Produto> lerCsvProduto(Path caminho) {
+
+	public List<Produto> lerCsvProduto(Path caminho) throws Exception {
+		int contErrosP = 0;
+
 		List<Produto> produtos = new ArrayList<>();
+		List<String> erros = new ArrayList<>();
 		try (Reader leitor = Files.newBufferedReader(caminho);
 				CSVParser conversor = new CSVParser(leitor, CSVFormat.DEFAULT);) {
-			for (CSVRecord gravar : conversor) {
-				if (gravar.getRecordNumber() != 1) {
-					String sku = gravar.get(0);
-					String nomeProduto = gravar.get(1);
-					String idFamiliaComercial = gravar.get(2);
-						status = true;
-						novoProduto = new Produto();
+			for (CSVRecord ler : conversor) {
+				if (ler.getRecordNumber() != 1) {
+					String sku = ler.get(0);
+					String nomeProduto = ler.get(1);
+					String idFamiliaComercial = ler.get(2);
+
+					boolean skuR = sku.matches("[A-z]");
+					boolean nomeProdutoR = nomeProduto.matches("{1,255}");
+					boolean idFamiliaComercialR = idFamiliaComercial.matches("[0,9],{1,20}");
+
+					if (!skuR || !nomeProdutoR || !idFamiliaComercialR) {
+						contErrosP++;
+						erros.add(sku+", "+nomeProduto+", "+idFamiliaComercial);
+					} else {
+						Produto novoProduto = new Produto();
 						novoProduto.setSku(Integer.parseInt(sku));
 						novoProduto.setDescricao(nomeProduto);
 						novoProduto.setIdComercial(Integer.parseInt(idFamiliaComercial));
 						produtos.add(novoProduto);
-				}				
-			}
-			
-		} catch (IOException e) {
-			status = false;
-			LOGGER.info(Messages.FS_ERRO_ACESSO);
-			LOGGER.debug(e);
-		}
-		return produtos;
-	}
-
-	public List<Phase> lerCsvPhase(Path caminho) {
-		List<Phase> phase = new ArrayList<>();
-
-		try (Reader leitor = Files.newBufferedReader(caminho);
-				CSVParser conversor = new CSVParser(leitor, CSVFormat.DEFAULT);) {
-			for (CSVRecord gravar : conversor) {
-				if (gravar.getRecordNumber() != 1) {
-					String skuNew = gravar.get(0);
-					String skuOld = gravar.get(1);
-					
-						novoPhase = new Phase();
-						novoPhase.setSkuNew(Integer.parseInt(skuNew));
-						novoPhase.setSkuOld(Integer.parseInt(skuOld));						
-					phase.add(novoPhase);
+					}
 				}
 			}
-			status = true;
 		} catch (IOException e) {
-			status = false;
 			LOGGER.info(Messages.FS_ERRO_ACESSO);
 			LOGGER.debug(e);
 		}
-		return phase;
+		if (contErrosP == 0) {
+			return produtos;
+		} else {
+			throw new Erros(erros);
+		}
+	}
+	
+	public class Erros extends Exception{
+		List<String> erros;
+		public Erros(List<String> erros){
+			this.erros = erros;
+		}
+		public List<String> getErro(){
+			return this.erros;
+		}
 	}
 }

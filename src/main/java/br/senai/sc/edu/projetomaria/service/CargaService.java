@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
@@ -16,6 +17,8 @@ import br.senai.sc.edu.projetomaria.io.ProdutoReader;
 import br.senai.sc.edu.projetomaria.dao.HistoricoDAO;
 import br.senai.sc.edu.projetomaria.dao.ProdutoDAO;
 import br.senai.sc.edu.projetomaria.io.LeitorCsv;
+import br.senai.sc.edu.projetomaria.io.PhaseReader;
+import br.senai.sc.edu.projetomaria.io.ProdutoReader.Erros;
 import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.model.Phase;
 import br.senai.sc.edu.projetomaria.model.Produto;
@@ -26,20 +29,19 @@ import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class CargaService {
 	private static final Logger LOGGER = LogManager.getLogger();
+	private List<String> prods;
+	private int sku;
 
 	public void insertFamilia(Path path) {
-		throw new UnsupportedOperationException(
-				Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 	public void updateFamilia(Path path) {
-		throw new UnsupportedOperationException(
-				Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 	public void deleteFamilia(Path path) {
-		throw new UnsupportedOperationException(
-				Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 	public void insertCanal(Path path) {
@@ -55,8 +57,7 @@ public class CargaService {
 	}
 
 	public void updateCanal(Path path) {
-		throw new UnsupportedOperationException(
-				Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 	public void deleteCanal(Path path) {
@@ -76,23 +77,93 @@ public class CargaService {
 
 	public void insertProduto(Path path) {
 		ProdutoReader reader = new ProdutoReader();
-		List<Produto> produtos = reader.lerCsvProduto(path);
-		ProdutoDAO dao = new ProdutoDAO();
-		dao.salvarProdutos(produtos);
+		List<Produto> produtos;
+		int existeBase = 0;
+		String errosReg = "";
+
+		try {
+			produtos = reader.lerCsvProduto(path);
+			ProdutoDAO dao = new ProdutoDAO();
+
+			if (produtos.isEmpty()) {
+				LOGGER.info(Messages.ERRO_VAZIO);
+			} else {
+				for (Produto p : produtos) {
+					for (Produto base : dao.exportarProdutos()) {
+						if (p.getSku() == base.getSku()) {
+							existeBase++;
+							errosReg = p.getSku() + ", " + p.getDescricao() + ", " + p.getIdComercial() + "\n";
+						}
+					}
+				}
+				if (existeBase > 0) {
+					LOGGER.info(Messages.ERRO_SKU_IGUAL);
+					LOGGER.info(errosReg);
+					LOGGER.info(Messages.EXEC_ABORTADA);
+				} else {
+					dao.salvarProdutos(produtos);
+				}
+			}
+		} catch (Erros e) {
+			for(String p: e.getErro()){
+				LOGGER.info(p);
+			}
+		} catch(Exception i){
+			LOGGER.info(Messages.ARQUIVO_INVALIDO);
+			LOGGER.debug(i);
+		}
 	}
 
 	public void updateProduto(Path path) {
 		ProdutoReader reader = new ProdutoReader();
-		List<Produto> produtos = reader.lerCsvProduto(path);
-		ProdutoDAO dao = new ProdutoDAO();
-		dao.updateProduto(produtos);
+		List<Produto> produtos;
+
+		try {
+			produtos = reader.lerCsvProduto(path);
+			if (produtos.isEmpty()) {
+				LOGGER.info(Messages.ERRO_VAZIO);
+			} else {
+				ProdutoDAO dao = new ProdutoDAO();
+				dao.updateProduto(produtos);
+			}
+		} catch (Exception e) {
+			LOGGER.info(Messages.ARQUIVO_INVALIDO);
+		}
 	}
 
 	public void deleteProduto(Path path) {
 		ProdutoReader reader = new ProdutoReader();
-		List<Produto> produtos = reader.lerCsvProduto(path);
-		ProdutoDAO dao = new ProdutoDAO();
-		dao.deleteProd(produtos);
+		List<Produto> produtos;
+		int regPhase = 0;
+		String erroRegPhase = "";
+
+		try {
+			produtos = reader.lerCsvProduto(path);
+			if (produtos.isEmpty()) {
+				LOGGER.info(Messages.ERRO_VAZIO);
+			} else {
+				ProdutoDAO dao = new ProdutoDAO();
+				for (Produto imp : produtos) {
+					for (Phase expPh : dao.exportarPhase()) {
+						if (imp.getSku() == expPh.getSkuNew() || imp.getSku() == expPh.getSkuOld()) {
+							regPhase++;
+							erroRegPhase += (imp.getSku() + ", " + imp.getDescricao() + ", " + imp.getIdComercial())
+									+ "\n";
+						}
+					}
+				}
+				if (regPhase > 0) {
+					LOGGER.info(Messages.ERRO_DELETE_PHASE);
+					LOGGER.info(erroRegPhase);
+					LOGGER.info(Messages.EXEC_ABORTADA);
+				} else {
+					dao.deleteProd(produtos);
+				}
+			}
+		} catch (Exception e) {
+			LOGGER.info(Messages.ARQUIVO_INVALIDO);
+			LOGGER.debug(e);
+		}
 	}
 
 	public void insertHistorico(Path path) {
@@ -117,19 +188,28 @@ public class CargaService {
 	}
 
 	public void insertPhase(Path path) {
-		ProdutoReader reader = new ProdutoReader();
-		List<Phase> phase = reader.lerCsvPhase(path);
-		ProdutoDAO dao = new ProdutoDAO();
-		dao.insertSkuPhase(phase);		
+		PhaseReader reader = new PhaseReader();
+		List<Phase> phase;
+
+		try {
+			phase = reader.lerCsvPhase(path);
+			if (phase.isEmpty()) {
+				LOGGER.info(Messages.ERRO_VAZIO);
+			} else {
+				ProdutoDAO dao = new ProdutoDAO();
+				dao.insertSkuPhase(phase);
+			}
+		} catch (Exception e) {
+			LOGGER.info(Messages.ARQUIVO_INVALIDO);
+			LOGGER.debug(e);
+		}
 	}
 
 	public void updatePhase(Path path) {
-		throw new UnsupportedOperationException(
-				Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 	public void deletePhase(Path path) {
-		throw new UnsupportedOperationException(
-				Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 }

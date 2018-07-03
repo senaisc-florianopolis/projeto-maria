@@ -26,7 +26,13 @@ public abstract class Messages {
   	// Produtos
   	public static final String ERRO_VAZIO = ResourceManager.getMessage("erro.vazio"); //$NON-NLS-1$
   	public static final String SUCCESS_PRODUTO = ResourceManager.getMessage("success.produto"); //$NON-NLS-1$
-  
+  	public static final String ARQUIVO_GERADO = ResourceManager.getMessage("arquivo.gerado"); //$NON-NLS-1$
+  	public static final String ERRO_ARQUIVO = ResourceManager.getMessage("erro.arquivo"); //$NON-NLS-1$
+  	public static final String ARQUIVO_INVALIDO = ResourceManager.getMessage("arquivo.invalido"); //$NON-NLS-1$
+  	public static final String ERRO_DELETE_PHASE = ResourceManager.getMessage("erro.delete.phase"); //$NON-NLS-1$
+  	public static final String ERRO_SKU_IGUAL = ResourceManager.getMessage("erro.sku.igual"); //$NON-NLS-1$
+  	public static final String ERRO_PRODUTO_IGUAL = ResourceManager.getMessage("erro.produto.igual"); //$NON-NLS-1$
+  	
 	private Messages() {}
 
 }

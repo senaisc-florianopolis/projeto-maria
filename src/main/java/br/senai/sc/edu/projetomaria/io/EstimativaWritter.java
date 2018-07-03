@@ -9,24 +9,43 @@ import java.util.logging.Logger;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
+import org.apache.commons.csv.CSVRecord;
 
 import br.senai.sc.edu.projetomaria.model.Historico;
+import br.senai.sc.edu.projetomaria.model.Resultado;
 
 public class EstimativaWritter {
-		public void escrever(Path path){	
+	public void escrever(Path path, int periodo) {
+
+		try (BufferedWriter arquivo = Files.newBufferedWriter(path);
+				CSVPrinter escrever = new CSVPrinter(arquivo,
+						CSVFormat.DEFAULT.withHeader("SKU", "PERIODO TOTAL",
+								"RESULTADO 1", "RESULTADO 2", "RESULTADO 3",
+								"RESULTADO 4", "ERRO QUADRATICO",
+								"PERIODO UTILIZADO"));) {
+			Estimativa estimativa = new Estimativa();
+			String teste = "";
+			int cont = 0;
 			
-			// QUARTA FASE
-			// RETORNO LAYOUT DO BANCO DE DADOS:
-			// SKU / CANAL / HISTÓRICO / ESTATISCA
+			/*for(Resultado i: estimativa.Calculo(periodo)){
+				cont++;
+				teste += i.getPeriodo_utilizado()[cont]+",";
+				System.out.println(cont);
+			}*/
 			
-		    try(             
-		        BufferedWriter arquivo = Files.newBufferedWriter(path);                        
-		        CSVPrinter escrever = new CSVPrinter(arquivo, CSVFormat.DEFAULT.withHeader("SKU", "NOME_PRODUTO", "ID_FAMILIA_COMERCIAL"));
-		        )
-		    {
-		    	Historico historico = new Historico();
-		    }catch (IOException ex) {
-		        Logger.getLogger(EstimativaWritter.class.getName()).log(Level.SEVERE, null, ex);
-		    }	
+			
+			for (Resultado linha : estimativa.Calculo(periodo)) {
+				escrever.printRecord(linha.getSKU(), linha.getPeriodo_total(),
+						linha.getResultado_media(),
+						linha.getResultado_media2(),
+						linha.getResultado_media3(),
+						linha.getResultado_media4(),
+						linha.getErro_quadratico_medio()
+						);
+			}
+		} catch (IOException ex) {
+			Logger.getLogger(EstimativaWritter.class.getName()).log(
+					Level.SEVERE, null, ex);
 		}
+	}
 }
