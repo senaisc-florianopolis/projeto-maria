@@ -5,10 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
@@ -23,12 +20,9 @@ public class CanalWriter {
 	}
 
 	public static void generateRelatorio(Path export_path) throws IOException {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd");
-		Date date = new Date();
 		String file_path = export_path.toString();
 		try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(file_path))) {
-			CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.withHeader("ID_CANAL", "DESCRICAO"));
-			{
+			try(CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.withHeader("ID_CANAL", "DESCRICAO"))){
 				CanalDAO dao = new CanalDAO();
 				ArrayList<Canal> canais = new ArrayList<>();
 				canais = dao.getCanais();

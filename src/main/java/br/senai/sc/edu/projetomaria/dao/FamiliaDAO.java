@@ -1,5 +1,4 @@
 package br.senai.sc.edu.projetomaria.dao;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+
 import br.senai.sc.edu.projetomaria.model.Familia;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 import br.senai.sc.edu.projetomaria.resource.SQL;
@@ -16,6 +16,7 @@ import br.senai.sc.edu.projetomaria.resource.SQL;
 public class FamiliaDAO extends AbstractDAO {
 
 	private Logger LOGGER = Logger.getLogger(FamiliaDAO.class.getName());
+
 
 	public ArrayList<Familia>getFamilias() {
 		String sql = "SELECT * FROM maria.familia;";
@@ -32,12 +33,12 @@ public class FamiliaDAO extends AbstractDAO {
 				LOGGER.severe(e.getSQLState() + " - " + e.getMessage());	
 			}
 		} catch (SQLException e) {
-			LOGGER.severe(e.getSQLState() + " - " + e.getMessage());	
+			LOGGER.severe(e.getSQLState() + " - " + e.getMessage());
 		}
 		return familias;
 	}
 
-	public void insert(List<Familia> familia) throws SQLException {
+  public void insert(List<Familia> familia) throws SQLException {
 		String sql =  SQL.INSERT_FAMILIA_INCREMENT;
 		try (PreparedStatement stmt =  getConnection().prepareStatement(sql)){
 			for (int i = 0; i < familia.size(); i++) {

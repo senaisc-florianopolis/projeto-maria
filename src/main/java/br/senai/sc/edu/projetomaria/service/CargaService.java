@@ -39,6 +39,7 @@ public class CargaService {
 			dao.insert(list_familia);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			LOGGER.warn(e.getMessage());
 			e.printStackTrace();
 		}
 		
@@ -73,7 +74,7 @@ public class CargaService {
 		CanalReader canal = new CanalReader(path);
 		CanalDAO dao = new CanalDAO();
 		try {
-			List<Canal> canais = canal.readCanal();
+			List<Canal> canais = canal.readCanalIncrement();
 			dao.insert(canais);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
