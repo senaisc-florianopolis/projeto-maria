@@ -7,17 +7,17 @@ public class Calculo {
 	private String tipo;
 	private Integer periodo;
 	private Integer eqm;
-	private Integer[] periodo_utilizado;
-	private Double resultado_media;
-	private Double resultado_media2;
-	private Double resultado_media3;
-	private Double resultado_media4;
-	private Double media_venda;
+	private Integer[] periodoUtilizado;
+	private Double resultadoMedia;
+	private Double resultadoMedia2;
+	private Double resultadoMedia3;
+	private Double resultadoMedia4;
+	private Double mediaVenda;
 	private Double diferenca;
-	private Double media_movel_dif;
+	private Double mediaMovelDif;
 	private String resultado;
-	private final Double alpha = 0.2;
-	private Resultado resultado_class;
+	private final static Double alpha = 0.2;
+	private Resultado resultadoClass;
 
 	public Calculo() {
 
@@ -27,15 +27,15 @@ public class Calculo {
 		this.vendas = vendas;
 		this.tipo = tipo;
 		this.periodo = periodo;
-		this.periodo_utilizado = new Integer[periodo];
+		this.periodoUtilizado = new Integer[periodo];
 	}
 
-	public Double getResultado_media4() {
-		return resultado_media4;
+	public Double getResultadoMedia4() {
+		return resultadoMedia4;
 	}
 
-	public Double getResultado_media3() {
-		return resultado_media3;
+	public Double getResultadoMedia3() {
+		return resultadoMedia3;
 	}
 
 	public String getResultado() {
@@ -43,15 +43,15 @@ public class Calculo {
 	}
 
 	public Resultado getResultadoClass() {
-		return resultado_class;
+		return resultadoClass;
 	}
 
-	public Double getResultado_media() {
-		return resultado_media;
+	public Double getResultadoMedia() {
+		return resultadoMedia;
 	}
 
-	public Double getResultado_media2() {
-		return resultado_media2;
+	public Double getResultadoMedia2() {
+		return resultadoMedia2;
 	}
 
 	public Double getErroQuadraticoMedio() {
@@ -64,11 +64,11 @@ public class Calculo {
 		 * retorna uma mensagem de erro.
 		 */
 		if (vendas.length < periodo) {
-			resultado_media=0.00;
-			resultado_media2=0.00;
-			resultado_media3=0.00;
-			resultado_media4=0.00;
-			diferenca=0.00;			
+			resultadoMedia = 0.00;
+			resultadoMedia2 = 0.00;
+			resultadoMedia3 = 0.00;
+			resultadoMedia4 = 0.00;
+			diferenca = 0.00;
 			return;
 		}
 
@@ -85,68 +85,69 @@ public class Calculo {
 		/* Caso o parametro tipo seja M = M�dia Movel. */
 		if (tipo == "M") {
 			if (vendas.length > 1) {
-				media_venda = 0.00;
+				mediaVenda = 0.00;
 				int x = 0;
 				/*
-				 * Para cada posi��o do Array, utiliza-se uma vari�vel para agregar os valores.
+				 * Para cada posi��o do Array, utiliza-se uma vari�vel para agregar os
+				 * valores.
 				 */
 				for (int i = (vendas.length - periodo); i < vendas.length; i++) {
-					media_venda += vendas[i];
-					periodo_utilizado[x] = vendas[i];
+					mediaVenda += vendas[i];
+					periodoUtilizado[x] = vendas[i];
 					x = x + 1;
 				}
 				/*
-				 * O resultado da concatena��o � dividido pelo tamanho do array para se ter a
-				 * m�dia m�vel do periodo recebido como parametro.
+				 * O resultado da concatena��o � dividido pelo tamanho do array para se
+				 * ter a m�dia m�vel do periodo recebido como parametro.
 				 */
-				resultado_media = media_venda / (vendas.length - (vendas.length - periodo));
+				resultadoMedia = mediaVenda / (vendas.length - (vendas.length - periodo));
 
 				Integer[] vendas2 = new Integer[periodo];
 				for (int j = 0; j < periodo - 1; j++) {
 					vendas2[j] = vendas[vendas.length - periodo + j + 1];
 				}
-				vendas2[periodo - 1] = (int) Math.round(resultado_media);
+				vendas2[periodo - 1] = (int) Math.round(resultadoMedia);
 
-				media_venda = 0.00;
+				mediaVenda = 0.00;
 				for (int y = 0; y < vendas2.length; y++) {
-					media_venda += vendas2[y];
+					mediaVenda += vendas2[y];
 				}
-				resultado_media2 = media_venda / vendas2.length;
+				resultadoMedia2 = mediaVenda / vendas2.length;
 
 				Integer[] vendas3 = new Integer[periodo];
 				for (int h = 0; h < periodo - 1; h++) {
 					vendas3[h] = vendas2[vendas2.length - periodo + h + 1];
 				}
-				vendas3[periodo - 1] = (int) Math.round(resultado_media2);
+				vendas3[periodo - 1] = (int) Math.round(resultadoMedia2);
 
-				media_venda = 0.00;
+				mediaVenda = 0.00;
 				for (int z = 0; z < vendas3.length; z++) {
-					media_venda += vendas3[z];
+					mediaVenda += vendas3[z];
 				}
-				resultado_media3 = media_venda / vendas3.length;
+				resultadoMedia3 = mediaVenda / vendas3.length;
 
 				Integer[] vendas4 = new Integer[periodo];
 				for (int i = 0; i < periodo - 1; i++) {
 					vendas4[i] = vendas3[vendas3.length - periodo + i + 1];
 				}
-				vendas4[periodo - 1] = (int) Math.round(resultado_media3);
+				vendas4[periodo - 1] = (int) Math.round(resultadoMedia3);
 
-				media_venda = 0.00;
+				mediaVenda = 0.00;
 				for (int i = 0; i < vendas4.length; i++) {
-					media_venda += vendas4[i];
+					mediaVenda += vendas4[i];
 				}
-				resultado_media4 = media_venda / vendas4.length;
+				resultadoMedia4 = mediaVenda / vendas4.length;
 
 				if (eqm == 1) {
 					/* Para o c�lculo do erro quadr�tico m�dio. */
 					diferenca = 0.00;
 					for (int i = periodo; i < vendas.length; i++) {
-						media_movel_dif = 0.00;
+						mediaMovelDif = 0.00;
 						for (int j = 1; j < (periodo + 1); j++) {
-							media_movel_dif += vendas[i - j];
+							mediaMovelDif += vendas[i - j];
 						}
-						media_movel_dif = media_movel_dif / periodo;
-						diferenca += (vendas[i] - media_movel_dif) * (vendas[i] - media_movel_dif);
+						mediaMovelDif = mediaMovelDif / periodo;
+						diferenca += (vendas[i] - mediaMovelDif) * (vendas[i] - mediaMovelDif);
 					}
 					diferenca = diferenca / (vendas.length - periodo);
 				} else {
@@ -163,7 +164,7 @@ public class Calculo {
 		} else {
 			if (tipo == "E") {
 				diferenca = 0.00;
-				media_venda = 0.00;
+				mediaVenda = 0.00;
 
 				if (vendas.length > 1) {
 					Double f[] = new Double[vendas.length];

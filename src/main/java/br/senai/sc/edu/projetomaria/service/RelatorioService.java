@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 
 import br.senai.sc.edu.projetomaria.dao.HistoricoDAO;
 import br.senai.sc.edu.projetomaria.io.CanalWriter;
-import br.senai.sc.edu.projetomaria.io.Estimativa;
 import br.senai.sc.edu.projetomaria.io.EstimativaWritter;
 import br.senai.sc.edu.projetomaria.io.HistoricoWriter;
 import br.senai.sc.edu.projetomaria.io.PhaseWritter;
