@@ -1,5 +1,7 @@
 package br.senai.sc.edu.projetomaria.resource;
 
+import javax.annotation.Resource;
+
 public abstract class Messages {
 
 	// Dados do Projeto
@@ -31,6 +33,7 @@ public abstract class Messages {
   public static final String REGISTRO_CADASTRO_SUCESSO =  ResourceManager.getMessage("registro.cadastro.sucesso"); //$NON-NLS-1$
   public static final String REGISTRO_ALTERADO_SUCESSO =  ResourceManager.getMessage("registro.alterado.sucesso"); //$NON-NLS-1$
   public static final String REGISTRO_SALVO_SUCESSO =  ResourceManager.getMessage("registro.salvo.sucesso"); //$NON-NLS-1$
+
   	
   // Historico
 	public static final String LEITURA_REALIZADA = ResourceManager.getMessage("leitura.realizada"); //$NON-NLS-1$
@@ -43,12 +46,36 @@ public abstract class Messages {
   	public static final String ERRO_VAZIO = ResourceManager.getMessage("erro.vazio"); //$NON-NLS-1$
   	public static final String SUCCESS_PRODUTO = ResourceManager.getMessage("success.produto"); //$NON-NLS-1$
   
-  
   public static final String INSERIR_FAMILIA =  ResourceManager.getMessage("inserir.familia"); //$NON-NLS-1$
   public static final String ATUALIZAR_FAMILIA =  ResourceManager.getMessage("atualizar.familia"); //$NON-NLS-1$
   public static final String DELETAR_FAMILIA =  ResourceManager.getMessage("deletar.familia"); //$NON-NLS-1$
   
-  private Messages() {}
-	
 
+  public static final String ERRO_CANAL_INSERIR =  ResourceManager.getMessage("erro.canal.inserir"); //$NON-NLS-1$
+  public static final String ERRO_CANAL_ATUALIZAR =  ResourceManager.getMessage("erro.canal.atualizar"); //$NON-NLS-1$
+  public static final String ERRO_CANAL_DELETAR =  ResourceManager.getMessage("erro.canal.deletar"); //$NON-NLS-1$
+  
+  public static final String SUCESSO_CANAL_INSERIR =  ResourceManager.getMessage("sucesso.canal.inserir"); //$NON-NLS-1$
+  public static final String SUCESSO_CANAL_ATUALIZAR =  ResourceManager.getMessage("sucesso.canal.atualizar"); //$NON-NLS-1$
+  public static final String SUCESSO_CANAL_DELETAR =  ResourceManager.getMessage("sucesso.canal.deletar"); //$NON-NLS-1$
+
+  public static final String ARQUIVO_GERADO = ResourceManager.getMessage("arquivo.gerado"); //$NON-NLS-1$
+  	public static final String ERRO_ARQUIVO = ResourceManager.getMessage("erro.arquivo"); //$NON-NLS-1$
+  	public static final String ARQUIVO_INVALIDO = ResourceManager.getMessage("arquivo.invalido"); //$NON-NLS-1$
+  	public static final String ARQUIVO_INVALIDO2 = ResourceManager.getMessage("arquivo.invalido2"); //$NON-NLS-1$
+  	public static final String ERRO_DELETE_PHASE = ResourceManager.getMessage("erro.delete.phase"); //$NON-NLS-1$
+  	public static final String ERRO_SKU_IGUAL = ResourceManager.getMessage("erro.sku.igual"); //$NON-NLS-1$
+  	public static final String ERRO_PRODUTO_IGUAL = ResourceManager.getMessage("erro.produto.igual"); //$NON-NLS-1$
+  	
+
+  public static final String ERRO_FAMILIA_INSERIR =  ResourceManager.getMessage("erro.familia.inserir"); //$NON-NLS-1$
+  public static final String ERRO_FAMILIA_ATUALIZAR =  ResourceManager.getMessage("erro.familia.atualizar"); //$NON-NLS-1$
+  public static final String ERRO_FAMILIA_DELETAR =  ResourceManager.getMessage("erro.familia.deletar"); //$NON-NLS-1$
+ 
+  //Canal
+  	public static final String ERROR_TOREAD = ResourceManager.getMessage("erro.canal.reader");
+  	public static final String ERROR_DESCRICAO_CARACTER = ResourceManager.getMessage("erro.canal.descricao.naocaracter");
+  	public static final String ERROR_DESCRICAO_NULO = ResourceManager.getMessage("erro.canal.descricao.isnull");
+  	public static final String ERROR_DESCRICAO_TAMANHO = ResourceManager.getMessage("erro.canal.descricao.tamanho");
+	private Messages() {}
 }

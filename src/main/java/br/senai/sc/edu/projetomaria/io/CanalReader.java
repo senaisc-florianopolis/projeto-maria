@@ -1,59 +1,68 @@
 package br.senai.sc.edu.projetomaria.io;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import javax.xml.bind.ParseConversionEvent;
-
 import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import br.senai.sc.edu.projetomaria.dao.CanalDAO;
 import br.senai.sc.edu.projetomaria.model.Canal;
 
 public class CanalReader {
 
 	private Path path;
 	private static final Logger LOGGER = LogManager.getLogger();
-
+	private static final String ID_CANAL = "ID_CANAL";
+	private static final String DESCRICAO = "DESCRICAO";
+	
 	public CanalReader(Path path) {
 		this.path = path;
 	}
 
 	public List<Canal> readCanal() throws IOException {
-		try (BufferedReader br = Files.newBufferedReader(this.path)) {
-			Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader("ID_CANAL", "DESCRICAO").parse(br);
-			Canal canal = new Canal();
-			List <Canal>list = null;
-
+		try(BufferedReader br = Files.newBufferedReader(this.path)){
+			Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader(ID_CANAL,DESCRICAO).parse(br);
+			ArrayList<Canal> list = new ArrayList<>();
 			for (CSVRecord csvRecord : records) {
-				// Accessing Values by Column Index
-
-				int id_canal = Integer.parseInt(csvRecord.get("ID_CANAL"));
-				String descricao = csvRecord.get("DESCRICAO");
-
-				canal.setId(id_canal);
+				String idCanal = csvRecord.get(ID_CANAL);
+				String descricao = csvRecord.get(DESCRICAO);
+				Canal canal = new Canal();
+				canal.setId(Integer.parseInt(idCanal));
 				canal.setDescricao(descricao);
 				list.add(canal);
 			}
 			return list;
-		
-	} catch (Exception e) {
-		e.printStackTrace();
+		} catch (Exception e) {
+			LOGGER.warn(e.getMessage());
+			e.printStackTrace();
+		}
+		return Collections.emptyList();
 	}
-		return null; 
-}
+	
+	public List<Canal> readCanalIncrement() throws IOException {
+		try(BufferedReader br = Files.newBufferedReader(this.path)){
+			Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader(DESCRICAO).parse(br);
+			
+			ArrayList<Canal> list = new ArrayList<>();
+
+			for (CSVRecord csvRecord : records) {
+				String descricao = csvRecord.get(DESCRICAO);
+				Canal canal = new Canal();
+				canal.setDescricao(descricao);
+				list.add(canal);
+			}
+			return list;
+		} catch (Exception e) {
+			LOGGER.warn(e.getMessage());
+			e.printStackTrace();
+		}
+		return Collections.emptyList();
+	}
 }

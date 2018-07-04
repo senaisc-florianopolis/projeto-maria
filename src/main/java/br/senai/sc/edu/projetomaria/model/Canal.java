@@ -1,12 +1,15 @@
 package br.senai.sc.edu.projetomaria.model;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class Canal implements ValidableModel {
-	
+
+	private static final Logger LOGGER = LogManager.getLogger();
 	private int id;
 	private String descricao;
-	
 
 	public int getId() {
 		return id;
@@ -23,6 +26,7 @@ public class Canal implements ValidableModel {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
+	
 
 	@Override
 	public String toString() {
@@ -31,7 +35,27 @@ public class Canal implements ValidableModel {
 
 	@Override
 	public boolean isValid() {
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		boolean teste = false;
+
+		if (this.descricao.contains("^[a-Z]")) {
+			teste = true;
+		} else {
+			LOGGER.error(Messages.ERROR_DESCRICAO_CARACTER);
+		}
+
+		if (this.descricao != null) {
+			teste = true;
+		} else {
+			LOGGER.error(Messages.ERROR_DESCRICAO_NULO);
+		}
+
+		if (this.descricao.length() > 255) {
+			teste = true;
+		} else {
+			LOGGER.error(Messages.ERROR_DESCRICAO_TAMANHO);
+		}
+
+		return teste;
 	}
 
 }
