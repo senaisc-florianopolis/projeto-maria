@@ -4,7 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -20,9 +20,9 @@ public class FamiliaDAO extends AbstractDAO {
 	private static final Logger LOGGER = LogManager.getLogger();
 
 
-	public HashSet<Familia>getFamilias() {
+	public List<Familia>getFamilias() {
 		String sql = "SELECT * FROM maria.familia;";
-		HashSet<Familia> familias = new HashSet<>();
+		List<Familia> familias = new ArrayList<>();
 		try (Statement stmt = getConnection().createStatement()){
 			this.readCanais(stmt, sql, familias);
 		} catch (SQLException e) {
@@ -31,7 +31,7 @@ public class FamiliaDAO extends AbstractDAO {
 		return familias;
 	}
 	
-	public void readCanais(Statement stmt, String sql, HashSet<Familia> familias){
+	public void readCanais(Statement stmt, String sql, List<Familia> familias){
 		try(ResultSet rs = stmt.executeQuery(sql)){
 			while (rs.next()) {
 				Familia familia = new Familia();
