@@ -58,7 +58,7 @@ public class PhaseReader {
 	}
 
 	public class ErrosPhase extends Exception {
-		private final List<String> erros;
+		private List<String> erros;
 
 		public ErrosPhase(List<String> erros) {
 			this.erros = erros;

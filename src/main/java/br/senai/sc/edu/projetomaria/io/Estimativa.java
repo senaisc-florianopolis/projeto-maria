@@ -15,26 +15,30 @@ public class Estimativa {
 
 		EstimativaDAO dao = new EstimativaDAO();
 
-		List<Integer> listaSku = new ArrayList<>();
-		listaSku = (ArrayList<Integer>) dao.listarSKU();
-
-		List<Integer> listarHistorico = new ArrayList<>();
+		List<Integer> listaSku = (ArrayList<Integer>) dao.listarSKU();
 
 		for (int i = 0; i < listaSku.size(); i++) {
-			listarHistorico = (ArrayList<Integer>) dao.listaHistorico(listaSku.get(i));
+			List<Integer>listarHistorico = (ArrayList<Integer>) dao.listaHistorico(listaSku.get(i));
 			Integer[] vendas = listarHistorico.toArray(new Integer[listarHistorico.size()]);
 			
 			Calculo medias = new Calculo(vendas, tipoMedia, periodo);
 			medias.calcularMedia();
 
+			
 			Integer[] periodoUtilizadoList = new Integer[periodo];
-			for (int j = 0; j < periodoUtilizadoList.length; j++) {
-				periodoUtilizadoList[j] = vendas[vendas.length - periodo + j];
+			if (vendas.length > periodo){
+				for (int j = 0; j < periodoUtilizadoList.length; j++) {
+					periodoUtilizadoList[j] = vendas[vendas.length - periodo + j];
+				}
+			}else{
+				for (int j = 0; j < periodoUtilizadoList.length; j++) {
+					periodoUtilizadoList[j] = 0;
+				}	
 			}
 
 			Resultado r = new Resultado();
 			r.setSKU(listaSku.get(i));
-			r.setPeriodo_total(listarHistorico.size());
+			r.setPeriodo_total(periodo);
 			r.setPeriodo_utilizado(periodoUtilizadoList);
 			r.setResultado_media(medias.getResultado_media());
 			r.setResultado_media2(medias.getResultado_media2());
@@ -43,10 +47,6 @@ public class Estimativa {
 			r.setErro_quadratico_medio(medias.getErroQuadraticoMedio());
 
 			result.add(r);
-			
-			/*for (int x = 0; x < Periodo; x++) {
-				System.out.println(r.getPeriodo_utilizado()[x]);
-			}		*/
 		}
 		return result;
 	}

@@ -6,13 +6,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class EstimativaDAO extends AbstractDAO {
 
 	public List<Integer> listarSKU() {
 		String sql = "SELECT SKU FROM PRODUTO WHERE SKU IN (SELECT SKU FROM HISTORICO WHERE MES_ANO > (SELECT DATE_ADD(SYSDATE(),INTERVAL -6 MONTH))) group by SKU;";
-		List<Integer> lista_SKU = new ArrayList<>();
+		List<Integer> listSku = new ArrayList<>();
 
 		try (Connection conn = getConnection();
 				Statement stmt = conn.prepareStatement(sql);
@@ -21,12 +22,12 @@ public class EstimativaDAO extends AbstractDAO {
 			while (rs.next()) {
 				Integer sku;
 				sku = rs.getInt("SKU");
-				lista_SKU.add(sku);
+				listSku.add(sku);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return lista_SKU;
+		return listSku;
 	}
 
 	public List<Integer> listaHistorico(Integer sku) {
@@ -38,18 +39,18 @@ public class EstimativaDAO extends AbstractDAO {
 
 			ResultSet rs = pstmt.executeQuery();
 
-			List<Integer> lista_historico = new ArrayList<>();
+			List<Integer> listaHistorico = new ArrayList<>();
 			while (rs.next()) {
 
 				Integer skuHistorico;
 				skuHistorico = rs.getInt("QUANTIDADE");
-				lista_historico.add(skuHistorico);
+				listaHistorico.add(skuHistorico);
 			}
-			return lista_historico;
+			return listaHistorico;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return Collections.emptyList();
 	}
 }
