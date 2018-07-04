@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
@@ -18,24 +19,22 @@ public class CanalReader {
 
 	private Path path;
 	private static final Logger LOGGER = LogManager.getLogger();
-	
+	private static final String ID_CANAL = "ID_CANAL";
+	private static final String DESCRICAO = "DESCRICAO";
 	
 	public CanalReader(Path path) {
 		this.path = path;
 	}
 
-
 	public List<Canal> readCanal() throws IOException {
 		try(BufferedReader br = Files.newBufferedReader(this.path)){
-			Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader("ID_CANAL", "DESCRICAO").parse(br);
-			
+			Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader(ID_CANAL,DESCRICAO).parse(br);
 			ArrayList<Canal> list = new ArrayList<>();
-
 			for (CSVRecord csvRecord : records) {
-				String id_canal = csvRecord.get("ID_CANAL");
-				String descricao = csvRecord.get("DESCRICAO");
+				String idCanal = csvRecord.get(ID_CANAL);
+				String descricao = csvRecord.get(DESCRICAO);
 				Canal canal = new Canal();
-				canal.setId(Integer.parseInt(id_canal));
+				canal.setId(Integer.parseInt(idCanal));
 				canal.setDescricao(descricao);
 				list.add(canal);
 			}
@@ -44,20 +43,18 @@ public class CanalReader {
 			LOGGER.warn(e.getMessage());
 			e.printStackTrace();
 		}
-		return null;
+		return Collections.emptyList();
 	}
 	
 	public List<Canal> readCanalIncrement() throws IOException {
 		try(BufferedReader br = Files.newBufferedReader(this.path)){
-			Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader("DESCRICAO").parse(br);
+			Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader(DESCRICAO).parse(br);
 			
 			ArrayList<Canal> list = new ArrayList<>();
 
 			for (CSVRecord csvRecord : records) {
-//				String id_canal = csvRecord.get("ID_CANAL");
-				String descricao = csvRecord.get("DESCRICAO");
+				String descricao = csvRecord.get(DESCRICAO);
 				Canal canal = new Canal();
-//				canal.setId(Integer.parseInt(id_canal));
 				canal.setDescricao(descricao);
 				list.add(canal);
 			}
@@ -66,6 +63,6 @@ public class CanalReader {
 			LOGGER.warn(e.getMessage());
 			e.printStackTrace();
 		}
-		return null;
+		return Collections.emptyList();
 	}
 }
