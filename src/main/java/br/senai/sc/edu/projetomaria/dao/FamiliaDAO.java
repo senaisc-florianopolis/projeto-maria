@@ -10,7 +10,6 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.model.Familia;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 import br.senai.sc.edu.projetomaria.resource.SQL;

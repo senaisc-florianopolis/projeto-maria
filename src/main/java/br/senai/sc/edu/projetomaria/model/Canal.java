@@ -1,12 +1,15 @@
 package br.senai.sc.edu.projetomaria.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class Canal implements ValidableModel {
-	
+
 	private static final Logger LOGGER = LogManager.getLogger();
 	private int id;
 	private String descricao;
@@ -25,6 +28,11 @@ public class Canal implements ValidableModel {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+	private Set<Canal> canal = new HashSet<Canal>();      
+	
+	public Set<Canal> getEmployees() {                          
+		return canal;
 	}
 
 	@Override
