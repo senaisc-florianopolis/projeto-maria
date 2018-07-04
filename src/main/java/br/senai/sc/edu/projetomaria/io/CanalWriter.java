@@ -10,11 +10,15 @@ import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import br.senai.sc.edu.projetomaria.dao.CanalDAO;
 import br.senai.sc.edu.projetomaria.model.Canal;
 
 public class CanalWriter {
+	
+	private static final Logger LOGGER = LogManager.getLogger();
 
 	public void generateRelatorio(Path exportPath) throws IOException {
 		String filePath = exportPath.toString();
@@ -29,7 +33,7 @@ public class CanalWriter {
 				csvPrinter.flush();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.debug(e.getMessage());
 		}
 	}
 

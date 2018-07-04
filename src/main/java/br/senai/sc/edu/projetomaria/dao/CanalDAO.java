@@ -24,6 +24,7 @@ public class CanalDAO extends AbstractDAO {
 		try (Statement stmt = getConnection().createStatement()){
 			this.readCanais(stmt, sql, canais);
 		} catch (SQLException e) {
+			LOGGER.debug(e.getMessage());
 			LOGGER.debug(e.getSQLState() + " - " + e.getMessage());
 		}
 		return canais;
@@ -38,6 +39,7 @@ public class CanalDAO extends AbstractDAO {
 				canais.add(canal);
 			}
 		} catch (SQLException e){
+			LOGGER.debug(e.getMessage());
 			LOGGER.debug(e.getSQLState() + " - " + e.getMessage());
 		}
 	}
@@ -51,6 +53,7 @@ public class CanalDAO extends AbstractDAO {
 				LOGGER.info(Messages.SUCESSO_CANAL_INSERIR);
 			}
 		} catch (SQLException e) {
+			LOGGER.debug(e.getMessage());
 			LOGGER.debug(Messages.ERRO_CANAL_INSERIR);
 		}
 	}
@@ -63,7 +66,7 @@ public class CanalDAO extends AbstractDAO {
 			stmt.execute();
 			LOGGER.info(Messages.SUCESSO_CANAL_ATUALIZAR);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.debug(e.getMessage());
 			LOGGER.debug(Messages.ERRO_CANAL_ATUALIZAR);
 		}
 
@@ -79,7 +82,7 @@ public class CanalDAO extends AbstractDAO {
 			LOGGER.info(Messages.SUCESSO_CANAL_DELETAR);
 		} catch (SQLException e1) {
 			LOGGER.debug(Messages.ERRO_CANAL_DELETAR);
-			e1.printStackTrace();
+			LOGGER.debug(e1.getMessage());
 		}finally {
 			conn.close();
 		}

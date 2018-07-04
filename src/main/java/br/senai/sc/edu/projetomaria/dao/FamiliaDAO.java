@@ -54,7 +54,7 @@ public class FamiliaDAO extends AbstractDAO {
 				LOGGER.info(Messages.INSERIR_FAMILIA);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.debug(e.getMessage());
 			LOGGER.debug(Messages.ERRO_FAMILIA_INSERIR);
 		}
 	}
@@ -68,7 +68,7 @@ public class FamiliaDAO extends AbstractDAO {
 			stmt.execute();
 			LOGGER.info(Messages.ATUALIZAR_FAMILIA);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.debug(e.getMessage());
 			LOGGER.debug(Messages.ERRO_FAMILIA_ATUALIZAR);
 		}
 
@@ -85,7 +85,7 @@ public class FamiliaDAO extends AbstractDAO {
 			LOGGER.info(Messages.DELETAR_FAMILIA);
 		} catch (SQLException e1) {
 			LOGGER.debug(Messages.ERRO_FAMILIA_DELETAR);
-			e1.printStackTrace();
+			LOGGER.debug(e1.getMessage());
 		}finally {
 			conn.close();
 		}
