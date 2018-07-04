@@ -60,17 +60,21 @@ public class Calculo {
 
 	public void calcularMedia() {
 		/*
-		 * Caso o tamanho do Array seja menor do que o periodo de analise a função
+		 * Caso o tamanho do Array seja menor do que o periodo de analise a funï¿½ï¿½o
 		 * retorna uma mensagem de erro.
 		 */
 		if (vendas.length < periodo) {
-			resultado = "Periodo escolhido para analise maior do que o historico do produto.";
+			resultado_media=0.00;
+			resultado_media2=0.00;
+			resultado_media3=0.00;
+			resultado_media4=0.00;
+			diferenca=0.00;			
 			return;
 		}
 
 		/*
 		 * Caso o tamanho do Array seja igual o tamanho do periodo de analise, o calculo
-		 * do erro quadrático médio nao é realizado.
+		 * do erro quadrï¿½tico mï¿½dio nao ï¿½ realizado.
 		 */
 		if (vendas.length == periodo) {
 			eqm = 0;
@@ -78,13 +82,13 @@ public class Calculo {
 			eqm = 1;
 		}
 
-		/* Caso o parametro tipo seja M = Média Movel. */
+		/* Caso o parametro tipo seja M = Mï¿½dia Movel. */
 		if (tipo == "M") {
 			if (vendas.length > 1) {
 				media_venda = 0.00;
 				int x = 0;
 				/*
-				 * Para cada posição do Array, utiliza-se uma variável para agregar os valores.
+				 * Para cada posiï¿½ï¿½o do Array, utiliza-se uma variï¿½vel para agregar os valores.
 				 */
 				for (int i = (vendas.length - periodo); i < vendas.length; i++) {
 					media_venda += vendas[i];
@@ -92,8 +96,8 @@ public class Calculo {
 					x = x + 1;
 				}
 				/*
-				 * O resultado da concatenação é dividido pelo tamanho do array para se ter a
-				 * média móvel do periodo recebido como parametro.
+				 * O resultado da concatenaï¿½ï¿½o ï¿½ dividido pelo tamanho do array para se ter a
+				 * mï¿½dia mï¿½vel do periodo recebido como parametro.
 				 */
 				resultado_media = media_venda / (vendas.length - (vendas.length - periodo));
 
@@ -134,7 +138,7 @@ public class Calculo {
 				resultado_media4 = media_venda / vendas4.length;
 
 				if (eqm == 1) {
-					/* Para o cálculo do erro quadrático médio. */
+					/* Para o cï¿½lculo do erro quadrï¿½tico mï¿½dio. */
 					diferenca = 0.00;
 					for (int i = periodo; i < vendas.length; i++) {
 						media_movel_dif = 0.00;
@@ -151,7 +155,7 @@ public class Calculo {
 
 			} else {
 				if (vendas.length == 1) {
-					resultado = "Array com apenas uma posição!";
+					resultado = "Array com apenas uma posiï¿½ï¿½o!";
 				} else {
 					resultado = "Array vazio!";
 				}
@@ -173,17 +177,17 @@ public class Calculo {
 					}
 					diferenca = diferenca / (f.length - 2);
 					resultado = "Resultado Media Exponencial " + f.length + " Meses: "
-							+ String.format("%.2f", f[(f.length - 1)]) + " Erro Quadrático Médio: "
+							+ String.format("%.2f", f[(f.length - 1)]) + " Erro Quadrï¿½tico Mï¿½dio: "
 							+ String.format("%.2f", diferenca) + ".";
 				} else {
 					if (vendas.length == 1) {
-						resultado = "Array com apenas uma posição!";
+						resultado = "Array com apenas uma posiï¿½ï¿½o!";
 					} else {
 						resultado = "Array vazio!";
 					}
 				}
 			} else {
-				resultado = "Parametro 'Tipo de Média' incorreto ou inexistente!";
+				resultado = "Parametro 'Tipo de Mï¿½dia' incorreto ou inexistente!";
 			}
 		}
 		return;

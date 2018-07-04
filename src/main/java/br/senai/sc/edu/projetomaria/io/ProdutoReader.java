@@ -62,7 +62,7 @@ public class ProdutoReader {
 	}
 
 	public class ErrosProduto extends Exception {
-		private final List<String> erros;
+		private List<String> erros;
 
 		public ErrosProduto(List<String> erros) {
 			this.erros = erros;

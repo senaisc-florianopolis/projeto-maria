@@ -16,32 +16,49 @@ import br.senai.sc.edu.projetomaria.resource.Messages;
 public class EstimativaWritter {
 	private static final Logger LOGGER = LogManager.getLogger();
 
-	public void escrever(Path path, int periodo) {
+	protected String[] getHeader(int periodo) {
+		String[] header = new String[7 + periodo];
+		header[0] = "SKU";
+		header[1] = "PERIODO ANALISADO";
+		header[2] = "RESULTADO 1";
+		header[3] = "RESULTADO 2";
+		header[4] = "RESULTADO 3";
+		header[5] = "RESULTADO 4";		
+		header[6] = "ERRO QUADRATICO";
+		for (int i = 7; i < (periodo + 7); i++) {
+			header[i] = "P" + i;
+		}
+		return header;
+	}
 
+	protected Object[] getEscrever(Resultado linha) {
+		int aux = 7;
+		int tamanho = linha.getPeriodo_utilizado().length + aux;
+		Object[] retorno = new Object[tamanho];
+		retorno[0] = linha.getSKU();
+		retorno[1] =  linha.getPeriodo_total();
+		retorno[2] = linha.getResultado_media();
+		retorno[3] = linha.getResultado_media2();
+		retorno[4] = linha.getResultado_media3();
+		retorno[5] = linha.getResultado_media4();		
+		retorno[6] = linha.getErro_quadratico_medio();
+		for (Integer periodo : linha.getPeriodo_utilizado()) {			
+			retorno[aux] = periodo;
+			aux++;
+		}
+		return retorno;
+	}
+
+	public void escrever(Path path, int periodo) {
+		String[] header = this.getHeader(periodo);
 		try (BufferedWriter arquivo = Files.newBufferedWriter(path);
 				CSVPrinter escrever = new CSVPrinter(arquivo,
-						CSVFormat.DEFAULT.withHeader("SKU", "PERIODO TOTAL", "RESULTADO 1", "RESULTADO 2",
-								"RESULTADO 3", "RESULTADO 4", "ERRO QUADRATICO", "PERIODO UTILIZADO"));) {
+						CSVFormat.DEFAULT.withHeader(header));) {
 			Estimativa estimativa = new Estimativa();
-			String periodoEstimativa = "";
 
 			for (Resultado linha : estimativa.calculo(periodo)) {
-				periodoEstimativa = "";
-				int tamanho = linha.getPeriodo_utilizado().length;
-				int cont = 0;
-
-				for (Integer i : linha.getPeriodo_utilizado()) {
-					cont++;
-					if (cont < tamanho) {
-						periodoEstimativa += i + ",";
-					}
-					if (cont == tamanho) {
-						periodoEstimativa += i;
-					}
-				}
-				escrever.printRecord(linha.getSKU(), linha.getPeriodo_total(), linha.getResultado_media(),
-						linha.getResultado_media2(), linha.getResultado_media3(), linha.getResultado_media4(),
-						linha.getErro_quadratico_medio(), periodoEstimativa);
+				
+				escrever.printRecord(getEscrever(linha));
 			}
 			LOGGER.info(Messages.ARQUIVO_GERADO);
 		} catch (IOException ex) {
