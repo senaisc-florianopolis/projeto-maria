@@ -55,7 +55,6 @@ public class HistoricoReader {
 				LOGGER.info(historico.getPeriodo());
 				historico.setQuantidade(this.parseInt(registro.get(QUANTIDADE)));
 				Produto produto = new Produto();
-				LOGGER.info("valor:", registro.get(PRODUTO_SKU));
 				produto.setSku(this.parseInt(registro.get(PRODUTO_SKU)));
 				historico.setProduto(produto);
 				Canal canal = new Canal();
@@ -81,13 +80,13 @@ public class HistoricoReader {
 		return listaRegistros;
 	}
 	
-	protected Integer parseInt(String valor) {
+	protected int parseInt(String valor) {
 		Integer retorno = null;
 		try {
 			retorno = Integer.parseInt(valor);
 		} catch (NumberFormatException e) {
 			LOGGER.warn(Messages.ERRO_AO_CONVERTER, e);
 		}
-		return retorno;
+		return retorno == null ? -1 : 0;
 	}
 }
