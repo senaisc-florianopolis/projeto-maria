@@ -27,14 +27,12 @@ public class CargaService {
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	public void insertFamilia(Path path) throws SQLException {
-		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 		FamiliaReader familia = new FamiliaReader(path);
 		try {
 			List<Familia> list_familia = familia.readFamiliaInterable();
 			FamiliaDAO dao = new FamiliaDAO();
 			dao.insert(list_familia);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			LOGGER.warn(e.getMessage());
 			e.printStackTrace();
 		}
@@ -73,11 +71,8 @@ public class CargaService {
 			List<Canal> canais = canal.readCanalIncrement();
 			dao.insert(canais);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// throw new
-		// UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 	public void updateCanal(Path path) throws SQLException {
