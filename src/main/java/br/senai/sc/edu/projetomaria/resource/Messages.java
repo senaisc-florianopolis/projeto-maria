@@ -41,6 +41,7 @@ public abstract class Messages {
 	public static final String ARQUIVO_CRIADO_COM_SUCESSO = ResourceManager.getMessage("arquivo.criado.com.sucesso");//$NON-NLS-1$
 	public static final String ERRO_ESCRITOR_DE_ARQUIVO = ResourceManager.getMessage("erro.escritor.de.arquivos");//$NON-NLS-1$
 	public static final String ERRO_AO_ENVIAR = ResourceManager.getMessage("erro.ao.enviar");//$NON-NLS-1$
+	public static final String ERRO_AO_CONVERTER = ResourceManager.getMessage("erro.ao.converter");//$NON-NLS-1$
 	
   	// Produtos
   	public static final String ERRO_VAZIO = ResourceManager.getMessage("erro.vazio"); //$NON-NLS-1$

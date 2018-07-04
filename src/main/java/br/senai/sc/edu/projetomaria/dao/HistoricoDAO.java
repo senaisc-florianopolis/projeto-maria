@@ -84,7 +84,12 @@ public class HistoricoDAO extends AbstractDAO {
 				ps.setInt(4, historico.getCanal().getId());
 				ps.setInt(5, historico.getId());
 				LOGGER.debug(ps);
-				ps.execute();
+
+				try {
+					ps.execute();
+				} catch (SQLException e) {
+					LOGGER.error(e);
+				}
 			}
 		} catch (SQLException e) {
 			LOGGER.error(e);
