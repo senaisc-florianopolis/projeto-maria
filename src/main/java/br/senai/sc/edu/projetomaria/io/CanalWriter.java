@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
@@ -21,7 +21,7 @@ public class CanalWriter {
 		try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(filePath))) {
 			try(CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.withHeader("ID_CANAL", "DESCRICAO"))){
 				CanalDAO dao = new CanalDAO();
-				HashSet<Canal> canais = new HashSet<>();
+				List<Canal> canais = new ArrayList<>();
 				canais = dao.getCanais();
 				for (Canal canal : canais) {
 					csvPrinter.printRecord(canal.getId(), canal.getDescricao());

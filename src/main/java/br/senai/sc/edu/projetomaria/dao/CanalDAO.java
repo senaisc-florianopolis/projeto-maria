@@ -4,7 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -18,9 +18,9 @@ public class CanalDAO extends AbstractDAO {
 
 	private static final Logger LOGGER = LogManager.getLogger();
 
-	public HashSet<Canal> getCanais() throws SQLException {
+	public List<Canal> getCanais() throws SQLException {
 		String sql = SQL.GET_CANAL;
-		HashSet<Canal> canais = new HashSet<>();
+		List<Canal> canais = new ArrayList<Canal>();
 		try (Statement stmt = getConnection().createStatement()){
 			this.readCanais(stmt, sql, canais);
 		} catch (SQLException e) {
@@ -29,7 +29,7 @@ public class CanalDAO extends AbstractDAO {
 		return canais;
 	}
 	
-	public void readCanais(Statement stmt, String sql, HashSet<Canal> canais){
+	public void readCanais(Statement stmt, String sql, List<Canal> canais){
 		try (ResultSet rs = stmt.executeQuery(sql)){
 			while (rs.next()) {
 				Canal canal = new Canal();
