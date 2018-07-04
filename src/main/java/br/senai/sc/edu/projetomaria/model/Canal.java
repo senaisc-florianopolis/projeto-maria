@@ -34,7 +34,6 @@ public class Canal implements ValidableModel {
 
 	@Override
 	public boolean isValid() {
-//		return false;
 		boolean teste = false;
 
 		if (this.descricao.contains("^[a-Z]")) {

@@ -4,9 +4,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.logging.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.resource.Messages;
@@ -14,39 +16,42 @@ import br.senai.sc.edu.projetomaria.resource.SQL;
 
 public class CanalDAO extends AbstractDAO {
 
-	private Logger LOGGER = Logger.getLogger(CanalDAO.class.getName());
+	private static final Logger LOGGER = LogManager.getLogger();
 
-	public ArrayList<Canal> getCanais() throws SQLException {
+	public HashSet<Canal> getCanais() throws SQLException {
 		String sql = SQL.GET_CANAL;
-		ArrayList<Canal> canais = new ArrayList<>();
+		HashSet<Canal> canais = new HashSet<>();
 		try (Statement stmt = getConnection().createStatement()){
-			try (ResultSet rs = stmt.executeQuery(sql)){
-				while (rs.next()) {
-					Canal canal = new Canal();
-					canal.setId(rs.getInt("ID_CANAL"));
-					canal.setDescricao(rs.getString("DESCRICAO"));
-					canais.add(canal);
-				}
-			} catch (SQLException e){
-				LOGGER.severe(e.getSQLState() + " - " + e.getMessage());
-			}
+			this.readCanais(stmt, sql, canais);
 		} catch (SQLException e) {
-			LOGGER.severe(e.getSQLState() + " - " + e.getMessage());
+			LOGGER.debug(e.getSQLState() + " - " + e.getMessage());
 		}
 		return canais;
+	}
+	
+	public void readCanais(Statement stmt, String sql, HashSet<Canal> canais){
+		try (ResultSet rs = stmt.executeQuery(sql)){
+			while (rs.next()) {
+				Canal canal = new Canal();
+				canal.setId(rs.getInt("ID_CANAL"));
+				canal.setDescricao(rs.getString("DESCRICAO"));
+				canais.add(canal);
+			}
+		} catch (SQLException e){
+			LOGGER.debug(e.getSQLState() + " - " + e.getMessage());
+		}
 	}
 
 	public void insert(List<Canal> canal) throws SQLException {
 		String sql =  SQL.INSERT_CANAL;
 		try (PreparedStatement stmt =  getConnection().prepareStatement(sql)){
 			for (Canal cn : canal) {
-//				stmt.setInt(1, cn.getId());
 				stmt.setString(1, cn.getDescricao());
 				stmt.execute();				
 				LOGGER.info(Messages.SUCESSO_CANAL_INSERIR);
 			}
 		} catch (SQLException e) {
-			LOGGER.warning(Messages.ERRO_CANAL_INSERIR);
+			LOGGER.debug(Messages.ERRO_CANAL_INSERIR);
 		}
 	}
 
@@ -59,7 +64,7 @@ public class CanalDAO extends AbstractDAO {
 			LOGGER.info(Messages.SUCESSO_CANAL_ATUALIZAR);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			LOGGER.warning(Messages.ERRO_CANAL_ATUALIZAR);
+			LOGGER.debug(Messages.ERRO_CANAL_ATUALIZAR);
 		}
 
 	}
@@ -73,7 +78,7 @@ public class CanalDAO extends AbstractDAO {
 			}
 			LOGGER.info(Messages.SUCESSO_CANAL_DELETAR);
 		} catch (SQLException e1) {
-			LOGGER.warning(Messages.ERRO_CANAL_DELETAR);
+			LOGGER.debug(Messages.ERRO_CANAL_DELETAR);
 			e1.printStackTrace();
 		}finally {
 			conn.close();
