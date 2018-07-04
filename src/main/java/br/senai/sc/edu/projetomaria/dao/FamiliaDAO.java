@@ -4,10 +4,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.logging.Logger;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.model.Familia;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 import br.senai.sc.edu.projetomaria.resource.SQL;
@@ -15,27 +18,31 @@ import br.senai.sc.edu.projetomaria.resource.SQL;
 
 public class FamiliaDAO extends AbstractDAO {
 
-	private Logger LOGGER = Logger.getLogger(FamiliaDAO.class.getName());
+	private static final Logger LOGGER = LogManager.getLogger();
 
 
-	public ArrayList<Familia>getFamilias() {
+	public HashSet<Familia>getFamilias() {
 		String sql = "SELECT * FROM maria.familia;";
-		ArrayList<Familia> familias = new ArrayList<>();
+		HashSet<Familia> familias = new HashSet<>();
 		try (Statement stmt = getConnection().createStatement()){
-			try(ResultSet rs = stmt.executeQuery(sql)){
-				while (rs.next()) {
-					Familia familia = new Familia();
-					familia.setId(rs.getInt("ID_FAMILIA"));
-					familia.setCodigo(rs.getString("CODIGO"));
-					familias.add(familia);
-				}
-			} catch (SQLException e) {
-				LOGGER.severe(e.getSQLState() + " - " + e.getMessage());	
-			}
+			this.readCanais(stmt, sql, familias);
 		} catch (SQLException e) {
-			LOGGER.severe(e.getSQLState() + " - " + e.getMessage());
+			LOGGER.debug(e.getSQLState() + " - " + e.getMessage());
 		}
 		return familias;
+	}
+	
+	public void readCanais(Statement stmt, String sql, HashSet<Familia> familias){
+		try(ResultSet rs = stmt.executeQuery(sql)){
+			while (rs.next()) {
+				Familia familia = new Familia();
+				familia.setId(rs.getInt("ID_FAMILIA"));
+				familia.setCodigo(rs.getString("CODIGO"));
+				familias.add(familia);
+			}
+		} catch (SQLException e) {
+			LOGGER.debug(e.getSQLState() + " - " + e.getMessage());	
+		}
 	}
 
   public void insert(List<Familia> familia) throws SQLException {
@@ -48,9 +55,8 @@ public class FamiliaDAO extends AbstractDAO {
 				LOGGER.info(Messages.INSERIR_FAMILIA);
 			}
 		} catch (SQLException e) {
-			// TODO Message for user??
 			e.printStackTrace();
-			LOGGER.warning(Messages.ERRO_FAMILIA_INSERIR);
+			LOGGER.debug(Messages.ERRO_FAMILIA_INSERIR);
 		}
 	}
 
@@ -64,7 +70,7 @@ public class FamiliaDAO extends AbstractDAO {
 			LOGGER.info(Messages.ATUALIZAR_FAMILIA);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			LOGGER.warning(Messages.ERRO_FAMILIA_ATUALIZAR);
+			LOGGER.debug(Messages.ERRO_FAMILIA_ATUALIZAR);
 		}
 
 	}
@@ -79,7 +85,7 @@ public class FamiliaDAO extends AbstractDAO {
 			}
 			LOGGER.info(Messages.DELETAR_FAMILIA);
 		} catch (SQLException e1) {
-			LOGGER.warning(Messages.ERRO_FAMILIA_DELETAR);
+			LOGGER.debug(Messages.ERRO_FAMILIA_DELETAR);
 			e1.printStackTrace();
 		}finally {
 			conn.close();
