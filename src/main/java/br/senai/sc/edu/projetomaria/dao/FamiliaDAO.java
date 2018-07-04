@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 
 import br.senai.sc.edu.projetomaria.model.Familia;
 
-
 public class FamiliaDAO extends AbstractDAO {
 
 	private static final String INSERIR_FAMILIA = null;
@@ -32,8 +31,8 @@ public class FamiliaDAO extends AbstractDAO {
 		try {
 				while (rs.next()) {
 					Familia familia = new Familia();
-					familia.setId(rs.getInt("ID_FAMILIA"));
-					familia.setCodigo(rs.getString("CODIGO"));
+					familia.setId(rs.getInt("ID_FAMILIA_COMERCIAL"));
+					familia.setCodigo(rs.getString("COD_FAMILIA_COMERCIAL"));
 					familias.add(familia);
 				}
 		} catch (SQLException e) {

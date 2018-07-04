@@ -21,7 +21,7 @@ import br.senai.sc.edu.projetomaria.io.ProdutoWriter;
 public class ProdutoDAO extends AbstractDAO {
 	private static final Logger LOGGER = LogManager.getLogger();
 	int total;
-
+	private String path;
 	public List<Produto> listarTodos() throws IOException {
 		ArrayList<Produto> listaProdutos = new ArrayList<Produto>();
 		try {
@@ -43,7 +43,6 @@ public class ProdutoDAO extends AbstractDAO {
 				LOGGER.info("=== {} | {} ===", produto.toString(), Messages.PROJETO_VERSAO); //$NON-NLS-1$
 			}
 
-			ProdutoWriter.CSVWriter("C:\\Users\\Andrey Freitas\\segundo.CSV", listaProdutos);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
