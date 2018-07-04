@@ -1,8 +1,5 @@
 package br.senai.sc.edu.projetomaria.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class Familia implements ValidableModel {
@@ -35,12 +32,6 @@ public class Familia implements ValidableModel {
 		this.codigo = codigo;
 	}
 	
-	private Set<Familia> familia = new HashSet<Familia>();      
-	
-	public Set<Familia> getEmployees() {                          
-		return familia;
-	}
-
 	
 	@Override
 	public String toString() {
