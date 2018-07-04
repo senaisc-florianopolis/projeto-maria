@@ -38,9 +38,7 @@ public class CargaService {
 			FamiliaDAO dao = new FamiliaDAO();
 			dao.insert(list_familia);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			LOGGER.warn(e.getMessage());
-			e.printStackTrace();
+			LOGGER.debug(e.getMessage());
 		}
 		
 	}
@@ -54,7 +52,7 @@ public class CargaService {
 				dao.update(f);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.debug(e.getMessage());
 		}
 	}
 
@@ -66,7 +64,7 @@ public class CargaService {
 			dao.delete(familias);
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.debug(e.getMessage());
 		}
 	}
 
@@ -77,8 +75,7 @@ public class CargaService {
 			List<Canal> canais = canal.readCanalIncrement();
 			dao.insert(canais);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.debug(e.getMessage());
 		}
 	}
 
@@ -91,7 +88,7 @@ public class CargaService {
 				dao.update(canal2);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.debug(e.getMessage());
 		}
 	}
 
@@ -103,7 +100,7 @@ public class CargaService {
 			CanalDAO.delete(canais);
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.debug(e.getMessage());
 		}
 	}
 

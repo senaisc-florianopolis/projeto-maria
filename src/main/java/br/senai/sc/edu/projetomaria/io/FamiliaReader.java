@@ -46,8 +46,7 @@ public class FamiliaReader {
 			}
 			return list;
 		} catch (Exception e) {
-			LOGGER.warn(e.getMessage());
-			e.printStackTrace();
+			LOGGER.debug(e.getMessage());
 		}
 		return Collections.emptyList();
 	}
@@ -68,7 +67,7 @@ public class FamiliaReader {
 			}
 			return list;
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.debug(e.getMessage());
 		}
 		return Collections.emptyList();
 	}
