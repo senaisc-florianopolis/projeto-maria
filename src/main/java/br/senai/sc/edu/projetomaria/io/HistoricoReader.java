@@ -33,7 +33,6 @@ public class HistoricoReader {
 		CSVParser parseArquivos = null;
 
 		CSVFormat formatadorCsv = CSVFormat.DEFAULT.withHeader(mapeamentoColunasArquivo).withDelimiter(Config.CSV_DELIMITADOR);
-		LOGGER.debug("Delimitador CSV: " + Config.CSV_DELIMITADOR);
 
 		List<Historico> listaRegistros = new LinkedList<>();
 		
@@ -73,9 +72,9 @@ public class HistoricoReader {
 		
 		if (wrongInserts) {
 			LOGGER.info(Messages.DADOS_NAO_INSERIDOS);
+		}else {
+			LOGGER.info(Messages.LEITURA_REALIZADA);
 		}
-		
-		LOGGER.info(Messages.LEITURA_REALIZADA);
 		
 		return listaRegistros;
 	}
@@ -87,6 +86,6 @@ public class HistoricoReader {
 		} catch (NumberFormatException e) {
 			LOGGER.warn(Messages.ERRO_AO_CONVERTER, e);
 		}
-		return retorno == null ? -1 : 0;
+		return retorno == null ? -1 : retorno;
 	}
 }
