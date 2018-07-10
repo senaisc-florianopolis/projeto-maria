@@ -58,14 +58,14 @@ public class PhaseReader {
 	}
 
 	public class ErrosPhase extends Exception {
-		private List<String> erros;
+		private List<String> errosPh;
 
-		public ErrosPhase(List<String> erros) {
-			this.erros = erros;
+		public ErrosPhase(List<String> erroPh) {
+			this.errosPh = erroPh;
 		}
 
 		public List<String> getErro() {
-			return this.erros;
+			return this.errosPh;
 		}
 	}
 }

@@ -22,19 +22,19 @@ public class Resultado {
 		this.erroQuadraticoMedio = erroQuadraticoMedio;
 	}
 
-	public String getResultado_media4() {
+	public String getResultadoMedia4() {
 		return String.format("%.2f",resultadoMedia4);
 	}
 
-	public void setResultado_media4(Double resultadoMedia4) {
+	public void setResultadoMedia4(Double resultadoMedia4) {
 		this.resultadoMedia4 = resultadoMedia4;
 	}
 
-	public String getResultado_media2() {
+	public String getResultadoMedia2() {
 		return String.format("%.2f",resultadoMedia2);
 	}
 
-	public void setResultado_media2(Double resultadoMedia2) {
+	public void setResultadoMedia2(Double resultadoMedia2) {
 		this.resultadoMedia2 = resultadoMedia2;
 	}
 
@@ -42,46 +42,46 @@ public class Resultado {
 		return sku;
 	}
 
-	public void setSKU(Integer SKU) {
-		this.sku = SKU;
+	public void setSKU(Integer sku) {
+		this.sku = sku;
 	}
 
-	public Integer getPeriodo_total() {
+	public Integer getPeriodoTotal() {
 		return periodoTotal;
 	}
 
-	public void setPeriodo_total(Integer periodoTotal) {
+	public void setPeriodoTotal(Integer periodoTotal) {
 		this.periodoTotal = periodoTotal;
 	}
 
-	public Integer[] getPeriodo_utilizado() {
+	public Integer[] getPeriodoUtilizado() {
 		return periodoUtilizado;
 	}
 
-	public void setPeriodo_utilizado(Integer[] periodoUtilizado) {
+	public void setPeriodoUtilizado(Integer[] periodoUtilizado) {
 		this.periodoUtilizado = periodoUtilizado;
 	}
 
-	public String getResultado_media() {
+	public String getResultadoMedia() {
 		return String.format("%.2f",resultadoMedia);
 	}
 
-	public void setResultado_media(Double resultadoMedia) {
+	public void setResultadoMedia(Double resultadoMedia) {
 		this.resultadoMedia = resultadoMedia;
 	}
 
-	public String getErro_quadratico_medio() {
+	public String getErroQuadraticoMedio() {
 		return String.format("%.2f",erroQuadraticoMedio);
 	}
 
-	public void setErro_quadratico_medio(Double erroQuadraticoMedio) {
+	public void setErroQuadraticoMedio(Double erroQuadraticoMedio) {
 		this.erroQuadraticoMedio = erroQuadraticoMedio;
 	}
-	public String getResultado_media3() {
+	public String getResultadoMedia3() {
 		return String.format("%.2f",resultadoMedia3);
 	}
 
-	public void setResultado_media3(Double resultadoMedia3) {
+	public void setResultadoMedia3(Double resultadoMedia3) {
 		this.resultadoMedia3 = resultadoMedia3;
 	}
 }

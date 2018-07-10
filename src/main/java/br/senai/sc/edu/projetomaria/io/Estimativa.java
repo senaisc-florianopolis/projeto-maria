@@ -15,10 +15,10 @@ public class Estimativa {
 
 		EstimativaDAO dao = new EstimativaDAO();
 
-		List<Integer> listaSku = (ArrayList<Integer>) dao.listarSKU();
+		List<Integer> listaSku = dao.listarSKU();
 
 		for (int i = 0; i < listaSku.size(); i++) {
-			List<Integer>listarHistorico = (ArrayList<Integer>) dao.listaHistorico(listaSku.get(i));
+			List<Integer>listarHistorico =  dao.listaHistorico(listaSku.get(i));
 			Integer[] vendas = listarHistorico.toArray(new Integer[listarHistorico.size()]);
 			
 			Calculo medias = new Calculo(vendas, tipoMedia, periodo);
@@ -38,13 +38,13 @@ public class Estimativa {
 
 			Resultado r = new Resultado();
 			r.setSKU(listaSku.get(i));
-			r.setPeriodo_total(periodo);
-			r.setPeriodo_utilizado(periodoUtilizadoList);
-			r.setResultado_media(medias.getResultado_media());
-			r.setResultado_media2(medias.getResultado_media2());
-			r.setResultado_media3(medias.getResultado_media3());
-			r.setResultado_media4(medias.getResultado_media4());
-			r.setErro_quadratico_medio(medias.getErroQuadraticoMedio());
+			r.setPeriodoTotal(periodo);
+			r.setPeriodoUtilizado(periodoUtilizadoList);
+			r.setResultadoMedia(medias.getResultadoMedia());
+			r.setResultadoMedia2(medias.getResultadoMedia2());
+			r.setResultadoMedia3(medias.getResultadoMedia3());
+			r.setResultadoMedia4(medias.getResultadoMedia4());
+			r.setErroQuadraticoMedio(medias.getErroQuadraticoMedio());
 
 			result.add(r);
 		}

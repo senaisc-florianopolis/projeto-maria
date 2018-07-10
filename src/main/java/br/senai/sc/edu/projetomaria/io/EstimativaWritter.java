@@ -33,16 +33,16 @@ public class EstimativaWritter {
 
 	protected Object[] getEscrever(Resultado linha) {
 		int aux = 7;
-		int tamanho = linha.getPeriodo_utilizado().length + aux;
+		int tamanho = linha.getPeriodoUtilizado().length + aux;
 		Object[] retorno = new Object[tamanho];
 		retorno[0] = linha.getSKU();
-		retorno[1] =  linha.getPeriodo_total();
-		retorno[2] = linha.getResultado_media();
-		retorno[3] = linha.getResultado_media2();
-		retorno[4] = linha.getResultado_media3();
-		retorno[5] = linha.getResultado_media4();		
-		retorno[6] = linha.getErro_quadratico_medio();
-		for (Integer periodo : linha.getPeriodo_utilizado()) {			
+		retorno[1] =  linha.getPeriodoTotal();
+		retorno[2] = linha.getResultadoMedia();
+		retorno[3] = linha.getResultadoMedia2();
+		retorno[4] = linha.getResultadoMedia3();
+		retorno[5] = linha.getResultadoMedia4();		
+		retorno[6] = linha.getErroQuadraticoMedio();
+		for (Integer periodo : linha.getPeriodoUtilizado()) {			
 			retorno[aux] = periodo;
 			aux++;
 		}

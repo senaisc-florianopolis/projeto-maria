@@ -9,7 +9,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import br.senai.sc.edu.projetomaria.resource.Messages;
+
 public class EstimativaDAO extends AbstractDAO {
+	private static final Logger LOGGER = LogManager.getLogger();
 
 	public List<Integer> listarSKU() {
 		String sql = "SELECT SKU FROM PRODUTO WHERE SKU IN (SELECT SKU FROM HISTORICO WHERE MES_ANO > (SELECT DATE_ADD(SYSDATE(),INTERVAL -6 MONTH))) group by SKU;";
@@ -25,19 +31,18 @@ public class EstimativaDAO extends AbstractDAO {
 				listSku.add(sku);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.info(Messages.BD_ERRO_CONEXAO);
 		}
 		return listSku;
 	}
 
 	public List<Integer> listaHistorico(Integer sku) {
-		String sql = "SELECT QUANTIDADE FROM HISTORICO WHERE SKU IN (SELECT SKU_PHASE_OUT FROM SKU_PHASE WHERE SKU_PHASE_IN = ?) OR SKU = ? ORDER BY MES_ANO ASC";
+		String sql = "SELECT QUANTIDADE FROM HISTORICO WHERE SKU IN (SELECT SKU_PHASE_OUT FROM SKU_PHASE WHERE SKU_PHASE_IN = "
+				+ sku + ") OR SKU = " + sku + " ORDER BY MES_ANO ASC";
 
-		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
-			pstmt.setInt(1, sku);
-			pstmt.setInt(2, sku);
-
-			ResultSet rs = pstmt.executeQuery();
+		try (Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				ResultSet rs = pstmt.executeQuery();) {
 
 			List<Integer> listaHistorico = new ArrayList<>();
 			while (rs.next()) {
@@ -49,7 +54,7 @@ public class EstimativaDAO extends AbstractDAO {
 			return listaHistorico;
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.info(Messages.BD_ERRO_CONEXAO);
 		}
 		return Collections.emptyList();
 	}

@@ -62,14 +62,14 @@ public class ProdutoReader {
 	}
 
 	public class ErrosProduto extends Exception {
-		private List<String> erros;
+		private List<String> errosP;
 
-		public ErrosProduto(List<String> erros) {
-			this.erros = erros;
+		public ErrosProduto(List<String> erroP) {
+			this.errosP = erroP;
 		}
 
 		public List<String> getErro() {
-			return this.erros;
+			return this.errosP;
 		}
 	}
 }
