@@ -38,7 +38,7 @@ Usage: <main class> [options] [command] [command options]
             Default: false
         * -t, --tipo
             Tipo da carga
-            Possible Values: [PRODUTO, FAMILIA, CANAL, HISTORICO]
+            Possible Values: [PRODUTO, FAMILIA, CANAL, HISTORICO, PHASE]
           -u, --update
             Atualização de registros
             Default: false
@@ -46,9 +46,13 @@ Usage: <main class> [options] [command] [command options]
     relatorio      Geração de relatórios
       Usage: relatorio [options] <caminho para o arquivo de saída>
         Options:
+          -pa, --periodoanterior
+            Periodo anterior
+            Default: 0
         * -t, --tipo
             Tipo do relatório
-            Possible Values: [PRODUTO, FAMILIA, CANAL, HISTORICO, ESTIMATIVA]
+            Possible Values: [PRODUTO, FAMILIA, CANAL, HISTORICO, ESTIMATIVA, PHASE]
+
 
 ```
 
