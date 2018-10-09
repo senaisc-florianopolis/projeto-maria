@@ -1,112 +1,93 @@
 package br.senai.sc.edu.projetomaria.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import br.senai.sc.edu.projetomaria.model.Familia;
-
+import br.senai.sc.edu.projetomaria.resource.Messages;
+import br.senai.sc.edu.projetomaria.resource.SQL;
 
 public class FamiliaDAO extends AbstractDAO {
 
-	private static final String INSERIR_FAMILIA = null;
-	private static final String ATUALIZAR_FAMILIA = null;
-	private static final String DELETAR_FAMILIA = null;
-	private Logger LOGGER = Logger.getLogger(FamiliaDAO.class.getName());
+	private static final Logger LOGGER = LogManager.getLogger();
 
-	public ArrayList<Familia>getFamilias() {
-		Statement stmt = null;
-		ResultSet rs = null;
+	public List<Familia> getFamilias() {
 		String sql = "SELECT * FROM maria.familia;";
-		
-		try {
-			stmt = getConnection().createStatement();
-			rs = stmt.executeQuery(sql);
+		List<Familia> familias = new ArrayList<>();
+		try (Statement stmt = getConnection().createStatement()) {
+			this.readCanais(stmt, sql, familias);
 		} catch (SQLException e) {
-				LOGGER.severe(e.getSQLState() + " - " + e.getMessage());	
-		}
-		ArrayList<Familia> familias = new ArrayList<>();
-		try {
-				while (rs.next()) {
-					Familia familia = new Familia();
-					familia.setId(rs.getInt("ID_FAMILIA"));
-					familia.setCodigo(rs.getString("CODIGO"));
-					familias.add(familia);
-				}
-		} catch (SQLException e) {
-			LOGGER.severe(e.getSQLState() + " - " + e.getMessage());	
+			LOGGER.debug(e.getSQLState() + " - " + e.getMessage());
+
 		}
 		return familias;
 	}
-	
-	public void insert (List<Familia> familia) throws SQLException {
-		Statement stmt = null;
-		int rs;
-		int id;
-		ResultSet id_reference = null;
-		String id_reference_sql = "SELECT ID_FAMILIA_COMERCIAL from familia_comercial order by ID_FAMILIA_COMERCIAL desc limit 1;";
-		stmt = getConnection().createStatement();
-		id_reference = stmt.executeQuery(id_reference_sql);
-		id = id_reference.getInt("ID_FAMILIA");
-		for (Familia fl: familia) {
-			if(fl.getId() <= id){
-				String sql = "INSERT INTO familia_comercial (ID_FAMILIA_COMERCIAL, COD_FAMILIA_COMERCIAL) VALUES ('" + fl.getId() + 1 + "','" + fl.getCodigo()+ "'); ";
-				try {
-					stmt = getConnection().createStatement();
-					rs = stmt.executeUpdate(sql);
-				} catch (SQLException e) {
-					System.out.println(e);
-				}
-			}else{
-				String sql = "INSERT INTO familia_comercial (ID_FAMILIA_COMERCIAL, COD_FAMILIA_COMERCIAL) VALUES ('" + fl.getId() + "','" + fl.getCodigo()+ "'); ";
-				try {
-					stmt = getConnection().createStatement();
-					rs = stmt.executeUpdate(sql);
-				} catch (SQLException e) {
-					System.out.println(e);
-				}
+
+	public void readCanais(Statement stmt, String sql, List<Familia> familias) {
+		try (ResultSet rs = stmt.executeQuery(sql)) {
+			while (rs.next()) {
+				Familia familia = new Familia();
+				familia.setId(rs.getInt("ID_FAMILIA"));
+				familia.setCodigo(rs.getString("CODIGO"));
+				familias.add(familia);
 			}
-			LOGGER.info(INSERIR_FAMILIA);
+		} catch (SQLException e) {
+			LOGGER.debug(e.getSQLState() + " - " + e.getMessage());
 		}
 	}
 
+	public void insert(List<Familia> familia) throws SQLException {
+		String sql = SQL.INSERT_FAMILIA_INCREMENT;
+		try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
+			for (int i = 0; i < familia.size(); i++) {
+				stmt.setString(1, familia.get(i).getCodigo());
+				stmt.setString(2, familia.get(i).getNome());
+				stmt.execute();
+				LOGGER.info(Messages.INSERIR_FAMILIA);
+			}
+		} catch (SQLException e) {
+			LOGGER.debug(e.getMessage());
+			LOGGER.debug(Messages.ERRO_FAMILIA_INSERIR);
+		}
+	}
 
-	public void update(Familia familia) {
-		Statement stmt = null;
-		int rs;
-		String sql = "UPDATE familia_comercial SET COD_FAMILIA_COMERCIAL = " + "'" + familia.getCodigo() + "'" +
-				" WHERE ID_FAMILIA_COMERCIAL = " +"'" + familia.getId() + "';" ;
-		System.out.println(sql);
-		try {
-			stmt = getConnection().createStatement();
-			rs = stmt.executeUpdate(sql);
-			LOGGER.info(ATUALIZAR_FAMILIA);
-		}	catch (SQLException e) {
-			// TODO Message for user??
-
+	public void update(Familia familia) throws SQLException {
+		String sql = SQL.UPDATE_FAMILIA;
+		try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
+			stmt.setString(1, familia.getCodigo());
+			stmt.setString(2, familia.getNome());
+			stmt.setInt(3, familia.getId());
+			stmt.execute();
+			LOGGER.info(Messages.ATUALIZAR_FAMILIA);
+		} catch (SQLException e) {
+			LOGGER.debug(e.getMessage());
+			LOGGER.debug(Messages.ERRO_FAMILIA_ATUALIZAR);
 		}
 
 	}
 
-
-	public void delete(List<Familia>familias) {
-		Statement stmt = null;
-		int rs;
-		
-		for (Familia fl: familias) {
-			String sql = "DELETE FROM familia_comercial WHERE ID_FAMILIA_COMERCIAL = " + fl.getId() + ";" ;
-			System.out.println(sql);
-			try {
-				stmt = getConnection().createStatement();
-				rs = stmt.executeUpdate(sql);
-				LOGGER.info(DELETAR_FAMILIA);
-			} catch (SQLException e) {
-				// TODO Message for user??
-				System.out.println(e);
+	public void delete(List<Familia> familias) throws SQLException {
+		Connection conn = getConnection();
+		String sql = SQL.DELETE_FAMILIA;
+		try (PreparedStatement ps = conn.prepareStatement(sql)) {
+			for (Familia familia : familias) {
+				ps.setInt(1, familia.getId());
+				ps.execute();
 			}
+			LOGGER.info(Messages.DELETAR_FAMILIA);
+		} catch (SQLException e1) {
+			LOGGER.debug(Messages.ERRO_FAMILIA_DELETAR);
+			LOGGER.debug(e1.getMessage());
+		}finally {
+			conn.close();
 		}
 	}
 }

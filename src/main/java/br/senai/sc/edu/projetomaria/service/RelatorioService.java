@@ -11,7 +11,10 @@ import br.senai.sc.edu.projetomaria.dao.HistoricoDAO;
 import br.senai.sc.edu.projetomaria.dao.ProdutoDAO;
 import br.senai.sc.edu.projetomaria.io.CanalWriter;
 import br.senai.sc.edu.projetomaria.io.EstimativaWritter;
+import br.senai.sc.edu.projetomaria.io.FamiliaWriter;
 import br.senai.sc.edu.projetomaria.io.HistoricoWriter;
+import br.senai.sc.edu.projetomaria.io.PhaseWritter;
+import br.senai.sc.edu.projetomaria.io.ProdutoWriter;
 import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 
@@ -19,12 +22,11 @@ public class RelatorioService {
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	public void exportRelatorioFamilia(Path path) {
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		FamiliaWriter.CSVWriter(path);
 	}
 
 	public void exportRelatorioProduto(Path path) throws IOException {
-		ProdutoDAO p = new ProdutoDAO();
-		p.listarTodos();
+		ProdutoWriter.CSVWriter(path);
 	}
 
 	public void exportRelatorioCanal(Path path) throws IOException {
@@ -39,19 +41,15 @@ public class RelatorioService {
 		HistoricoDAO dao = new HistoricoDAO();
 		List<Historico> registros = dao.get();
 		escritor.writeCsvFile(path, registros);
-		// throw new
-		// UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 	
 	public void exportRelatorioEstimativa(Path path, int periodoAnterior) {
-		EstimativaWritter writter = new EstimativaWritter();
-		writter.escrever(path);
-		// throw new
-		// UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		EstimativaWritter estimativa = new EstimativaWritter();
+		estimativa.escrever(path, periodoAnterior);	
 	}
 
 	public void exportRelatorioPhase(Path path) {
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		PhaseWritter writter = new PhaseWritter();
+		writter.gerarArquivoPhase(path);
 	}
-
 }

@@ -3,7 +3,9 @@ package br.senai.sc.edu.projetomaria.service;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,6 +20,9 @@ import br.senai.sc.edu.projetomaria.io.HistoricoReader;
 import br.senai.sc.edu.projetomaria.io.ProdutoReader;
 import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.model.Familia;
+import br.senai.sc.edu.projetomaria.io.PhaseReader;
+import br.senai.sc.edu.projetomaria.io.PhaseReader.ErrosPhase;
+import br.senai.sc.edu.projetomaria.io.ProdutoReader.ErrosProduto;
 import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.model.Phase;
 import br.senai.sc.edu.projetomaria.model.Produto;
@@ -27,90 +32,183 @@ public class CargaService {
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	public void insertFamilia(Path path) throws SQLException {
-		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 		FamiliaReader familia = new FamiliaReader(path);
 		try {
-			List<Familia> list_familia = familia.readFamilia();
+			List<Familia> list_familia = familia.readFamiliaInterable();
 			FamiliaDAO dao = new FamiliaDAO();
 			dao.insert(list_familia);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.debug(e.getMessage());
 		}
 		
 	}
 
-	public void updateFamilia(Path path) {
-		throw new UnsupportedOperationException(
-				Messages.ERRO_METODO_NAO_IMPLEMENTADO);
-	}
-
-	public void deleteFamilia(Path path) {
-		FamiliaReader familia = new FamiliaReader(path);
-		List<Familia> familias = null;
-
+	public void updateFamilia(Path path) throws SQLException {
+		FamiliaReader familiaReader = new FamiliaReader(path);
+		FamiliaDAO dao = new FamiliaDAO();
 		try {
-			familias = familia.readFamilia();
+			List<Familia> familias = familiaReader.readFamilia();
+			for (Familia f : familias) {
+				dao.update(f);
+			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.debug(e.getMessage());
 		}
-		FamiliaDAO familiaDAO = new FamiliaDAO();
-		familiaDAO.delete(familias);
 	}
 
-	public void insertCanal(Path path) {
+	public void deleteFamilia(Path path) throws SQLException {
+		FamiliaReader familiaReader = new FamiliaReader(path);
+		FamiliaDAO dao = new FamiliaDAO();
+		try {
+			List<Familia> familias = familiaReader.readFamilia();
+			dao.delete(familias);
+
+		} catch (IOException e) {
+			LOGGER.debug(e.getMessage());
+		}
+	}
+
+	public void insertCanal(Path path) throws SQLException {
+		CanalReader canal = new CanalReader(path);
+		CanalDAO dao = new CanalDAO();
+		try {
+			List<Canal> canais = canal.readCanalIncrement();
+			dao.insert(canais);
+		} catch (IOException e) {
+			LOGGER.debug(e.getMessage());
+		}
+	}
+
+	public void updateCanal(Path path) throws SQLException {
 		CanalReader canal = new CanalReader(path);
 		CanalDAO dao = new CanalDAO();
 		try {
 			List<Canal> canais = canal.readCanal();
-			dao.insert(canais);
+			for (Canal canal2 : canais) {
+				dao.update(canal2);
+			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.debug(e.getMessage());
 		}
-		// throw new
-		// UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
-	public void updateCanal(Path path) {
-		throw new UnsupportedOperationException(
-				Messages.ERRO_METODO_NAO_IMPLEMENTADO);
-	}
-
-	public void deleteCanal(Path path) {
+	public void deleteCanal(Path path) throws SQLException {
 		CanalReader canal = new CanalReader(path);
-		List<Canal> canais = null;
-		try {
-			canais = canal.readCanal();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		CanalDAO CanalDAO = new CanalDAO();
-		CanalDAO.delete(canais);
-		// throw new
-		// UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		try {
+			List<Canal> canais = canal.readCanal();
+			CanalDAO.delete(canais);
+
+		} catch (IOException e) {
+			LOGGER.debug(e.getMessage());
+		}
 	}
 
 	public void insertProduto(Path path) {
 		ProdutoReader reader = new ProdutoReader();
-		List<Produto> produtos = reader.lerCsvProduto(path);
-		ProdutoDAO dao = new ProdutoDAO();
-		dao.salvarProdutos(produtos);
+		List<Produto> produtos;
+		int existeBase = 0;
+		String errosReg = "";
+		int linha = 1;
+
+		try {
+			produtos = reader.lerCsvProduto(path);
+			ProdutoDAO dao = new ProdutoDAO();
+
+			if (produtos.isEmpty()) {
+				LOGGER.info(Messages.ERRO_VAZIO);
+			} else {
+				for (Produto p : produtos) {
+					linha++;
+					for (Produto base : dao.exportarProdutos()) {
+						if (p.getSku() == base.getSku()) {
+							existeBase++;
+							errosReg += "Linha " + linha + ": " + p.getSku() + ", " + p.getDescricao() + ", "
+									+ p.getIdComercial() + "\n";
+						}
+					}
+				}
+				if (existeBase > 0) {
+					LOGGER.info(Messages.ERRO_SKU_IGUAL);
+					LOGGER.info(errosReg);
+					LOGGER.info(Messages.EXEC_ABORTADA);
+				} else {
+					dao.salvarProdutos(produtos);
+				}
+			}
+		} catch (ErrosProduto e) {
+			LOGGER.info(Messages.ARQUIVO_INVALIDO);
+			for (String p : e.getErro()) {
+				LOGGER.info(p);
+			}
+			LOGGER.info(Messages.EXEC_ABORTADA);
+		} catch (Exception i) {
+			LOGGER.info(Messages.ARQUIVO_INVALIDO2);
+		}
 	}
 
 	public void updateProduto(Path path) {
 		ProdutoReader reader = new ProdutoReader();
-		List<Produto> produtos = reader.lerCsvProduto(path);
-		ProdutoDAO dao = new ProdutoDAO();
-		dao.updateProduto(produtos);
+		List<Produto> produtos;
+
+		try {
+			produtos = reader.lerCsvProduto(path);
+			if (produtos.isEmpty()) {
+				LOGGER.info(Messages.ERRO_VAZIO);
+			} else {
+				ProdutoDAO dao = new ProdutoDAO();
+				dao.updateProduto(produtos);
+			}
+		} catch (ErrosProduto e) {
+			LOGGER.info(Messages.ARQUIVO_INVALIDO);
+			for (String p : e.getErro()) {
+				LOGGER.info(p);
+			}
+			LOGGER.info(Messages.EXEC_ABORTADA);
+		} catch (Exception i) {
+			LOGGER.info(Messages.ARQUIVO_INVALIDO2);
+		}
 	}
 
 	public void deleteProduto(Path path) {
 		ProdutoReader reader = new ProdutoReader();
-		List<Produto> produtos = reader.lerCsvProduto(path);
-		ProdutoDAO dao = new ProdutoDAO();
-		dao.deleteProd(produtos);
+		List<Produto> produtos;
+		int regPhase = 0;
+		Set<String> set = new HashSet<>();
+
+		try {
+			produtos = reader.lerCsvProduto(path);
+			if (produtos.isEmpty()) {
+				LOGGER.info(Messages.ERRO_VAZIO);
+			} else {
+				ProdutoDAO dao = new ProdutoDAO();
+				for (Produto imp : produtos) {
+					for (Phase expPh : dao.exportarPhase()) {
+						if (imp.getSku() == expPh.getSkuNew() || imp.getSku() == expPh.getSkuOld()) {
+							regPhase++;
+							set.add(imp.getSku() + ", " + imp.getDescricao() + ", " + imp.getIdComercial() + "\n");
+						}
+					}
+				}
+				if (regPhase > 0) {
+					LOGGER.info(Messages.ERRO_DELETE_PHASE);
+					for (String s : set) {
+						LOGGER.info(s);
+					}
+					LOGGER.info(Messages.EXEC_ABORTADA);
+				} else {
+					dao.deleteProd(produtos);
+				}
+			}
+		} catch (ErrosProduto e) {
+			LOGGER.info(Messages.ARQUIVO_INVALIDO);
+			for (String p : e.getErro()) {
+				LOGGER.info(p);
+			}
+			LOGGER.info(Messages.EXEC_ABORTADA);
+		} catch (Exception i) {
+			LOGGER.info(Messages.ARQUIVO_INVALIDO2);
+		}
 	}
 
 	public void insertHistorico(Path path) {
@@ -135,19 +233,33 @@ public class CargaService {
 	}
 
 	public void insertPhase(Path path) {
-		ProdutoReader reader = new ProdutoReader();
-		List<Phase> phase = reader.lerCsvPhase(path);
-		ProdutoDAO dao = new ProdutoDAO();
-		dao.insertSkuPhase(phase);		
+		PhaseReader reader = new PhaseReader();
+		List<Phase> phase;
+
+		try {
+			phase = reader.lerCsvPhase(path);
+			if (phase.isEmpty()) {
+				LOGGER.info(Messages.ERRO_VAZIO);
+			} else {
+				ProdutoDAO dao = new ProdutoDAO();
+				dao.insertSkuPhase(phase);				
+			}
+		} catch (ErrosPhase e) {
+			LOGGER.info(Messages.ARQUIVO_INVALIDO);
+			for (String p : e.getErro()) {
+				LOGGER.info(p);
+			}
+			LOGGER.info(Messages.EXEC_ABORTADA);
+		} catch (Exception i) {
+			LOGGER.info(Messages.ARQUIVO_INVALIDO2);
+		}
 	}
 
 	public void updatePhase(Path path) {
-		throw new UnsupportedOperationException(
-				Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 	public void deletePhase(Path path) {
-		throw new UnsupportedOperationException(
-				Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 }

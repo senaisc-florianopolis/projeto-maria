@@ -11,24 +11,23 @@ import java.util.ArrayList;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 
-import br.senai.sc.edu.projetomaria.dao.ProdutoDAO;
-import br.senai.sc.edu.projetomaria.model.Produto;
+import br.senai.sc.edu.projetomaria.dao.FamiliaDAO;
+import br.senai.sc.edu.projetomaria.model.Familia;
 
-public class ProdutoWriter {
+public class FamiliaWriter {
 	private static final String separadorLinhas = "\n";
 
-	// public static void CSVWriter(String path, ArrayList<Produto> listaProdutos) {
 	public static void CSVWriter(Path path) {
+
+		FamiliaDAO familiaDAO = new FamiliaDAO();
 		
-		ProdutoDAO produtoDAO = new ProdutoDAO();
-		
-		ArrayList<Produto> listaProdutos = null;
+		ArrayList<Familia> listaFamilia = null;
 		try {
-			listaProdutos = (ArrayList<Produto>) produtoDAO.listarTodos();
+			listaFamilia = (ArrayList<Familia>) familiaDAO.getFamilias();
 		} catch (Exception e) {
 
 		}
-		
+
 		FileWriter escritorDeArquivos = null;
 
 		CSVPrinter csvCompiladorDeArquivos = null;
@@ -45,9 +44,8 @@ public class ProdutoWriter {
 				CSVPrinter csvPrinter = new CSVPrinter(writer, formatacaoCsv);
 				{
 
-					for (Produto produto : listaProdutos) {
-						csvCompiladorDeArquivos.printRecord(produto.getSku(), produto.getDescricao());
-						// csvPrinter.printRecord(produto.getSku(), produto.getDescricao());
+					for (Familia familia : listaFamilia) {
+						csvCompiladorDeArquivos.printRecord(familia.getId(), familia.getCodigo());
 					}
 					csvPrinter.flush();
 					csvPrinter.close();
@@ -74,6 +72,6 @@ public class ProdutoWriter {
 				e.printStackTrace();
 			}
 		}
-	}
 
+	}
 }

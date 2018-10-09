@@ -41,7 +41,7 @@ public class CargaController {
 		}
 	}
 
-	protected void execCanal(CommandCarga command) {
+	protected void execCanal(CommandCarga command) throws SQLException {
 		CargaService service = new CargaService();
 		if (command.isInsert()) {
 			service.insertCanal(command.getArquivo());
