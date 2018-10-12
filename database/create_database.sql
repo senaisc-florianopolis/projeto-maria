@@ -15,9 +15,8 @@ constraint UN_FAMILIA_COMERCIAL unique (COD_FAMILIA_COMERCIAL)
 );
 
 create table CANAL(
-ID_CANAL int(20) NOT NULL,
-DESCRICAO varchar(255),
-constraint PK_CANAL primary key (ID_CANAL)
+ID_CANAL int not null primary key auto_increment,
+DESCRICAO varchar(255)
 );
 
 create table PRODUTO(
@@ -47,7 +46,4 @@ constraint FK_SKU_PHASE_IN foreign key (SKU_PHASE_IN) references PRODUTO (SKU),
 constraint FK_SKU_PHASE_OUT foreign key (SKU_PHASE_OUT) references PRODUTO (SKU)
 );
 
-
-
-
-
+select * from canal;
