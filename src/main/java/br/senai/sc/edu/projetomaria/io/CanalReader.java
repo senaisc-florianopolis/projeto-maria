@@ -34,7 +34,7 @@ public class CanalReader {
 				String idCanal = csvRecord.get(ID_CANAL);
 				String descricao = csvRecord.get(DESCRICAO);
 				Canal canal = new Canal();
-				canal.setId(Integer.parseInt(idCanal));
+				canal.setId(Integer.valueOf(idCanal));
 				canal.setDescricao(descricao);
 				list.add(canal);
 			}
