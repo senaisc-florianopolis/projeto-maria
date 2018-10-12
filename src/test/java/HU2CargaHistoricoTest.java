@@ -10,11 +10,11 @@ import org.junit.jupiter.api.Test;
 import br.senai.sc.edu.projetomaria.service.CargaService;
 
 class HU2CargaHistoricoTest {
-	CargaService service = null;
+	static CargaService service = null;
 		
 	@BeforeAll
-	void before() {
-		ClassLoader classLoader = getClass().getClassLoader();
+	static void before() {
+		ClassLoader classLoader = HU2CargaHistoricoTest.class.getClassLoader();
 		Path cf = null;
 		Path cp = null;
 		Path cc = null;
@@ -77,12 +77,6 @@ class HU2CargaHistoricoTest {
 	void caso1erro2(Path path) {
 		service.deleteHistorico(path);
 		// usar os asserts pra ver se está tudo correto;
-
-	}
-
-	@AfterAll
-	void after() {
-		
 
 	}
 
