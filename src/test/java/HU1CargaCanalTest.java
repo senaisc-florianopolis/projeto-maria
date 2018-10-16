@@ -22,7 +22,7 @@ class HU1CargaCanalTest {
 		ClassLoader classLoader = HU1CargaCanalTest.class.getClassLoader();
 		Path p = null;
 		try {
-		   p = Paths.get(classLoader.getResource("dataset/carga_canal_insert.csv").toURI());
+		   p = Paths.get(classLoader.getResource("dataset/carga-test.csv").toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -32,16 +32,35 @@ class HU1CargaCanalTest {
 			service.insertCanal(p);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			fail("Deu ruim!");
+			fail("Importação deu falha!");
 		}
 	}
 	
+	// HU1 - UPDATE (BDD 2)
+	@Test
+	void updateCanal() {
+		ClassLoader classLoader = getClass().getClassLoader();
+		Path p = null;
+		try {
+			p = Paths.get(classLoader.getResource("dataset/carga-update.csv").toURI());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		try {
+			service.updateCanal(p);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			fail("Update deu ruim!");
+		}
+	}
+	
+	// HU1 - DELETE (BDD 3)
 	@Test
 	void deleteCanal() {
 		ClassLoader classLoader = getClass().getClassLoader();
 		Path p = null;
 		try {
-			p = Paths.get(classLoader.getResource("dataset/carga_canal_delete.csv").toURI());
+			p = Paths.get(classLoader.getResource("dataset/carga-delete.csv").toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -49,7 +68,9 @@ class HU1CargaCanalTest {
 			service.deleteCanal(p);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			fail("Deu ruim!");
+			fail("Deletar deu ruim!");
 		}
 	}
+	
+	
 }

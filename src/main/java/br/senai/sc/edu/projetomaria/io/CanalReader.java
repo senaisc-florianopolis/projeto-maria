@@ -13,6 +13,8 @@ import org.apache.commons.csv.CSVRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.google.protobuf.Descriptors.Descriptor;
+
 import br.senai.sc.edu.projetomaria.model.Canal;
 
 public class CanalReader {
@@ -33,8 +35,16 @@ public class CanalReader {
 			for (CSVRecord csvRecord : records) {
 				String idCanal = csvRecord.get(ID_CANAL);
 				String descricao = csvRecord.get(DESCRICAO);
+				System.out.println(idCanal + " " + descricao);
 				Canal canal = new Canal();
-				canal.setId(Integer.valueOf(idCanal));
+				if ("1".equalsIgnoreCase(idCanal)) {
+					System.out.println("certinho");
+				} else {
+					System.out.println("Bummmmm");
+					
+				}
+				int i = Integer.valueOf(idCanal);
+				canal.setId(i);
 				canal.setDescricao(descricao);
 				list.add(canal);
 			}
