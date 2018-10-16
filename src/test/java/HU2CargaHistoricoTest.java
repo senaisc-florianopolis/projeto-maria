@@ -14,12 +14,12 @@ import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.service.CargaService;
 
 class HU2CargaHistoricoTest {
-	CargaService service = null;
+	static CargaService service = null;
 	
-	ClassLoader classLoader = getClass().getClassLoader();
+	static ClassLoader classLoader = HU2CargaHistoricoTest.class.getClassLoader();
 	
 	@BeforeAll
-	void before() {
+	static void before() {
 		Path c = null;
 		try {
 			c = Paths.get(classLoader.getResource("dataset/carga_canal_insert.csv").toURI());
@@ -94,7 +94,7 @@ class HU2CargaHistoricoTest {
 	}
 	
 	@AfterAll
-	void after() {
+	static void after() {
 		Path c = null;
 		try {
 			c = Paths.get(classLoader.getResource("dataset/carga_canal_delete.csv").toURI());
