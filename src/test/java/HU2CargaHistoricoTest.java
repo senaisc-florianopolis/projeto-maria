@@ -1,12 +1,145 @@
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.fail;
 
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.SQLException;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import br.senai.sc.edu.projetomaria.service.CargaService;
 
 class HU2CargaHistoricoTest {
 
-	@Test
-	void test() {
-		fail("Not yet implemented");
+	 static CargaService cargaService ;
+	
+	@BeforeAll
+	static void path() {
+		cargaService = new CargaService();
+		ClassLoader classLoader = HU2CargaHistoricoTest.class.getClassLoader();
+		Path ic = null;
+		try {
+			ic = Paths.get(classLoader.getResource("dataset/carga_canal_insert.csv").toURI());
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			cargaService.insertCanal(ic);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Path ip = null;
+		try {
+			ip = Paths.get(classLoader.getResource("dataset/carga_produto_insert.csv").toURI());
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		cargaService.insertProduto(ip);
 	}
-
+	
+	@Test
+	void updateHistorico() {
+		cargaService = new CargaService();
+		ClassLoader classLoader = getClass().getClassLoader();
+		Path ih = null;
+		try {
+			ih = Paths.get(classLoader.getResource("dataset/carga_historico_insert.csv").toURI());
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		cargaService.insertHistorico(ih);
+		Path uh = null;
+		try {
+			uh = Paths.get(classLoader.getResource("dataset/carga_historico_update.csv").toURI());
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		cargaService.insertHistorico(uh);
+	}
+	
+	@Test
+	void updateHistoricoIdInvalido() {
+		cargaService = new CargaService();
+		ClassLoader classLoader = getClass().getClassLoader();
+		Path ih = null;
+		try {
+			ih = Paths.get(classLoader.getResource("dataset/carga_historico_insert.csv").toURI());
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		cargaService.insertHistorico(ih);
+		Path uhii = null;
+		try {
+			uhii = Paths.get(classLoader.getResource("dataset/carga_historico_update_id_invalido.csv").toURI());
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		cargaService.insertHistorico(uhii);
+	}
+	
+	@Test
+	void updateHistoricoColunaEmBranco() {
+		cargaService = new CargaService();
+		ClassLoader classLoader = getClass().getClassLoader();
+		Path ih = null;
+		try {
+			ih = Paths.get(classLoader.getResource("dataset/carga_historico_insert.csv").toURI());
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		cargaService.insertHistorico(ih);
+		Path uhcb = null;
+		try {
+			uhcb = Paths.get(classLoader.getResource("dataset/carga_historico_update_coluna_banco.csv").toURI());
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		cargaService.insertHistorico(uhcb);
+	}
+	
+	@Test
+	void insertHistorico() {
+		cargaService = new CargaService();
+		ClassLoader classLoader = getClass().getClassLoader();
+		Path ih = null;
+		try {
+			ih = Paths.get(classLoader.getResource("dataset/carga_historico_insert.csv").toURI());
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		cargaService.insertHistorico(ih);
+	}
+	
+	@Test
+	void insertHistoricoFormatoErrado() {
+		cargaService = new CargaService();
+		ClassLoader classLoader = getClass().getClassLoader();
+		Path ihfe = null;
+		try {
+			ihfe = Paths.get(classLoader.getResource("dataset/carga_historico_insert_formato_errado.csv").toURI());
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		cargaService.insertHistorico(ihfe);
+	}
+	
+	@AfterAll
+	static void after() {
+		
+	}
+	
 }
