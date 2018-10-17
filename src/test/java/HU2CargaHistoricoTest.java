@@ -1,3 +1,5 @@
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -136,7 +138,37 @@ class HU2CargaHistoricoTest {
 	
 	@AfterAll
 	static void after() {
-		
+		cargaService = new CargaService();
+		ClassLoader classLoader = HU2CargaHistoricoTest.class.getClassLoader();
+		Path dc = null;
+		try {
+			dc = Paths.get(classLoader.getResource("dataset/carga_canal_delete.csv").toURI());
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			cargaService.deleteCanal(dc);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Path dp = null;
+		try {
+			dp = Paths.get(classLoader.getResource("dataset/carga_produto_delete.csv").toURI());
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		cargaService.deleteProduto(dp);
+		Path dh = null;
+		try {
+			dh = Paths.get(classLoader.getResource("dataset/carga_historico_delete.csv").toURI());
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		cargaService.deleteHistorico(dh);
 	}
 	
 }

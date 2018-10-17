@@ -39,7 +39,7 @@ class HU4CargaFamiliaTest {
 		ClassLoader classLoader = getClass().getClassLoader();
 		Path uf = null;
 		try {
-			uf = Paths.get(classLoader.getResource("dataset/carga_historico_update.csv").toURI());
+			uf = Paths.get(classLoader.getResource("dataset/carga_familia_update.csv").toURI());
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -53,7 +53,7 @@ class HU4CargaFamiliaTest {
 		ClassLoader classLoader = getClass().getClassLoader();
 		Path ufii = null;
 		try {
-			ufii = Paths.get(classLoader.getResource("dataset/carga_historico_update_id_invalido.csv").toURI());
+			ufii = Paths.get(classLoader.getResource("dataset/carga_familia_update_id_invalido.csv").toURI());
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -63,6 +63,21 @@ class HU4CargaFamiliaTest {
 	
 	@AfterAll
 	static void after() {
+		cargaService = new CargaService();
+		ClassLoader classLoader = HU2CargaHistoricoTest.class.getClassLoader();
+		Path df = null;
+		try {
+			df = Paths.get(classLoader.getResource("dataset/carga_familia_delete.csv").toURI());
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			cargaService.deleteFamilia(df);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
