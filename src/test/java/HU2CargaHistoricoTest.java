@@ -65,7 +65,6 @@ class HU2CargaHistoricoTest {
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-		
 		service.insertHistorico(insert);
 		
 		Path delete = null;
@@ -74,11 +73,8 @@ class HU2CargaHistoricoTest {
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-		
 		service.deleteHistorico(delete);
-		Historico h = new Historico();
 		
-		assertTrue(h == null);
 	}
 	
 	@Test
@@ -95,46 +91,5 @@ class HU2CargaHistoricoTest {
 	
 	@AfterAll
 	static void after() {
-		Path c = null;
-		try {
-			c = Paths.get(classLoader.getResource("dataset/carga_canal_delete.csv").toURI());
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Path f = null;
-		try {
-			f = Paths.get(classLoader.getResource("dataset/carga_familia_delete.csv").toURI());
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Path h = null;
-		try {
-			h = Paths.get(classLoader.getResource("dataset/carga_historico_delete.csv").toURI());
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
-		Path p = null;
-		try {
-			p = Paths.get(classLoader.getResource("dataset/carga_produto_delete.csv").toURI());
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
-		service = new CargaService();
-		try {
-			service.deleteFamilia(f);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		service.deleteProduto(p);
-		try {
-			service.deleteCanal(c);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		service.deleteHistorico(h);		}
-
+	}
 }
