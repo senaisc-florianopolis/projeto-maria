@@ -1,5 +1,3 @@
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
