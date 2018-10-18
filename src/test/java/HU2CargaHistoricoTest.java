@@ -1,4 +1,5 @@
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.net.URISyntaxException;
 import java.nio.file.Path;
@@ -57,7 +58,7 @@ class HU2CargaHistoricoTest {
 	}
 	
 	@Test
-	void testSucesso(){
+	void testBDD3Sucesso(){
 		service = new CargaService();
 		Path insert = null;
 		try {
@@ -78,15 +79,47 @@ class HU2CargaHistoricoTest {
 	}
 	
 	@Test
-	void testErro1(Path path){
-		service.deleteHistorico(path);
-		//usar os asserts pra ver se está tudo correto;
+	void testBDD3Erro1(){
+		service = new CargaService();
+		Path insert = null;
+		try {
+			insert = Paths.get(classLoader.getResource("dataset/carga_historico_insert_idrepetido.csv").toURI());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		service.insertHistorico(insert);
+		
+		Path delete = null;
+		try {
+			delete = Paths.get(classLoader.getResource("dataset/carga_historico_delete_idrepetido.csv").toURI());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		service.deleteHistorico(delete);
+		
+		fail("ERRO!!");
 	}
 	
 	@Test
-	void testErro2(Path path){
-		service.deleteHistorico(path);
-		//usar os asserts pra ver se está tudo correto;
+	void testBDD3Erro2(Path path){
+		service = new CargaService();
+		Path insert = null;
+		try {
+			insert = Paths.get(classLoader.getResource("dataset/carga_historico_insert_nada.csv").toURI());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		service.insertHistorico(insert);
+		
+		Path delete = null;
+		try {
+			delete = Paths.get(classLoader.getResource("dataset/carga_historico_delete.csv").toURI());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		service.deleteHistorico(delete);
+		
+		fail("ERRO!");
 	}
 	
 	@AfterAll
