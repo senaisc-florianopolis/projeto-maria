@@ -8,15 +8,17 @@ drop table if exists PRODUTO;
 drop table if exists FAMILIA_COMERCIAL;
 
 create table FAMILIA_COMERCIAL(
-ID_FAMILIA_COMERCIAL int(20) NOT NULL,
+ID_FAMILIA_COMERCIAL int(20) NOT NULL AUTO_INCREMENT,
 COD_FAMILIA_COMERCIAL varchar(20),
+NOME_FAMILIA_COMERCIAL varchar(500),
 constraint PK_FAMILIA_COMERCIAL primary key (ID_FAMILIA_COMERCIAL),
 constraint UN_FAMILIA_COMERCIAL unique (COD_FAMILIA_COMERCIAL)
 );
 
 create table CANAL(
-ID_CANAL int not null primary key auto_increment,
-DESCRICAO varchar(255)
+ID_CANAL int(20) NOT NULL NOT NULL AUTO_INCREMENT,
+DESCRICAO varchar(255),
+constraint PK_CANAL primary key (ID_CANAL)
 );
 
 create table PRODUTO(
@@ -46,4 +48,7 @@ constraint FK_SKU_PHASE_IN foreign key (SKU_PHASE_IN) references PRODUTO (SKU),
 constraint FK_SKU_PHASE_OUT foreign key (SKU_PHASE_OUT) references PRODUTO (SKU)
 );
 
-select * from canal;
+
+
+
+
