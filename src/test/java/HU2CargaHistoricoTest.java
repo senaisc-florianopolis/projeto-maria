@@ -1,3 +1,5 @@
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -75,6 +77,11 @@ class HU2CargaHistoricoTest {
 		service.insertHistorico(h3suc);
 		// service.deleteHistorico();
 		// usar os asserts pra ver se está tudo correto;
+		
+		service.insertHistorico(h2suc);
+		assertThrows(SQLException.class, () -> {
+			service.insertProduto(h2suc);	
+		});
 
 	}
 

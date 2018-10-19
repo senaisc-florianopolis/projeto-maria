@@ -1,4 +1,4 @@
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.net.URISyntaxException;
 import java.nio.file.Path;
@@ -32,8 +32,6 @@ class HU3CargaProdutoTest {
 			e.printStackTrace();
 		}
 		
-		// ---------------------- Services ------------------------
-		
 	// ------------------------------------Services------------------------------ //
 		
 		service = new CargaService();
@@ -55,7 +53,6 @@ class HU3CargaProdutoTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		service.insertHistorico(h2suc);
 		//service.deleteHistorico();
 		// usar os asserts pra ver se está tudo correto;
 
