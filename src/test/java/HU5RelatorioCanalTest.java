@@ -27,7 +27,7 @@ class HU5RelatorioCanalTest {
 			service.exportRelatorioCanal(path);
 		} catch (IOException e) {
 			e.printStackTrace();
-			fail("falha");
+			fail("falha ao exportar Relatorio canal no beforeAll");
 		}
 
 	}
@@ -40,12 +40,13 @@ class HU5RelatorioCanalTest {
 			 path = Paths.get(classLoader.getResource("dataset/relatorio_canal.csv").toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
+			fail("falhou test");
 		}
 		try {
 			service.exportRelatorioCanal(path);
 		} catch (IOException e) {
 			e.printStackTrace();
-			fail("falha");
+			fail("falhou try");
 		}
 	}
 }
