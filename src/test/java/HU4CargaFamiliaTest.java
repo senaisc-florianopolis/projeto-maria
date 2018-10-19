@@ -1,3 +1,5 @@
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -51,14 +53,17 @@ class HU4CargaFamiliaTest {
 	void updateFamiliaIdInvalido() {
 		cargaService = new CargaService();
 		ClassLoader classLoader = getClass().getClassLoader();
-		Path ufii = null;
-		try {
-			ufii = Paths.get(classLoader.getResource("dataset/carga_familia_update_id_invalido.csv").toURI());
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		cargaService.insertHistorico(ufii);
+		
+		assertThrows(SQLException.class, () -> {
+			Path ufii = null;
+			try {
+				ufii = Paths.get(classLoader.getResource("dataset/carga_familia_update_id_invalido.csv").toURI());
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			cargaService.insertHistorico(ufii);
+		  });
 	}
 	
 	@AfterAll

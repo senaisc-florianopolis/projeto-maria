@@ -46,5 +46,3 @@ constraint PK_SKU_PHASE primary key (SKU_PHASE_IN,SKU_PHASE_OUT),
 constraint FK_SKU_PHASE_IN foreign key (SKU_PHASE_IN) references PRODUTO (SKU),
 constraint FK_SKU_PHASE_OUT foreign key (SKU_PHASE_OUT) references PRODUTO (SKU)
 );
-
-select * from historico;
