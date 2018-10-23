@@ -30,7 +30,7 @@ class HU7RelatorioProdutoTest {
 				e.printStackTrace();
 			}
 			relatorioService.exportRelatorioProduto(p);
-			System.out.println("Não há registro cadastrado");
+			System.out.println("Não há registro cadastrado!");
 			
 		});
 
