@@ -1,3 +1,4 @@
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.net.URISyntaxException;
@@ -22,11 +23,10 @@ class HU1CargaCanalTest {
 		ClassLoader classLoader = HU1CargaCanalTest.class.getClassLoader();
 		Path p = null;
 		try {
-		   p = Paths.get(classLoader.getResource("dataset/carga-test.csv").toURI());
+		   p = Paths.get(classLoader.getResource("dataset/hu1-bdd2-carga-canal-insert.csv").toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-		
 		service = new CargaService();
 		try {
 			service.insertCanal(p);
@@ -42,7 +42,7 @@ class HU1CargaCanalTest {
 		ClassLoader classLoader = getClass().getClassLoader();
 		Path p = null;
 		try {
-			p = Paths.get(classLoader.getResource("dataset/carga-update.csv").toURI());
+			p = Paths.get(classLoader.getResource("dataset/hu1-bdd2-carga-canal-update.csv").toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -60,7 +60,7 @@ class HU1CargaCanalTest {
 		ClassLoader classLoader = getClass().getClassLoader();
 		Path p = null;
 		try {
-			p = Paths.get(classLoader.getResource("dataset/carga-delete.csv").toURI());
+			p = Paths.get(classLoader.getResource("dataset/hu1-bdd2-carga-canal-delete.csv").toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
