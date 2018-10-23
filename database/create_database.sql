@@ -50,5 +50,6 @@ constraint FK_SKU_PHASE_OUT foreign key (SKU_PHASE_OUT) references PRODUTO (SKU)
 
 
 
-
+select * from canal;
+select * from familia_comercial;
 
