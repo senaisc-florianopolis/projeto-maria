@@ -46,6 +46,7 @@ public class FamiliaDAO extends AbstractDAO {
 
 	public void insert(List<Familia> familia) throws SQLException {
 		String sql = SQL.INSERT_FAMILIA_INCREMENT;
+		System.out.println("aqlll");
 		try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
 			for (int i = 0; i < familia.size(); i++) {
 				stmt.setString(1, familia.get(i).getCodigo());

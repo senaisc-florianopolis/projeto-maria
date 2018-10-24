@@ -29,8 +29,16 @@ class HU2CargaHistoricoTest {
 			e.printStackTrace();
 		}
 
-		service = new CargaService();
-		service.insertProduto(p);
+		try {
+			service = new CargaService();
+			service.insertFamilia(p);
+			fail("insert carga");
+			
+		} catch (SQLException e) {
+			fail(e.getMessage());
+			// TODO: handle exception
+		}
+		fail("Not yet implemented aqui 2");
 
 		Path b = null;
 		try {
@@ -61,6 +69,7 @@ class HU2CargaHistoricoTest {
 			try {
 				h = Paths.get(classLoader.getResource("dataset/carga_historico_update.csv").toURI());
 			} catch (URISyntaxException e) {
+				fail("Not yet implemented");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
