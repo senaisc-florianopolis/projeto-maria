@@ -23,7 +23,7 @@ class HU1CargaCanalTest {
 		ClassLoader classLoader = HU1CargaCanalTest.class.getClassLoader();
 		Path p = null;
 		try {
-		   p = Paths.get(classLoader.getResource("dataset/hu1-bdd2-carga-canal-insert.csv").toURI());
+		   p = Paths.get(classLoader.getResource("dataset/hu1-carga-canal-insert.csv").toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
