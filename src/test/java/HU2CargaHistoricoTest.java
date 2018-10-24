@@ -23,6 +23,10 @@ class HU2CargaHistoricoTest {
 		service = new CargaService();
 		
 		Path c = null;
+		Path f = null;
+		Path p = null;
+		
+		
 		try {
 			c = Paths.get(classLoader.getResource("dataset/carga_canal_insert.csv").toURI());
 		} catch (URISyntaxException e) {
@@ -36,7 +40,6 @@ class HU2CargaHistoricoTest {
 			e.printStackTrace();
 		}
 		
-		Path f = null;
 		try {
 			f = Paths.get(classLoader.getResource("dataset/carga_familia_insert.csv").toURI());
 		} catch (URISyntaxException e) {
@@ -50,7 +53,6 @@ class HU2CargaHistoricoTest {
 			e.printStackTrace();
 		}
 		
-		Path p = null;
 		try {
 			p = Paths.get(classLoader.getResource("dataset/carga_produto_insert.csv").toURI());
 		} catch (URISyntaxException e) {
@@ -61,6 +63,8 @@ class HU2CargaHistoricoTest {
 	
 	@Test
 	void testBDD3Sucesso(){
+		
+		System.out.println("------------------TESTE BDD3 SUCESSO------------------");
 		
 		service = new CargaService();
 		
@@ -81,10 +85,13 @@ class HU2CargaHistoricoTest {
 		}
 		service.deleteHistorico(delete); 
 		
+		System.out.println("------------------TESTE BDD3 SUCESSO------------------");
 	}
 	
 	@Test
 	void testBDD3Erro1(){
+		
+		System.out.println("------------------TESTE BDD 3 ERRO1------------------");
 		
 		service = new CargaService();
 		
@@ -104,12 +111,14 @@ class HU2CargaHistoricoTest {
 				e.printStackTrace();
 			}
 			service.deleteHistorico(delete);
+			System.out.println("------------------TESTE BDD3 ERRO1------------------");
 		});
-		
 	}
 	
 	@Test
 	void testBDD3Erro2(){
+		
+		System.out.println("------------------TESTE BDD3 ERRO2------------------");
 		
 		service = new CargaService();
 		
@@ -129,11 +138,14 @@ class HU2CargaHistoricoTest {
 				e.printStackTrace();
 			}
 			service.deleteHistorico(delete);
+			System.out.println("------------------TESTE BDD3 ERRO2------------------");
 		});
 	}
 
 	@Test
 	void testBDD9Sucesso() {
+		
+		System.out.println("------------------TESTE BDD9 SUCESSO------------------");
 		
 		service = new CargaService();
 		
@@ -144,12 +156,7 @@ class HU2CargaHistoricoTest {
 			e.printStackTrace();
 		}
 		service.insertHistorico(insert);
-
-		
-	}
+		System.out.println("------------------TESTE BDD9 SUCESSO------------------");
 	
-	
-	@AfterAll
-	static void after() {
 	}
 }
