@@ -5,39 +5,32 @@ import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import br.senai.sc.edu.projetomaria.service.RelatorioService;
 
 class HU5RelatorioCanalTest {
-	static RelatorioService service = null;
-	
-	@BeforeAll	
-	static void beforeAll() {
-		ClassLoader classLoader = HU5RelatorioCanalTest.class.getClassLoader();
-		Path path = null;
-		try {
-			path = Paths.get(classLoader.getResource("dataset/relatorio_canal.csv").toURI());
-		} catch (URISyntaxException e) {			
-			e.printStackTrace();
-		}
-		service = new RelatorioService(); 
-		try {
-			service.exportRelatorioCanal(path);
-		} catch (IOException e) {
-			e.printStackTrace();
-			fail("falha ao exportar Relatorio canal no beforeAll");
-		}
+	static RelatorioService service = new RelatorioService();
 
-	}
 	
-	@Test	
+	void insertCanal() {
+		ClassLoader classLoader = getClass().getClassLoader();
+		Path p = null;
+		try {
+			p = Paths.get(classLoader.getResource("dataset/carga_canal_insert.csv").toURI());
+		} catch (URISyntaxException e) {
+
+			e.printStackTrace();
+		}
+		service.insertCanal(p);
+	}
+	//HU5RelatorioCanalTest-BDD1
+    @Test
 	void RelatorioService() {
 		ClassLoader classLoader = getClass().getClassLoader();
 		Path path = null;
 		try {
-			 path = Paths.get(classLoader.getResource("dataset/relatorio_canal.csv").toURI());
+			path = Paths.get(classLoader.getResource("dataset/relatorio_canal.csv").toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 			fail("falhou test");
@@ -50,17 +43,3 @@ class HU5RelatorioCanalTest {
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-	
-

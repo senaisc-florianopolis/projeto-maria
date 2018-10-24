@@ -52,4 +52,9 @@ public class RelatorioService {
 		PhaseWritter writter = new PhaseWritter();
 		writter.gerarArquivoPhase(path);
 	}
+
+	public void insertCanal(Path p) {
+		// TODO Auto-generated method stub
+		
+	}
 }
