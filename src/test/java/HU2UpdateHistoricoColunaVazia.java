@@ -23,14 +23,33 @@ class HU2UpdateHistoricoColunaVazia {
 		ClassLoader classLoader = HU2UpdateHistoricoColunaVazia.class.getClassLoader();
 		Path p = null;
 		try {
-			p = Paths.get(classLoader.getResource("dataset/carga_produto_insert.csv").toURI());
+			p = Paths.get(classLoader.getResource("dataset/carga_familia_insert.csv").toURI());
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		service = new CargaService();
-		service.insertProduto(p);
+		try {
+			service.insertFamilia(p);	
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			fail(e1.getMessage());
+			e1.printStackTrace();
+		}
+		classLoader = null;
+		classLoader = HU2UpdateHistoricoColunaVazia.class.getClassLoader();
+		Path p1 = null;
+	
+		try {
+			p1 = Paths.get(classLoader.getResource("dataset/carga_produto_insert.csv").toURI());
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		service = new CargaService();
+		service.insertProduto(p1);
 
 		Path b = null;
 		try {
