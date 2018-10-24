@@ -71,13 +71,13 @@ class HU2CargaHistoricoTest {
 	}
 
 	@Test
-	void testSucesso() {
+	void testErro1() {
 		ClassLoader classLoader = HU2CargaHistoricoTest.class.getClassLoader();
 
 		assertThrows(SQLException.class, () -> {
 			Path h = null;
 			try {
-				h = Paths.get(classLoader.getResource("dataset/carga-historico-insert-coluna-branco.csv").toURI());
+				h = Paths.get(classLoader.getResource("dataset/biruleibe.csv").toURI());
 			} catch (URISyntaxException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -88,7 +88,7 @@ class HU2CargaHistoricoTest {
 	}
 
 	@Test
-	void testErro1() {
+	void testErro2() {
 
 		ClassLoader classLoader = HU2CargaHistoricoTest.class.getClassLoader();
 		assertThrows(SQLException.class, () -> {
@@ -105,11 +105,11 @@ class HU2CargaHistoricoTest {
 	}
 
 	@Test
-	void testErro2() {
+	void testSucesso() {
 		ClassLoader classLoader = HU2CargaHistoricoTest.class.getClassLoader();
 		Path h = null;
 		try {
-			h = Paths.get(classLoader.getResource("dataset/biruleibe.csv").toURI());
+			h = Paths.get(classLoader.getResource("dataset/carga_historico_update.csv").toURI());
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
