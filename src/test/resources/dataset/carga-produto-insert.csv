@@ -1,5 +1,6 @@
-1,produto1,2
-2,produto2,3
+sku,nome_produto,familia_comercial
+1,produto1,1
+2,produto2,2
 3,produto3,3
-4,produto4,1
+4,produto4,4
 5,produto5,5

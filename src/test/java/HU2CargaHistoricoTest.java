@@ -67,51 +67,52 @@ class HU2CargaHistoricoTest {
 
 	@Test
 	void hu2bdd6updatesucesso() {
-		Path h3suc = null;
-		try {
-			h3suc = Paths.get(classLoader.getResource("dataset/carga-historico-updateTESTsucesso.csv").toURI());
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		service.insertHistorico(h3suc);
-		// service.deleteHistorico();
-		// usar os asserts pra ver se está tudo correto;
-		
-		service.insertHistorico(h2suc);
+		System.out.println("----------------------TESTE UPDATE SUCESSO ----------------");
 		assertThrows(SQLException.class, () -> {
-			service.insertProduto(h2suc);	
+			Path h2suc = null;
+			try {
+				h2suc = Paths.get(classLoader.getResource("dataset/carga-historico-updateTESTsucesso.csv").toURI());
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			service.updateHistorico(h2suc);
+			System.out.println("----------------------TESTE UPDATE SUCESSO ----------------");
 		});
 
 	}
 
 	@Test
 	void hu2bdd6updateerro1() {
-		Path h3er1 = null;
-		try {
-			h3er1 = Paths.get(classLoader.getResource("dataset/carga-historico-updateTESTerro1.csv").toURI());
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		service.insertHistorico(h3er1);
-		// service.deleteHistorico();
-		// usar os asserts pra ver se está tudo correto;
+		System.out.println("----------------------TESTE UPDATE ERRO1 ----------------");
+		assertThrows(SQLException.class, () -> {
+			Path h2er1 = null;
+			try {
+				h2er1 = Paths.get(classLoader.getResource("dataset/carga-historico-updateTESTerro1.csv").toURI());
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			service.updateHistorico(h2er1);
+			System.out.println("----------------------TESTE UPDATE ERRO1 ----------------");
+		});
 
 	}
 
 	@Test
 	void hu2bdd6updateerro2() {
-		Path h3er2 = null;
-		try {
-			h3er2 = Paths.get(classLoader.getResource("dataset/carga-historico-updateTESTerro2.csv").toURI());
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		service.insertHistorico(h3er2);
-		// service.deleteHistorico();
-		// usar os asserts pra ver se está tudo correto;
+		System.out.println("----------------------TESTE UPDATE ERRO2 ----------------");
+		assertThrows(SQLException.class, () -> {
+			Path h2er2 = null;
+			try {
+				h2er2 = Paths.get(classLoader.getResource("dataset/carga-historico-updateTESTerro2.csv").toURI());
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			service.updateHistorico(h2er2);
+			System.out.println("----------------------TESTE UPDATE ERRO2 ----------------");
+		});
 
 	}
 
