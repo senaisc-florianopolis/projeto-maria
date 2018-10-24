@@ -15,7 +15,7 @@ import br.senai.sc.edu.projetomaria.service.RelatorioService;
 class HU7RelatorioProdutoTest {
 
 	static RelatorioService relatorioService;
-//
+
 	@Test
 	void sucesso() {
 		relatorioService = new RelatorioService();
