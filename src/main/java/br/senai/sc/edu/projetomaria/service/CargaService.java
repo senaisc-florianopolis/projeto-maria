@@ -207,7 +207,7 @@ public class CargaService {
 			}
 			LOGGER.info(Messages.EXEC_ABORTADA);
 		} catch (Exception i) {
-			LOGGER.info(Messages.ARQUIVO_INVALIDO2);
+			LOGGER.info(Messages.ARQUIVO_INVALIDO2, i);
 		}
 	}
 

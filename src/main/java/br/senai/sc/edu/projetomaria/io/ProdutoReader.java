@@ -29,7 +29,8 @@ public class ProdutoReader {
 				CSVParser conversor = new CSVParser(leitor, CSVFormat.DEFAULT);) {
 			for (CSVRecord ler : conversor) {
 				if (ler.getRecordNumber() != 1) {
-					
+					LOGGER.debug(ler);
+					LOGGER.debug(ler.get(0));
 					String sku = ler.get(0);
 					String nomeProduto = ler.get(1);
 					String idFamiliaComercial = ler.get(2);
