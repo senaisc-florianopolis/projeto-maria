@@ -1,4 +1,3 @@
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.net.URISyntaxException;
@@ -8,10 +7,6 @@ import java.sql.SQLException;
 import org.junit.jupiter.api.Test;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-
-import com.google.protobuf.Service;
-
 import br.senai.sc.edu.projetomaria.service.CargaService;
 
 class HU1CargaCanalTest {
