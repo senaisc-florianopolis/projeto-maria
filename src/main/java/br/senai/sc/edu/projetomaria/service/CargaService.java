@@ -104,7 +104,7 @@ public class CargaService {
 		}
 	}
 
-	public void insertProduto(Path path) {
+	public static void insertProduto(Path path) {
 		ProdutoReader reader = new ProdutoReader();
 		List<Produto> produtos;
 		int existeBase = 0;
