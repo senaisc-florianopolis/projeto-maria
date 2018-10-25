@@ -67,7 +67,7 @@ class HU2CargaHistoricoTest {
 
 	@Test
 	void hu2bdd6updatesucesso() {
-		System.out.println("----------------------TESTE UPDATE SUCESSO ---------------");
+		System.out.println("----------------------TESTE UPDATE SUCESSO ----------------");
 		assertThrows(SQLException.class, () -> {
 			Path h2suc = null;
 			try {
