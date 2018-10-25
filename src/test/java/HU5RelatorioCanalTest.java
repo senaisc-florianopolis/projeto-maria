@@ -42,4 +42,40 @@ class HU5RelatorioCanalTest {
 			fail("falhou try");
 		}
 	}
+    
+    @Test
+	void RelatorioServiceErro1() {
+		ClassLoader classLoader = getClass().getClassLoader();
+		Path path = null;
+		try {
+			path = Paths.get(classLoader.getResource("dataset/falha1semcsv.csv").toURI());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+			fail("falhou test");
+		}
+		try {
+			service.exportRelatorioCanal(path);
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail("falhou try");
+		}
+	}
+    
+    @Test
+	void RelatorioServiceErro2() {
+		ClassLoader classLoader = getClass().getClassLoader();
+		Path path = null;
+		try {
+			path = Paths.get(classLoader.getResource("dataset/falha2carga-canal-update-id-nao-existe.csv").toURI());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+			fail("falhou test");
+		}
+		try {
+			service.exportRelatorioCanal(path);
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail("falhou try");
+		}
+	}
 }
