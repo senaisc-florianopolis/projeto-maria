@@ -4,9 +4,9 @@ import org.junit.jupiter.api.Test;
 
 class HU9RelatorioFamiliaTest {
 
-//	@Test
-//	void test() {
-//		fail("Not yet implemented");
-//	}
+	@Test
+	void test() {
+		fail("Not yet implemented");
+	}
 
 }
