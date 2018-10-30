@@ -28,7 +28,7 @@ class HU2CargaHistoricoTest {
 		
 		
 		try {
-			c = Paths.get(classLoader.getResource("dataset/carga_canal_insert.csv").toURI());
+			c = Paths.get(classLoader.getResource("dataset/carga_canal_insert_vitorhu2.csv").toURI());
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -41,7 +41,7 @@ class HU2CargaHistoricoTest {
 		}
 		
 		try {
-			f = Paths.get(classLoader.getResource("dataset/carga_familia_insert.csv").toURI());
+			f = Paths.get(classLoader.getResource("dataset/carga_familia_insert_vitorhu2.csv").toURI());
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -54,7 +54,7 @@ class HU2CargaHistoricoTest {
 		}
 		
 		try {
-			p = Paths.get(classLoader.getResource("dataset/carga_produto_insert.csv").toURI());
+			p = Paths.get(classLoader.getResource("dataset/carga_produto_insert_vitorhu2.csv").toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -70,7 +70,7 @@ class HU2CargaHistoricoTest {
 		
 		Path insert = null;
 		try {
-			insert = Paths.get(classLoader.getResource("dataset/carga_historico_insert.csv").toURI());
+			insert = Paths.get(classLoader.getResource("dataset/carga_historico_insert_vitorhu2.csv").toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -79,7 +79,7 @@ class HU2CargaHistoricoTest {
 		
 		Path delete = null;
 		try {
-			delete = Paths.get(classLoader.getResource("dataset/carga_historico_delete.csv").toURI());
+			delete = Paths.get(classLoader.getResource("dataset/carga_historico_delete_vitorhu2.csv").toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -133,7 +133,7 @@ class HU2CargaHistoricoTest {
 		assertThrows(SQLException.class, () -> {
 			Path delete = null;
 			try {
-				delete = Paths.get(classLoader.getResource("dataset/carga_historico_delete.csv").toURI());
+				delete = Paths.get(classLoader.getResource("dataset/carga_historico_delete_vitorhu2.csv").toURI());
 			} catch (URISyntaxException e) {
 				e.printStackTrace();
 			}
