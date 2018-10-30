@@ -72,7 +72,7 @@ class HU4CargaFamiliaTest {
 		ClassLoader classLoader = HU2CargaHistoricoTest.class.getClassLoader();
 		Path df = null;
 		try {
-			df = Paths.get(classLoader.getResource("dataset/carga_familia_delete.csv").toURI());
+			df = Paths.get(classLoader.getResource("dataset/carga_familia_delete_after_all.csv").toURI());
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -151,7 +151,7 @@ class HU2CargaHistoricoTest {
 		ClassLoader classLoader = HU2CargaHistoricoTest.class.getClassLoader();
 		Path dc = null;
 		try {
-			dc = Paths.get(classLoader.getResource("dataset/carga_canal_delete.csv").toURI());
+			dc = Paths.get(classLoader.getResource("dataset/carga_canal_delete_after_all.csv").toURI());
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -164,7 +164,7 @@ class HU2CargaHistoricoTest {
 		}
 		Path dp = null;
 		try {
-			dp = Paths.get(classLoader.getResource("dataset/carga_produto_delete.csv").toURI());
+			dp = Paths.get(classLoader.getResource("dataset/carga_produto_delete_after_all.csv").toURI());
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -172,7 +172,7 @@ class HU2CargaHistoricoTest {
 		cargaService.deleteProduto(dp);
 		Path dh = null;
 		try {
-			dh = Paths.get(classLoader.getResource("dataset/carga_historico_delete.csv").toURI());
+			dh = Paths.get(classLoader.getResource("dataset/carga_historico_delete_after_all.csv").toURI());
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
