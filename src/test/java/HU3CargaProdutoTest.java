@@ -46,7 +46,7 @@ class HU3CargaProdutoTest {
 
 	@Test
 	void hu3bdd4insertsucesso() {
-		System.out.println("----------------------TESTE INSERTSUCESSO ----------------");
+		System.out.println("----------------------TESTE INSERT SUCESSO ----------------");
 		assertThrows(SQLException.class, () -> {
 			Path h3suc = null;
 			try {
@@ -75,7 +75,6 @@ class HU3CargaProdutoTest {
 			service.insertProduto(h3er1);
 			System.out.println("----------------------TESTE INSERT ERRO1 ----------------");
 		});
-
 	}
 
 	@Test
@@ -92,7 +91,22 @@ class HU3CargaProdutoTest {
 			service.insertProduto(h3er2);
 			System.out.println("----------------------TESTE INSERT ERRO2 ----------------");
 		});
-
 	}
 
+	@Test
+	void Teste() {
+
+		service = new CargaService();
+		ClassLoader classLoader = HU3CargaProdutoTest.class.getClassLoader();
+		Path p = null;
+		try {
+			p = Paths.get(classLoader.getResource("dataset/carga-produto-insert.csv").toURI());
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			service.deleteProduto(p);
+			System.out.println("O arquivo excluido com sucesso!");
+		}
+
+	}
 }
