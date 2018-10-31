@@ -7,6 +7,9 @@ import java.nio.file.Paths;
 import java.sql.SQLException;
 
 import javax.sound.midi.Patch;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -79,7 +82,7 @@ class HU3CargaProdutoTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		CargaService.insertProduto(p);
+		service.insertProduto(p);
 
 	}
 
