@@ -1,64 +1,71 @@
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
-
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
+
+import org.junit.jupiter.api.BeforeAll;
 import br.senai.sc.edu.projetomaria.service.CargaService;
 
 class HU1CargaCanalTest {
 	
-	@Test
-	void testeInsert() {
-		ClassLoader classLoader	= getClass().getClassLoader();
-		CargaService service = new CargaService();
+	static CargaService service = null;
+	
+	@BeforeAll
+	static void beforeAll() {
+		ClassLoader classLoader = HU1CargaCanalTest.class.getClassLoader();
 		Path p = null;
-		Path p2 = null;
-		Path p3 = null;
 		try {
-			p = Paths.get(classLoader.getResource("dataset/carga-canal-insert.csv").toURI());
-		} catch (URISyntaxException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		   p = Paths.get(classLoader.getResource("dataset/hu1-carga-canal-insert.csv").toURI());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
 		}
-		try {
-			p2 = Paths.get(classLoader.getResource("dataset/carga-canal-insert.csv").toURI());
-		} catch (URISyntaxException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-		try {
-			p3 = Paths.get(classLoader.getResource("dataset/carga-canal-insert-2.csv").toURI());
-		} catch (URISyntaxException e3) {
-				// TODO Auto-generated catch block
-				e3.printStackTrace();
-			
-		}
-		
+		service = new CargaService();
 		try {
 			service.insertCanal(p);
-		} catch (SQLException e3) {
-			// TODO Auto-generated catch block
-			e3.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			fail("Importação deu falha!");
 		}
-		
+	}
+	
+	// HU1 - UPDATE (BDD 2)
+	@Test
+	void updateCanal() {
+		ClassLoader classLoader = getClass().getClassLoader();
+		Path p = null;
 		try {
-			service.insertCanal(p2);
-		} catch (SQLException e4) {
-			// TODO Auto-generated catch block
-			e4.printStackTrace();
-				fail("O é duplicado");
+			p = Paths.get(classLoader.getResource("dataset/hu1-bdd2-carga-canal-update.csv").toURI());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
 		}
-		
 		try {
-			service.insertCanal(p3);
-		} catch (SQLException e5) {
-			// TODO Auto-generated catch block
-			e5.printStackTrace();
-				fail("O arquivo tem um conteúdo inapropriado para esta carga");
+			service.updateCanal(p);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			fail("Update deu ruim!");
 		}
-		
-	}	
-
+	}
+	
+	// HU1 - DELETE (BDD 3)
+	@Test
+	void deleteCanal() {
+		ClassLoader classLoader = getClass().getClassLoader();
+		Path p = null;
+		try {
+			p = Paths.get(classLoader.getResource("dataset/hu1-bdd2-carga-canal-delete.csv").toURI());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		try {
+			service.deleteCanal(p);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			fail("Deletar deu ruim!");
+		}
+	}
+	
+	
 }
