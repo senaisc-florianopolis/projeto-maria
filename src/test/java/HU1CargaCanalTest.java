@@ -22,7 +22,7 @@ class HU1CargaCanalTest {
 
 		Path f = null;
 		try {
-			f = Paths.get(classLoader.getResource("dataset/carga_canal_insert.csv").toURI());
+			f = Paths.get(classLoader.getResource("dataset/carga_canal_insert_will.csv").toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -40,7 +40,7 @@ class HU1CargaCanalTest {
 
 		Path f = null;
 		try {
-			f = Paths.get(classLoader.getResource("dataset/carga_canal_update-X.csv").toURI());
+			f = Paths.get(classLoader.getResource("dataset/carga_canal_update_will.csv").toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -59,7 +59,7 @@ class HU1CargaCanalTest {
 		assertThrows(SQLException.class, () -> {
 			Path f = null;
 			try {
-				f = Paths.get(classLoader.getResource("dataset/carga_canal_update_id_invalido.csv").toURI());
+				f = Paths.get(classLoader.getResource("dataset/carga_canal_update_id_invalido_will.csv").toURI());
 			} catch (URISyntaxException e) {
 				e.printStackTrace();
 			}
@@ -78,7 +78,7 @@ class HU1CargaCanalTest {
 
 		Path f = null;
 		try {
-			f = Paths.get(classLoader.getResource("dataset/carga_canal_delete.csv").toURI());
+			f = Paths.get(classLoader.getResource("dataset/carga_canal_delete_will.csv").toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}

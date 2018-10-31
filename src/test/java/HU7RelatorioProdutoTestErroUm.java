@@ -25,7 +25,7 @@ import org.junit.jupiter.api.AfterAll;
 			
 			Path f = null;
 			try {
-				f = Paths.get(classLoader.getResource("dataset/carga-familia-insert.csv").toURI());
+				f = Paths.get(classLoader.getResource("dataset/carga-familia-insert_will.csv").toURI());
 			} catch (URISyntaxException e) {
 				e.printStackTrace();
 			}
@@ -41,7 +41,7 @@ import org.junit.jupiter.api.AfterAll;
 		void relatorioProdutoSucesso() {
 			RelatorioService relatorioService = new RelatorioService();
 			try {
-				Path tempFile = Files.createTempFile("relatorio_familia_comercial", ".txt");
+				Path tempFile = Files.createTempFile("relatorio_familia_comercial_will", ".txt");
 				relatorioService.exportRelatorioProduto(tempFile);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -49,7 +49,7 @@ import org.junit.jupiter.api.AfterAll;
 			}
 			
 			try {
-				Path tempFile = Files.createTempFile("relatorio_produto", ".txt");
+				Path tempFile = Files.createTempFile("relatorio_produto_will", ".txt");
 				relatorioService.exportRelatorioProduto(tempFile);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -66,7 +66,7 @@ import org.junit.jupiter.api.AfterAll;
 			
 			Path f = null;
 			try {
-				f = Paths.get(classLoader.getResource("dataset/carga_familia_delete.csv").toURI());
+				f = Paths.get(classLoader.getResource("dataset/carga_familia_delete_will.csv").toURI());
 			} catch (URISyntaxException e) {
 				e.printStackTrace();
 			}
