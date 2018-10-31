@@ -15,13 +15,7 @@ import br.senai.sc.edu.projetomaria.service.CargaService;
 import br.senai.sc.edu.projetomaria.service.RelatorioService;
 
 class HU3CargaProdutoTest {
-
-	@Test
-	void test() {
-		
-		class HU7RelatorioProdutoTest {
-
-			 CargaService cargaService;
+	 CargaService cargaService;
 
 			@BeforeAll
 			void cargaTabelas() {
@@ -96,7 +90,6 @@ class HU3CargaProdutoTest {
 				cargaService.deleteProduto(p);
 			}
 
-		}
-	}
+			
 
 }
