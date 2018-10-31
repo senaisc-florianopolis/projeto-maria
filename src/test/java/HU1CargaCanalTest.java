@@ -12,24 +12,23 @@ import br.senai.sc.edu.projetomaria.service.CargaService;
 class HU1CargaCanalTest {
 	static CargaService service = null;
 
-	// HU1 - BDD 4 - Não Duplicação (Teste de sucesso)
+	// HU1 - INSERT DUPLICADO (BDD 4) - Thiago Garcia
 	@Test
 	void InserirNaoDuplicado() {
 		ClassLoader classLoader = getClass().getClassLoader();
 		Path p = null;
 		try {
-			p = Paths.get(classLoader.getResource("dataset/hu1bdd4carga_canal_insert.csv").toURI());
+			p = Paths.get(classLoader.getResource("dataset/carga-canal-insert.csv").toURI());
 		} catch (URISyntaxException e) {
 
 			e.printStackTrace();
 		}
 		try {
 			service.insertCanal(p);
-			service.insertCanal(p);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-			fail("Alteração Realizada com sucesso!");
+			fail("Não foi possível inserir dados, pois já existem registros.");
 		}
 	}
 	
@@ -85,5 +84,5 @@ class HU1CargaCanalTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 }
