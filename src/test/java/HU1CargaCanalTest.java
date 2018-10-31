@@ -5,20 +5,24 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import org.junit.jupiter.api.Test;
-
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+
 import br.senai.sc.edu.projetomaria.service.CargaService;
 
 class HU1CargaCanalTest {
 	
 	static CargaService service = null;
 	
+	// HU1 - INSERT (BDD 1) - Antônio / Robson Correia -> Auto Increment no DB
 	@BeforeAll
 	static void beforeAll() {
 		ClassLoader classLoader = HU1CargaCanalTest.class.getClassLoader();
 		Path p = null;
 		try {
-		   p = Paths.get(classLoader.getResource("dataset/hu1-carga-canal-insert.csv").toURI());
+		   p = Paths.get(classLoader.getResource("dataset/carga-canal-insert.csv").toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -27,17 +31,35 @@ class HU1CargaCanalTest {
 			service.insertCanal(p);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			fail("Importação deu falha!");
+			fail("Carga com falha!");
 		}
 	}
 	
-	// HU1 - UPDATE (BDD 2)
+	@AfterAll
+	static void afterEach() {
+		ClassLoader classLoader = HU1CargaCanalTest.class.getClassLoader();
+		Path p = null;
+		try {
+		   p = Paths.get(classLoader.getResource("dataset/carga-canal-delete.csv").toURI());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		service = new CargaService();
+		try {
+			service.deleteCanal(p);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			fail("Base não foi limpa!");
+		}
+	}
+	
+	// HU1 - UPDATE (BDD 2) - André Pessetti
 	@Test
 	void updateCanal() {
 		ClassLoader classLoader = getClass().getClassLoader();
 		Path p = null;
 		try {
-			p = Paths.get(classLoader.getResource("dataset/hu1-bdd2-carga-canal-update.csv").toURI());
+			p = Paths.get(classLoader.getResource("dataset/carga-canal-update-hu1-bdd2.csv").toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -45,17 +67,17 @@ class HU1CargaCanalTest {
 			service.updateCanal(p);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			fail("Update deu ruim!");
+			fail("Update com falha!");
 		}
 	}
 	
-	// HU1 - DELETE (BDD 3)
+	// HU1 - DELETE (BDD 3) - André Pessetti
 	@Test
 	void deleteCanal() {
 		ClassLoader classLoader = getClass().getClassLoader();
 		Path p = null;
 		try {
-			p = Paths.get(classLoader.getResource("dataset/hu1-bdd2-carga-canal-delete.csv").toURI());
+			p = Paths.get(classLoader.getResource("dataset/carga-canal-delete-hu1-bdd3.csv").toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -63,9 +85,29 @@ class HU1CargaCanalTest {
 			service.deleteCanal(p);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			fail("Deletar deu ruim!");
+			fail("Delete com falha!");
 		}
 	}
+	
+	// HU1 - INSERT DUPLICADO (BDD 4) - Thiago Garcia
+		@Test
+		void InserirNaoDuplicado() {
+			ClassLoader classLoader = getClass().getClassLoader();
+			Path p = null;
+			try {
+				p = Paths.get(classLoader.getResource("dataset/carga-canal-insert.csv").toURI());
+			} catch (URISyntaxException e) {
+
+				e.printStackTrace();
+			}
+			try {
+				service.insertCanal(p);
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+				fail("Não foi possível inserir dados, pois já existem registros.");
+			}
+		}
 	
 	
 }
