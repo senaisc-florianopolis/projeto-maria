@@ -32,6 +32,19 @@ class HU2CargaHistoricoTestUpsert {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		Path ifa = null;
+		try {
+			ifa = Paths.get(classLoader.getResource("dataset/carga_familia_insert.csv").toURI());
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			cargaService.insertCanal(ifa);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		Path ip = null;
 		try {
 			ip = Paths.get(classLoader.getResource("dataset/carga_produto_insert.csv").toURI());
