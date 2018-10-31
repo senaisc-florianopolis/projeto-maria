@@ -5,7 +5,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -23,25 +22,25 @@ class HU2CargaHistoricoTest {
 		Path ch = null;
 
 		try {
-			cf = Paths.get(classLoader.getResource("dataset/carga-familia-insert.csv").toURI());
+			cf = Paths.get(classLoader.getResource("dataset/carga-familia-inserttestes.csv").toURI());
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
-			cp = Paths.get(classLoader.getResource("dataset/carga-produto-insert.csv").toURI());
+			cp = Paths.get(classLoader.getResource("dataset/carga-produto-inserttestes.csv").toURI());
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
-			cc = Paths.get(classLoader.getResource("dataset/carga-canal-insert.csv").toURI());
+			cc = Paths.get(classLoader.getResource("dataset/carga-canal-inserttestes.csv").toURI());
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
-			ch = Paths.get(classLoader.getResource("dataset/carga-historico-insert.csv").toURI());
+			ch = Paths.get(classLoader.getResource("dataset/carga-historico-inserttestes.csv").toURI());
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

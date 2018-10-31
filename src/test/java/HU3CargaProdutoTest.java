@@ -20,13 +20,13 @@ class HU3CargaProdutoTest {
 		Path cp = null;
 
 		try {
-			cf = Paths.get(classLoader.getResource("dataset/carga-familia-insert.csv").toURI());
+			cf = Paths.get(classLoader.getResource("dataset/carga-familia-inserttestes.csv").toURI());
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
-			cp = Paths.get(classLoader.getResource("dataset/carga-produto-insert.csv").toURI());
+			cp = Paths.get(classLoader.getResource("dataset/carga-produto-inserttestes.csv").toURI());
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -100,7 +100,7 @@ class HU3CargaProdutoTest {
 		ClassLoader classLoader = HU3CargaProdutoTest.class.getClassLoader();
 		Path p = null;
 		try {
-			p = Paths.get(classLoader.getResource("dataset/carga-produto-insert.csv").toURI());
+			p = Paths.get(classLoader.getResource("dataset/carga-produto-inserttestes.csv").toURI());
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
