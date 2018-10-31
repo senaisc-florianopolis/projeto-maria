@@ -1,3 +1,5 @@
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -88,6 +90,24 @@ class HU7RelatorioProdutoTest {
 			e.printStackTrace();
 		}
 		cargaService.deleteProduto(p);
+	}
+
+	@Test
+	void sucesso() {
+		ClassLoader classLoader = HU7RelatorioProdutoTest.class.getClassLoader();
+		RelatorioService relatorioService = new RelatorioService();
+		assertThrows(SQLException.class,() -> {
+			Path p = null;
+			try {
+				p = Paths.get(classLoader.getResource("dataset/relatorio_produto.csv").toURI());
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			relatorioService.exportRelatorioProduto(p);
+			System.out.println("N�o h� registro cadastrado!");
+			
+		});
 	}
 
 }

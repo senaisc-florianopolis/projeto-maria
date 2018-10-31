@@ -1,93 +1,75 @@
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.Assert.fail;
 
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import br.senai.sc.edu.projetomaria.service.CargaService;
 
 class HU1CargaCanalTest {
-
-	static CargaService cargaService;
-
+	
+	static CargaService service = null;
+	
 	@BeforeAll
-	static void cargaTabelas() {
+	static void beforeAll() {
 		ClassLoader classLoader = HU1CargaCanalTest.class.getClassLoader();
-		cargaService = new CargaService();
-
-		Path f = null;
+		Path p = null;
 		try {
-			f = Paths.get(classLoader.getResource("dataset/carga_canal_insert_will.csv").toURI());
+		   p = Paths.get(classLoader.getResource("dataset/hu1-carga-canal-insert_will.csv").toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
+		service = new CargaService();
 		try {
-			cargaService.insertCanal(f);
-		} catch (SQLException e1) {
-			e1.printStackTrace();
+			service.insertCanal(p);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			fail("Importação deu falha!");
 		}
-
 	}
-
+	
+	// HU1 - UPDATE (BDD 2)
 	@Test
 	void updateCanal() {
-		ClassLoader classLoader = HU1CargaCanalTest.class.getClassLoader();
-
-		Path f = null;
+		ClassLoader classLoader = getClass().getClassLoader();
+		Path p = null;
 		try {
-			f = Paths.get(classLoader.getResource("dataset/carga_canal_update_will.csv").toURI());
+			p = Paths.get(classLoader.getResource("dataset/hu1-bdd2-carga-canal-update_will.csv").toURI());
+
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
 		try {
-			cargaService.updateCanal(f);
-		} catch (SQLException e1) {
-			e1.printStackTrace();
+
+			service.updateCanal(p);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			fail("Update deu ruim!");
 		}
 
 	}
-
+	
+	// HU1 - DELETE (BDD 3)
 	@Test
-	void updateCanalIdInvalido() {
-		ClassLoader classLoader = HU1CargaCanalTest.class.getClassLoader();
-
-		assertThrows(SQLException.class, () -> {
-			Path f = null;
-			try {
-				f = Paths.get(classLoader.getResource("dataset/carga_canal_update_id_invalido_will.csv").toURI());
-			} catch (URISyntaxException e) {
-				e.printStackTrace();
-			}
-			try {
-				cargaService.updateCanal(f);
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-		});
-
-	}
-
-	@AfterAll
-	static void deletaTabela() {
-		ClassLoader classLoader = HU1CargaCanalTest.class.getClassLoader();
-
-		Path f = null;
+	void deleteCanal() {
+		ClassLoader classLoader = getClass().getClassLoader();
+		Path p = null;
 		try {
-			f = Paths.get(classLoader.getResource("dataset/carga_canal_delete_will.csv").toURI());
+			p = Paths.get(classLoader.getResource("dataset/hu1-bdd2-carga-canal-delete_will.csv").toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
 		try {
-			cargaService.deleteCanal(f);
-		} catch (SQLException e1) {
-			e1.printStackTrace();
+			service.deleteCanal(p);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			fail("Deletar deu ruim!");
 		}
-
 	}
-
+	
+	
 }
