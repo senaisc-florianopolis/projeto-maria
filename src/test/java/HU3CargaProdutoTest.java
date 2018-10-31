@@ -1,3 +1,4 @@
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.net.URISyntaxException;
@@ -5,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -12,8 +14,8 @@ import br.senai.sc.edu.projetomaria.service.CargaService;
 
 class HU3CargaProdutoTest {
 	static CargaService service = null;
-	static ClassLoader classLoader = HU2CargaHistoricoTest.class.getClassLoader();
-
+	static ClassLoader classLoader = HU3CargaProdutoTest.class.getClassLoader();
+	
 	@BeforeAll
 	static void before() {
 		Path cf = null;
@@ -27,11 +29,11 @@ class HU3CargaProdutoTest {
 		}
 		try {
 			cp = Paths.get(classLoader.getResource("dataset/carga-produto-insert.csv").toURI());
+
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		// ------------------------------------Services------------------------------ //
 
 		service = new CargaService();
@@ -92,7 +94,22 @@ class HU3CargaProdutoTest {
 			service.insertProduto(h3er2);
 			System.out.println("----------------------TESTE INSERT ERRO2 ----------------");
 		});
+	}
+	
+	@AfterAll
+	static void elimina() {
+		service = new CargaService();
+		ClassLoader classLoader = HU3CargaProdutoTest.class.getClassLoader();
+
+		Path p = null;
+		try {
+			p = Paths.get(classLoader.getResource("dataset/carga_produto_insert.csv").toURI());
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		service.deleteProduto(p);
+		System.out.println("O arquivo excluido com sucesso!");
 
 	}
-
 }
