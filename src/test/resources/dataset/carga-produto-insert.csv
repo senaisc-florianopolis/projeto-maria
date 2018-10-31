@@ -1,6 +1,14 @@
+<<<<<<< HEAD
 sku,nome_produto,familia_comercial
 1,produto1,1
 2,produto2,2
 3,produto3,3
 4,produto4,4
 5,produto5,5
+=======
+1,produto1,2
+2,produto2,3
+3,produto3,3
+4,produto4,1
+5,produto5,5
+>>>>>>> 7cef95ed8d98132707ac114b2509975acf562d11
