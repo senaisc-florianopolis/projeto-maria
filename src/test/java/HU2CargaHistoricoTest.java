@@ -60,6 +60,105 @@ class HU2CargaHistoricoTest {
 	}
 
 	@Test
+	void testBDD3Sucesso(){
+		
+		System.out.println("------------------TESTE BDD3 SUCESSO------------------");
+		
+		service = new CargaService();
+		
+		Path insert = null;
+		try {
+			insert = Paths.get(classLoader.getResource("dataset/carga_historico_insert_vitorhu2.csv").toURI());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		service.insertHistorico(insert);
+		
+		
+		Path delete = null;
+		try {
+			delete = Paths.get(classLoader.getResource("dataset/carga_historico_delete_vitorhu2.csv").toURI());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		service.deleteHistorico(delete); 
+		
+		System.out.println("------------------TESTE BDD3 SUCESSO------------------");
+	}
+	
+	@Test
+	void testBDD3Erro1(){
+		
+		System.out.println("------------------TESTE BDD 3 ERRO1------------------");
+		
+		service = new CargaService();
+		
+		Path insert = null;
+		try {
+			insert = Paths.get(classLoader.getResource("dataset/carga_historico_insert_idrepetido.csv").toURI());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		service.insertHistorico(insert);
+		
+		assertThrows(SQLException.class, () -> {
+			Path delete = null;
+			try {
+				delete = Paths.get(classLoader.getResource("dataset/carga_historico_delete_idrepetido.csv").toURI());
+			} catch (URISyntaxException e) {
+				e.printStackTrace();
+			}
+			service.deleteHistorico(delete);
+			System.out.println("------------------TESTE BDD3 ERRO1------------------");
+		});
+	}
+	
+	@Test
+	void testBDD3Erro2(){
+		
+		System.out.println("------------------TESTE BDD3 ERRO2------------------");
+		
+		service = new CargaService();
+		
+		Path insert = null;
+		try {
+			insert = Paths.get(classLoader.getResource("dataset/carga_historico_insert_nada.csv").toURI());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		service.insertHistorico(insert);
+		
+		assertThrows(SQLException.class, () -> {
+			Path delete = null;
+			try {
+				delete = Paths.get(classLoader.getResource("dataset/carga_historico_delete_vitorhu2.csv").toURI());
+			} catch (URISyntaxException e) {
+				e.printStackTrace();
+			}
+			service.deleteHistorico(delete);
+			System.out.println("------------------TESTE BDD3 ERRO2------------------");
+		});
+	}
+	
+ 	@Test
+	void testBDD9Sucesso() {
+		
+		System.out.println("------------------TESTE BDD9 SUCESSO------------------");
+		
+		service = new CargaService();
+		
+		Path insert = null;
+		try {
+			insert = Paths.get(classLoader.getResource("dataset/carga_historico_insert_branco.csv").toURI());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		service.insertHistorico(insert);
+		System.out.println("------------------TESTE BDD9 SUCESSO------------------");
+	
+	}
+		
+	@Test
 	void hu2bdd6updatesucesso() {
 		System.out.println("----------------------TESTE UPDATE SUCESSO ----------------");
 		Path insert = null;
