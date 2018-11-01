@@ -40,7 +40,7 @@ public class ProjetoMaria {
 	private static final String COMMAND_CARGA = "carga";
 	private static final String COMMAND_RELATORIO = "relatorio";
 
-	public static void main(String[] args) {
+	public static void main(String[] args)  {
 		LOGGER.info("=== {} | {} ===", Messages.PROJETO_NOME, Messages.PROJETO_VERSAO); //$NON-NLS-1$
 		CommandMain commandMain = new CommandMain();
 		CommandCarga commandCarga = new CommandCarga();
