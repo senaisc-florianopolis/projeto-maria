@@ -1,5 +1,5 @@
-CREATE SCHEMA IF NOT EXISTS `Maria` DEFAULT CHARACTER SET utf8 ;
-USE `Maria` ;
+CREATE SCHEMA IF NOT EXISTS `maria` DEFAULT CHARACTER SET utf8 ;
+USE `maria` ;
 
 drop table if exists SKU_PHASE;
 drop table if exists HISTORICO;
@@ -8,14 +8,15 @@ drop table if exists PRODUTO;
 drop table if exists FAMILIA_COMERCIAL;
 
 create table FAMILIA_COMERCIAL(
-ID_FAMILIA_COMERCIAL int(20) NOT NULL,
+ID_FAMILIA_COMERCIAL int(20) NOT NULL AUTO_INCREMENT,
 COD_FAMILIA_COMERCIAL varchar(20),
+NOME_FAMILIA_COMERCIAL varchar(500),
 constraint PK_FAMILIA_COMERCIAL primary key (ID_FAMILIA_COMERCIAL),
 constraint UN_FAMILIA_COMERCIAL unique (COD_FAMILIA_COMERCIAL)
 );
 
 create table CANAL(
-ID_CANAL int(20) NOT NULL,
+ID_CANAL int(20) NOT NULL AUTO_INCREMENT,
 DESCRICAO varchar(255),
 constraint PK_CANAL primary key (ID_CANAL)
 );
@@ -46,8 +47,3 @@ constraint PK_SKU_PHASE primary key (SKU_PHASE_IN,SKU_PHASE_OUT),
 constraint FK_SKU_PHASE_IN foreign key (SKU_PHASE_IN) references PRODUTO (SKU),
 constraint FK_SKU_PHASE_OUT foreign key (SKU_PHASE_OUT) references PRODUTO (SKU)
 );
-
-
-
-
-
