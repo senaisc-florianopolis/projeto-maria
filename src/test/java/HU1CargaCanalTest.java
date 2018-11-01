@@ -1,18 +1,21 @@
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.Assert.fail;
 
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import br.senai.sc.edu.projetomaria.service.CargaService;
 
+import br.senai.sc.edu.projetomaria.service.CargaService;
+
 class HU1CargaCanalTest {
-
+	
 	static CargaService service = null;
-
+	
 	// HU1 - INSERT (BDD 1) - Antônio / Robson Correia -> Auto Increment no DB
 	@BeforeAll
 	static void beforeAll() {
