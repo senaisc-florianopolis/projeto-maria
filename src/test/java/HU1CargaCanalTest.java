@@ -5,10 +5,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import br.senai.sc.edu.projetomaria.service.CargaService;
+import org.junit.jupiter.api.Test;
 
 import br.senai.sc.edu.projetomaria.service.CargaService;
 
