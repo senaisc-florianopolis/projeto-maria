@@ -119,7 +119,7 @@ class HU3CargaProdutoTest {
 
 	@Test
 	void hu3bdd4insertsucesso() {
-		System.out.println("----------------------TESTE INSERT SUCESSO ----------------");
+		System.out.println("----------------------TESTE INSERT SUCESSO ---------------");
 		assertThrows(SQLException.class, () -> {
 			Path h3suc = null;
 			try {

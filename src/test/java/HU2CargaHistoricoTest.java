@@ -62,7 +62,7 @@ class HU2CargaHistoricoTest {
 	@Test
 	void testBDD3Sucesso(){
 		
-		System.out.println("------------------TESTE BDD3 SUCESSO------------------");
+		System.out.println("------------------TESTE BDD3 SUCESSO-----------------");
 		
 		service = new CargaService();
 		
