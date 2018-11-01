@@ -16,34 +16,8 @@ class teste01 {
 
 	static CargaService cargaService;
 
-	@BeforeAll
-	static void cargaTabelas() {
-		ClassLoader classLoader = teste01.class.getClassLoader();
-		cargaService = new CargaService();
-
-		Path f = null;
-		try {
-			f = Paths.get(classLoader.getResource("dataset/carga-familia-insert.csv").toURI());
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
-		try {
-			cargaService.insertFamilia(f);
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-
-		Path p = null;
-		try {
-			p = Paths.get(classLoader.getResource("dataset/carga-produto-insert.csv").toURI());
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
-		cargaService.insertProduto(p);
-	}
-
 	@Test
-	void teste02() {
+	void Teste() {
 		RelatorioService relatorioService = new RelatorioService();
 		try {
 			Path tempFile = Files.createTempFile("relatorio_familia_comercial", ".txt");
