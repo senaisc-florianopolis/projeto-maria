@@ -1,12 +1,13 @@
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.Assert.fail;
 
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
-import org.junit.jupiter.api.Test;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
 import br.senai.sc.edu.projetomaria.service.CargaService;
 
 class HU1CargaCanalTest {
@@ -18,7 +19,7 @@ class HU1CargaCanalTest {
 		ClassLoader classLoader = HU1CargaCanalTest.class.getClassLoader();
 		Path p = null;
 		try {
-		   p = Paths.get(classLoader.getResource("dataset/hu1-carga-canal-insert.csv").toURI());
+		   p = Paths.get(classLoader.getResource("dataset/hu1-carga-canal-insert_will.csv").toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -37,16 +38,19 @@ class HU1CargaCanalTest {
 		ClassLoader classLoader = getClass().getClassLoader();
 		Path p = null;
 		try {
-			p = Paths.get(classLoader.getResource("dataset/hu1-bdd2-carga-canal-update.csv").toURI());
+			p = Paths.get(classLoader.getResource("dataset/hu1-bdd2-carga-canal-update_will.csv").toURI());
+
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
 		try {
+
 			service.updateCanal(p);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			fail("Update deu ruim!");
 		}
+
 	}
 	
 	// HU1 - DELETE (BDD 3)
@@ -55,7 +59,7 @@ class HU1CargaCanalTest {
 		ClassLoader classLoader = getClass().getClassLoader();
 		Path p = null;
 		try {
-			p = Paths.get(classLoader.getResource("dataset/hu1-bdd2-carga-canal-delete.csv").toURI());
+			p = Paths.get(classLoader.getResource("dataset/hu1-bdd2-carga-canal-delete_will.csv").toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
