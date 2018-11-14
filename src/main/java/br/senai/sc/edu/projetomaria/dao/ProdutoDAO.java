@@ -133,6 +133,32 @@ public class ProdutoDAO extends AbstractDAO {
 		}
 		LOGGER.info(successes + " de " + total + " " + Messages.SUCCESS_PRODUTO);
 	}
+	
+	public void upsert (List<Produto> skuIgual) {
+		String sql = "";
+		int successes = 0;
+		total = 0;			
+		
+		for (Produto p : skuIgual) {
+		sql = "INSERT INTO produto (COD_FAMILIA_COMERCIAL,NOME_PRODUTO,SKU) VALUES (?,?,?)"+
+		"ON DUPLICATE KEY UPDATE COD_FAMILIA_COMERCIAL = ?, NOME_PRODUTO = ?, SKU = ?";	
+		try (Connection conn = getConnection();
+				PreparedStatement stmt = conn.prepareStatement(sql);) {
+			    stmt.setInt(1,p.getIdComercial());
+			    stmt.setString(2,p.getDescricao());
+			    stmt.setInt(3,p.getSku());
+			    stmt.setInt(4,p.getIdComercial());
+			    stmt.setString(5,p.getDescricao());
+			    stmt.setInt(6,p.getSku());
+				stmt.executeUpdate(sql);
+				successes++;
+			} catch (SQLException e) {
+				LOGGER.debug(e);
+			}
+		total++;
+	}
+		LOGGER.info(successes + " de " + total + " " + Messages.SUCCESS_PRODUTO);
+	}
 
 	public void insertSkuPhase(List<Phase> phase) {
 		String sql = "";
