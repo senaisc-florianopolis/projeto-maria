@@ -30,13 +30,13 @@ public class ProdutoReader {
 			for (CSVRecord ler : conversor) {
 				if (ler.getRecordNumber() != 1) {
 					
-					String sku = ler.get(0);
+					String idFamiliaComercial = ler.get(0);
 					String nomeProduto = ler.get(1);
-					String idFamiliaComercial = ler.get(2);
+					String sku = ler.get(2);
 
-					boolean skuR = sku.matches("^[0-9]{1,20}$");
-					boolean nomeProdutoR = nomeProduto.matches("^.{1,255}$");
 					boolean idFamiliaComercialR = idFamiliaComercial.matches("^[0-9]{1,20}$");
+					boolean nomeProdutoR = nomeProduto.matches("^.{1,255}$");
+					boolean skuR = sku.matches("^[0-9]{1,20}$");
 
 					if (skuR && nomeProdutoR && idFamiliaComercialR) {	
 						novoProduto = new Produto();
@@ -46,7 +46,7 @@ public class ProdutoReader {
 						produtos.add(novoProduto);
 					} else {
 						contErrosP++;
-						erros.add("Linha "+ler.getRecordNumber() + ": "+sku + ", " + nomeProduto + ", " + idFamiliaComercial+"\n");
+						erros.add("Linha "+ler.getRecordNumber() + ": "+idFamiliaComercial + ", " + nomeProduto + ", " + sku+"\n");
 					}
 				}
 			}
