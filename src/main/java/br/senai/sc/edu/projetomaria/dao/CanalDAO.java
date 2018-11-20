@@ -18,6 +18,14 @@ public class CanalDAO extends AbstractDAO {
 
 	private static final Logger LOGGER = LogManager.getLogger();
 
+	public List<Integer> upsert() {
+		//uperSet
+		System.out.println("Aqui");
+		return null;
+	}
+	
+	
+	
 	public List<Canal> getCanais() throws SQLException {
 		String sql = SQL.GET_CANAL;
 		List<Canal> canais = new ArrayList<>();
