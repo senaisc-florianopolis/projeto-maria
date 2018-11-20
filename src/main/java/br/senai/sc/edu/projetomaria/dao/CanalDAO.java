@@ -13,18 +13,22 @@ import org.apache.logging.log4j.Logger;
 import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 import br.senai.sc.edu.projetomaria.resource.SQL;
+import br.senai.sc.edu.projetomaria.service.ServiceResponse.STATUS;
 
 public class CanalDAO extends AbstractDAO {
 
 	private static final Logger LOGGER = LogManager.getLogger();
-
-	public List<Integer> upsert() {
+	
+	private STATUS status;
+	private Object response;
+	
+	public List<Integer> upsert(STATUS status, Object response) {
 		//uperSet
-		System.out.println("Aqui");
+		String sql = "select * from ";
+		
 		return null;
 	}
-	
-	
+		
 	
 	public List<Canal> getCanais() throws SQLException {
 		String sql = SQL.GET_CANAL;
