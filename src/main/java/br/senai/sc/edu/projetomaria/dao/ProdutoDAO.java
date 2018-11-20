@@ -91,7 +91,7 @@ public class ProdutoDAO extends AbstractDAO {
 		}
 		return ph;
 	}
-
+	
 	public void salvarProdutos(List<Produto> list) {
 		String sql = "";
 		int successes = 0;
@@ -134,27 +134,27 @@ public class ProdutoDAO extends AbstractDAO {
 		LOGGER.info(successes + " de " + total + " " + Messages.SUCCESS_PRODUTO);
 	}
 
-	public void insertSkuPhase(List<Phase> phase) {
+	public void upsertSkuPhase (List<Phase> skuPhase) {
 		String sql = "";
 		int successes = 0;
-		total = 0;
-
-		for (Phase p : phase) {
-			sql = "INSERT INTO sku_phase(" + "SKU_PHASE_IN," + "SKU_PHASE_OUT) VALUES (" + p.getSkuNew() + ","
-					+ p.getSkuOld() + ");";
-
-			try (Connection conn = getConnection();
-					PreparedStatement stmt = conn.prepareStatement(sql);) {
-				stmt.execute();
-				successes++;
-			} catch (SQLException e) {
-				LOGGER.debug(e);
-			}
-			total++;
+		total = 0;			
+		
+		for (Phase p : skuPhase) {
+		sql = "INSERT INTO sku_phase(" + "SKU_PHASE_IN," + "SKU_PHASE_OUT) VALUES (\" + p.getSkuNew() + \",\"\r\n" + 
+				"					+ p.getSkuOld() + \");\" " +
+		"ON DUPLICATE KEY UPDATE COD_FAMILIA_COMERCIAL = ?, NOME_PRODUTO = ?, SKU = ?";	
+		try (Connection conn = getConnection();
+				PreparedStatement stmt = conn.prepareStatement(sql);) {
+			stmt.execute();
+			successes++;
+		} catch (SQLException e) {
+			LOGGER.debug(e);
 		}
-		LOGGER.info(successes + " de " + total + " " + Messages.SUCCESS_PRODUTO);
+		total++;
 	}
-
+	LOGGER.info(successes + " de " + total + " " + Messages.SUCCESS_PRODUTO);
+	}
+	
 	public void deleteProd(List<Produto> list) {
 		String sql = "";
 		int successes = 0;
