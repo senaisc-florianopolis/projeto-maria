@@ -22,6 +22,7 @@ public class ProdutoDAO extends AbstractDAO {
 	private static final Logger LOGGER = LogManager.getLogger();
 	int total;
 	private String path;
+
 	public List<Produto> listarTodos() throws IOException {
 		ArrayList<Produto> listaProdutos = new ArrayList<Produto>();
 		try {
@@ -91,7 +92,7 @@ public class ProdutoDAO extends AbstractDAO {
 		}
 		return ph;
 	}
-	
+
 	public void salvarProdutos(List<Produto> list) {
 		String sql = "";
 		int successes = 0;
@@ -101,8 +102,7 @@ public class ProdutoDAO extends AbstractDAO {
 			sql = "INSERT INTO PRODUTO(" + "SKU," + "NOME_PRODUTO," + "ID_FAMILIA_COMERCIAL) VALUES (" + p.getSku()
 					+ ",'" + p.getDescricao() + "'," + p.getIdComercial() + ");";
 
-			try (Connection conn = getConnection();
-					PreparedStatement stmt = conn.prepareStatement(sql);) {
+			try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql);) {
 				stmt.execute();
 				successes++;
 			} catch (SQLException e) {
@@ -119,11 +119,9 @@ public class ProdutoDAO extends AbstractDAO {
 		total = 0;
 
 		for (Produto p : skuIgual) {
-			sql = "UPDATE produto SET NOME_PRODUTO = '" + p.getDescricao()
-					+ "', " + "ID_FAMILIA_COMERCIAL = " + p.getIdComercial()
-					+ " WHERE SKU = " + p.getSku() + ";";
-			try (Connection conn = getConnection();
-				PreparedStatement stmt = conn.prepareStatement(sql);) {
+			sql = "UPDATE produto SET NOME_PRODUTO = '" + p.getDescricao() + "', " + "ID_FAMILIA_COMERCIAL = "
+					+ p.getIdComercial() + " WHERE SKU = " + p.getSku() + ";";
+			try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql);) {
 				stmt.executeUpdate();
 				successes++;
 			} catch (SQLException e) {
@@ -134,27 +132,26 @@ public class ProdutoDAO extends AbstractDAO {
 		LOGGER.info(successes + " de " + total + " " + Messages.SUCCESS_PRODUTO);
 	}
 
-	public void upsertSkuPhase (List<Phase> skuPhase) {
+	public void upsertSkuPhase(List<Phase> skuPhase) {
 		String sql = "";
 		int successes = 0;
-		total = 0;			
-		
+		total = 0;
+
 		for (Phase p : skuPhase) {
-		sql = "INSERT INTO sku_phase(" + "SKU_PHASE_IN," + "SKU_PHASE_OUT) VALUES (\" + p.getSkuNew() + \",\"\r\n" + 
-				"					+ p.getSkuOld() + \");\" " +
-		"ON DUPLICATE KEY UPDATE COD_FAMILIA_COMERCIAL = ?, NOME_PRODUTO = ?, SKU = ?";	
-		try (Connection conn = getConnection();
-				PreparedStatement stmt = conn.prepareStatement(sql);) {
-			stmt.execute();
-			successes++;
-		} catch (SQLException e) {
-			LOGGER.debug(e);
+			sql = "INSERT INTO sku_phase(" + "SKU_PHASE_IN," + "SKU_PHASE_OUT) VALUES (\" + p.getSkuNew() + \",\"\r\n"
+					+ "					+ p.getSkuOld() + \");\" "
+					+ "ON DUPLICATE KEY UPDATE SKU_PHASE_IN = ?, SKU_PHASE_OUT = ?";
+			try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql);) {
+				stmt.execute();
+				successes++;
+			} catch (SQLException e) {
+				LOGGER.debug(e);
+			}
+			total++;
 		}
-		total++;
+		LOGGER.info(successes + " de " + total + " " + Messages.SUCCESS_PRODUTO);
 	}
-	LOGGER.info(successes + " de " + total + " " + Messages.SUCCESS_PRODUTO);
-	}
-	
+
 	public void deleteProd(List<Produto> list) {
 		String sql = "";
 		int successes = 0;
@@ -162,8 +159,7 @@ public class ProdutoDAO extends AbstractDAO {
 
 		for (Produto p : list) {
 			sql = "DELETE FROM PRODUTO WHERE SKU = " + p.getSku() + ";";
-			try (Connection conn = getConnection();
-					PreparedStatement stmt = conn.prepareStatement(sql);) {
+			try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql);) {
 				stmt.execute();
 				successes++;
 			} catch (SQLException e) {
