@@ -134,12 +134,12 @@ public class ProdutoDAO extends AbstractDAO {
 		LOGGER.info(successes + " de " + total + " " + Messages.SUCCESS_PRODUTO);
 	}
 	
-	public void upsert (List<Produto> skuIgual) {
+	public void upsert (List<Produto> list) {
 		String sql = "";
 		int successes = 0;
 		total = 0;			
 		
-		for (Produto p : skuIgual) {
+		for (Produto p : list) {
 		sql = "INSERT INTO produto (COD_FAMILIA_COMERCIAL,NOME_PRODUTO,SKU) VALUES (?,?,?)"+
 		"ON DUPLICATE KEY UPDATE COD_FAMILIA_COMERCIAL = ?, NOME_PRODUTO = ?, SKU = ?";	
 		try (Connection conn = getConnection();
