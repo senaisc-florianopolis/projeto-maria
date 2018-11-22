@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.senai.sc.edu.projetomaria.model.Canal;
+import br.senai.sc.edu.projetomaria.resource.Config;
 
 public class CanalReader {
 
@@ -28,7 +29,7 @@ public class CanalReader {
 
 	public List<Canal> readCanal() throws IOException {
 		try(BufferedReader br = Files.newBufferedReader(this.path)){
-			Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader(ID_CANAL,DESCRICAO).parse(br);
+			Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader(ID_CANAL,DESCRICAO).withDelimiter(Config.CSV_DELIMITADOR).parse(br);
 			ArrayList<Canal> list = new ArrayList<>();
 			for (CSVRecord csvRecord : records) {
 				String idCanal = csvRecord.get(ID_CANAL);
