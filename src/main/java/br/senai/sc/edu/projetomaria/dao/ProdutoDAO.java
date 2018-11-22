@@ -16,6 +16,7 @@ import br.senai.sc.edu.projetomaria.model.Phase;
 import br.senai.sc.edu.projetomaria.model.Produto;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 import br.senai.sc.edu.projetomaria.dao.AbstractDAO;
+import br.senai.sc.edu.projetomaria.exception.DAOLayerException;
 import br.senai.sc.edu.projetomaria.io.ProdutoWriter;
 
 public class ProdutoDAO extends AbstractDAO {
@@ -134,12 +135,12 @@ public class ProdutoDAO extends AbstractDAO {
 		LOGGER.info(successes + " de " + total + " " + Messages.SUCCESS_PRODUTO);
 	}
 	
-	public void upsert (List<Produto> skuIgual) {
+	public void upsert (List<Produto> produto) throws DAOLayerException {
 		String sql = "";
 		int successes = 0;
 		total = 0;			
 		
-		for (Produto p : skuIgual) {
+		for (Produto p : produto) {
 		sql = "INSERT INTO produto (COD_FAMILIA_COMERCIAL,NOME_PRODUTO,SKU) VALUES (?,?,?)"+
 		"ON DUPLICATE KEY UPDATE COD_FAMILIA_COMERCIAL = ?, NOME_PRODUTO = ?, SKU = ?";	
 		try (Connection conn = getConnection();

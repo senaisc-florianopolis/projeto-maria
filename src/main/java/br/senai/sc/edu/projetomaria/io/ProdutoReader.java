@@ -13,20 +13,29 @@ import org.apache.commons.csv.CSVRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.senai.sc.edu.projetomaria.exception.DAOLayerException;
 import br.senai.sc.edu.projetomaria.model.Produto;
+import br.senai.sc.edu.projetomaria.resource.Config;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class ProdutoReader {
+	
+	private static final String COD_FAMILIA_COMERCIAL = "cod_familia_comercial";
+	private static final String NOME_PRODUTO = "nome_produto";
+	private static final String SKU = "sku";
+	private static final String[] mapeamentoColunasArquivo = { COD_FAMILIA_COMERCIAL, NOME_PRODUTO, SKU};
+	
 	private static final Logger LOGGER = LogManager.getLogger();
+
 	Produto novoProduto = null;
 
-	public List<Produto> lerCsvProduto(Path caminho) throws Exception {
+	public List<Produto> lerCsvProduto(Path caminho) throws DAOLayerException {
 		int contErrosP = 0;
 
 		List<Produto> produtos = new ArrayList<>();
 		List<String> erros = new ArrayList<>();
 		try (Reader leitor = Files.newBufferedReader(caminho);
-				CSVParser conversor = new CSVParser(leitor, CSVFormat.DEFAULT);) {
+				CSVParser conversor = new CSVParser(leitor, CSVFormat.DEFAULT.withHeader(mapeamentoColunasArquivo).withDelimiter(Config.CSV_DELIMITADOR));) {
 			for (CSVRecord ler : conversor) {
 				if (ler.getRecordNumber() != 1) {
 					
@@ -61,7 +70,7 @@ public class ProdutoReader {
 		}
 	}
 
-	public class ErrosProduto extends Exception {
+	public class ErrosProduto extends DAOLayerException {
 		private List<String> errosP;
 
 		public ErrosProduto(List<String> erroP) {
