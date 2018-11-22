@@ -11,7 +11,7 @@ public class CargaService {
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	public ServiceResponse cargaCanal(Path path) {
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		throw new UnsupportedOperationException(Messages.ERRO_CARGA_CANAL);
 	}
 	
 	public ServiceResponse cargaFamilia(Path path) {
