@@ -17,7 +17,31 @@ import br.senai.sc.edu.projetomaria.resource.SQL;
 public class CanalDAO extends AbstractDAO {
 
 	private static final Logger LOGGER = LogManager.getLogger();
-
+	
+	public void upsertCanal(List<Canal> canais) {
+		String sql = "";
+		int status = 0;
+		int ResultadoTotal = 0;			
+		
+		for (Canal canal : canais) {
+		sql = "INSERT INTO produto (ID_CANAL,DESCRICAO) VALUES (?,?)"+
+		"ON DUPLICATE KEY UPDATE ID_CANAL = ?, DESCRICAO = ?";	
+		try (Connection conn = getConnection();
+				PreparedStatement stmt = conn.prepareStatement(sql);) {
+			    stmt.setInt(1,canal.getId());
+			    stmt.setString(2,canal.getDescricao());
+			    stmt.setInt(3,canal.getId());
+			    stmt.setString(4,canal.getDescricao());
+				stmt.executeUpdate(sql);
+				status++;
+			} catch (SQLException e) {
+				LOGGER.debug(e);
+			}
+		ResultadoTotal++;
+	}
+		LOGGER.info(status + " de " + ResultadoTotal + " " + Messages.SUCCESS_PRODUTO);
+	}
+	
 	public List<Canal> getCanais() throws SQLException {
 		String sql = SQL.GET_CANAL;
 		List<Canal> canais = new ArrayList<>();
