@@ -30,4 +30,5 @@ public class CargaService {
 		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
+
 }
