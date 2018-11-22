@@ -78,5 +78,6 @@ public abstract class Messages {
   	public static final String ERROR_DESCRICAO_CARACTER = ResourceManager.getMessage("erro.canal.descricao.naocaracter");
   	public static final String ERROR_DESCRICAO_NULO = ResourceManager.getMessage("erro.canal.descricao.isnull");
   	public static final String ERROR_DESCRICAO_TAMANHO = ResourceManager.getMessage("erro.canal.descricao.tamanho");
+	public static final String SUCCESS_FAMILIA = ResourceManager.getMessage("sucesso.inserir.familia");
 	private Messages() {}
 }

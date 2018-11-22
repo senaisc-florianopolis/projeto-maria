@@ -45,7 +45,7 @@ public class FamiliaWriter {
 				{
 
 					for (Familia familia : listaFamilia) {
-						csvCompiladorDeArquivos.printRecord(familia.getId(), familia.getCodigo());
+						csvCompiladorDeArquivos.printRecord(familia.getCodigo());
 					}
 					csvPrinter.flush();
 					csvPrinter.close();

@@ -35,8 +35,7 @@ public class FamiliaDAO extends AbstractDAO {
 		try (ResultSet rs = stmt.executeQuery(sql)) {
 			while (rs.next()) {
 				Familia familia = new Familia();
-				familia.setId(rs.getInt("ID_FAMILIA"));
-				familia.setCodigo(rs.getString("CODIGO"));
+				familia.setCodigo(rs.getInt("CODIGO"));
 				familias.add(familia);
 			}
 		} catch (SQLException e) {
@@ -48,7 +47,7 @@ public class FamiliaDAO extends AbstractDAO {
 		String sql = SQL.INSERT_FAMILIA_INCREMENT;
 		try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
 			for (int i = 0; i < familia.size(); i++) {
-				stmt.setString(1, familia.get(i).getCodigo());
+				stmt.setInt(1, familia.get(i).getCodigo());
 				stmt.setString(2, familia.get(i).getNome());
 				stmt.execute();
 				LOGGER.info(Messages.INSERIR_FAMILIA);
@@ -62,9 +61,8 @@ public class FamiliaDAO extends AbstractDAO {
 	public void update(Familia familia) throws SQLException {
 		String sql = SQL.UPDATE_FAMILIA;
 		try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
-			stmt.setString(1, familia.getCodigo());
+			stmt.setInt(1, familia.getCodigo());
 			stmt.setString(2, familia.getNome());
-			stmt.setInt(3, familia.getId());
 			stmt.execute();
 			LOGGER.info(Messages.ATUALIZAR_FAMILIA);
 		} catch (SQLException e) {
@@ -79,7 +77,7 @@ public class FamiliaDAO extends AbstractDAO {
 		String sql = SQL.DELETE_FAMILIA;
 		try (PreparedStatement ps = conn.prepareStatement(sql)) {
 			for (Familia familia : familias) {
-				ps.setInt(1, familia.getId());
+				ps.setInt(1, familia.getCodigo());
 				ps.execute();
 			}
 			LOGGER.info(Messages.DELETAR_FAMILIA);
@@ -90,4 +88,29 @@ public class FamiliaDAO extends AbstractDAO {
 			conn.close();
 		}
 	}
+	
+	public void upsert (List<Familia> familias) throws SQLException{
+		String sql = "";
+		int successes = 0;
+		int total = 0;			
+		
+		for (Familia familia: familias) {
+		sql = "INSERT INTO familia (COD_FAMILIA_COMERCIAL,NOME_FAMILIA_COMERCIAL) VALUES (?,?)"+
+		"ON DUPLICATE KEY UPDATE COD_FAMILIA_COMERCIAL = ?, NOME_FAMILIA_COMERCIAL= ?";	
+		try (Connection conn = getConnection();
+				PreparedStatement stmt = conn.prepareStatement(sql);) {
+			    stmt.setInt(1,familia.getCodigo());
+			    stmt.setString(2,familia.getNome());
+			    stmt.setInt(4,familia.getCodigo());
+			    stmt.setString(5,familia.getNome());
+				stmt.executeUpdate(sql);
+				successes++;
+			} catch (SQLException e) {
+				LOGGER.debug(e);
+			}
+		total++;
+	}
+		LOGGER.info(successes + " de " + total + " " + Messages.SUCCESS_FAMILIA);
+	}
+
 }
