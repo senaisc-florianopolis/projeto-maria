@@ -18,7 +18,7 @@ public class CanalDAO extends AbstractDAO {
 
 	private static final Logger LOGGER = LogManager.getLogger();
 	
-	public void upsert(List<Canal> canais) {
+	public void upsertCanal(List<Canal> canais) {
 		String sql = "";
 		int status = 0;
 		int ResultadoTotal = 0;			
