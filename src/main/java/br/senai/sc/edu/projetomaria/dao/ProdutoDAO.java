@@ -135,6 +135,7 @@ public class ProdutoDAO extends AbstractDAO {
 		LOGGER.info(successes + " de " + total + " " + Messages.SUCCESS_PRODUTO);
 	}
 	
+
 	public void upsert (List<Produto> produto) throws DAOLayerException {
 		String sql = "";
 		int successes = 0;
