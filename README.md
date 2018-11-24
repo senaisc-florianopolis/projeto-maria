@@ -30,28 +30,26 @@ Usage: <main class> [options] [command] [command options]
     carga      Executa a inserção, remoção e atualização de registros
       Usage: carga [options] <caminho para o arquivo de entrada>
         Options:
-          -d, --delete
-            Remoção de registros
-            Default: false
-          -i, --insert
-            Inserção de registros
+          -j, --json
+            Retorno em formato JSON
             Default: false
         * -t, --tipo
             Tipo da carga
             Possible Values: [PRODUTO, FAMILIA, CANAL, HISTORICO, PHASE]
-          -u, --update
-            Atualização de registros
-            Default: false
 
     relatorio      Geração de relatórios
       Usage: relatorio [options] <caminho para o arquivo de saída>
         Options:
+          -j, --json
+            Retorno em formato JSON
+            Default: false
           -pa, --periodoanterior
-            Periodo anterior
+            Periodo anterior (obrigatório para o tipo ESTIMATIVA)
             Default: 0
         * -t, --tipo
             Tipo do relatório
             Possible Values: [PRODUTO, FAMILIA, CANAL, HISTORICO, ESTIMATIVA, PHASE]
+
 
 
 ```

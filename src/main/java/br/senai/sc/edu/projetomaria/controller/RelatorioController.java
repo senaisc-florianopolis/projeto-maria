@@ -1,37 +1,69 @@
 package br.senai.sc.edu.projetomaria.controller;
 
-import java.io.IOException;
-
 import br.senai.sc.edu.projetomaria.cli.CommandRelatorio;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 import br.senai.sc.edu.projetomaria.service.RelatorioService;
+import br.senai.sc.edu.projetomaria.service.ServiceResponse;
 
 public class RelatorioController {
 
-	public void exec(CommandRelatorio command) throws IOException {
-		RelatorioService service = new RelatorioService();
+	public ServiceResponse exec(CommandRelatorio command) {
+		ServiceResponse response = null;
 		switch (command.getTipo()) {
 		case CANAL:
-			service.exportRelatorioCanal(command.getArquivo());
+			response = this.exportarCanal(command);
 			break;
 		case FAMILIA:
-			service.exportRelatorioFamilia(command.getArquivo());
+			response = this.exportarFamilia(command);
 			break;
 		case PRODUTO:
-			service.exportRelatorioProduto(command.getArquivo());
+			response = this.exportarProduto(command);
 			break;
 		case HISTORICO:
-			service.exportRelatorioHistorico(command.getArquivo());
+			response = this.exportarHistorico(command);
 			break;
 		case ESTIMATIVA:
-			service.exportRelatorioEstimativa(command.getArquivo(), command.getPeriodoAnterior());
+			response = this.exportarEstimativa(command);
 			break;
 		case PHASE:
-			service.exportRelatorioPhase(command.getArquivo());
+			response = this.exportarPhase(command);
 			break;
 		default:
 			throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 		}
+		return response;
+	}
+
+	public ServiceResponse exportarCanal(CommandRelatorio command) {
+		RelatorioService service = new RelatorioService();
+		return command.isJson() ? service.exportarCanal() : service.exportarCanal(command.getArquivo());
+	}
+
+	public ServiceResponse exportarFamilia(CommandRelatorio command) {
+		RelatorioService service = new RelatorioService();
+		return command.isJson() ? service.exportarFamilia() : service.exportarFamilia(command.getArquivo());
+	}
+
+	public ServiceResponse exportarProduto(CommandRelatorio command) {
+		RelatorioService service = new RelatorioService();
+		return command.isJson() ? service.exportarProduto() : service.exportarProduto(command.getArquivo());
+	}
+
+	public ServiceResponse exportarHistorico(CommandRelatorio command) {
+		RelatorioService service = new RelatorioService();
+		return command.isJson() ? service.exportarHistorico() : service.exportarHistorico(command.getArquivo());
+	}
+
+	public ServiceResponse exportarEstimativa(CommandRelatorio command) {
+		RelatorioService service = new RelatorioService();
+		int periodoAnterior = command.getPeriodoAnterior();
+		return command.isJson() ? service.exportarEstimativa(periodoAnterior)
+				: service.exportarEstimativa(command.getArquivo(), periodoAnterior);
+	}
+
+	public ServiceResponse exportarPhase(CommandRelatorio command) {
+		RelatorioService service = new RelatorioService();
+		return command.isJson() ? service.exportarPhase() : service.exportarPhase(command.getArquivo());
 	}
 
 }
