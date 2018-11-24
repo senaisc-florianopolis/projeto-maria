@@ -18,7 +18,7 @@ public class CanalDAO extends AbstractDAO {
 
 	private static final Logger LOGGER = LogManager.getLogger();
 	
-	public void upsertCanal(List<Canal> canais) {
+	public void upsertCanal(List<Canal> canais) throws Exception {
 		String sql = "";
 		int status = 0;
 		int ResultadoTotal = 0;			
@@ -34,8 +34,8 @@ public class CanalDAO extends AbstractDAO {
 			    stmt.setString(4,canal.getDescricao());
 				stmt.executeUpdate(sql);
 				status++;
-			} catch (SQLException e) {
-				LOGGER.debug(e);
+			}  catch(SQLException e){
+				throw new Exception("Ocorreu um erro com o Banco de Dados!");
 			}
 		ResultadoTotal++;
 	}
