@@ -11,6 +11,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.senai.sc.edu.projetomaria.exception.DAOLayerException;
 import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.model.Produto;
@@ -41,98 +42,42 @@ public class HistoricoDAO extends AbstractDAO {
 			}
 		} catch (SQLException e) {
 			LOGGER.error(e);
+			throw new DAOLayerException(e);
 		}
 
 		return registro;
 	}
 	
-	public void upsert (List<Historico> registro) {
-		String sql = "";
-		int successes = 0;
-		int total = 0;			
+	public int[] upsert (List<Historico> registro) {
+		String sql = "INSERT INTO historico (MES_ANO,PRODUTO_SKU,ID_CANAL,QUANTIDADE) VALUES (?,?,?,?)"+
+				"ON DUPLICATE KEY UPDATE MES_ANO=?,PRODUTO_SKU=?,ID_CANAL=?,QUANTIDADE= ?";
+		int[] resultados = {0, 0};
 		
-		for (Historico historico : registro) {
-		sql = "INSERT INTO historico (MES_ANO,PRODUTO_SKU,ID_CANAL,QUANTIDADE) VALUES (?,?,?,?)"+
-		"ON DUPLICATE KEY UPDATE MES_ANO=?,PRODUTO_SKU=?,ID_CANAL=?,QUANTIDADE= ?";	
 		try (Connection conn = getConnection();
-				PreparedStatement ps = conn.prepareStatement(sql);) {
+			PreparedStatement ps = conn.prepareStatement(sql);) {		
+			for (Historico historico : registro) {
 				LOGGER.debug(historico);
 				ps.setDate(1,java.sql.Date.valueOf(historico.getPeriodo()));
 				ps.setInt(2,historico.getQuantidade());
 				ps.setInt(3,historico.getProduto().getSku());
 				ps.setInt(4,historico.getCanal().getId());
 				ps.setInt(5,historico.getId());
-				LOGGER.debug(ps);
-				ps.executeUpdate(sql);
-				successes++;
-			} catch (SQLException e) {
-				if(e.getErrorCode() == 1062) {
-					LOGGER.info("Há registros duplicados. Retire-os e tente novamente. Mensagem SQL = " + e.getMessage());
-					//Realmente existe a necessidade? Se já tem vai fazer update.
-				} else if (e.getErrorCode() == 1) {
-					LOGGER.info("Existe uma linha em branco. Ajuste e tente novamente. Mensagem SQL = " + e.getMessage());
-				} else if (e.getErrorCode() == 2) {
-					LOGGER.info("Existe uma coluna em branco. Ajuste e tente novamente. Mensagem SQL = " + e.getMessage());
+				int retorno = ps.executeUpdate(sql);
+				if (retorno == 1) {
+					//resultados[0] ++;
+					//resultados[0] += 1;
+					resultados[0] = resultados[0] + 1;
 				} else {
-					LOGGER.info("Registro fora do Padrão. Retire-os e tente novamente. Mensagem SQL = " + e.getMessage());
-				}
-			}
-		total++;
-	}
-		LOGGER.info(successes + " de " + total + " " + Messages.SUCCESS_PRODUTO);
-	}
-
-
-	/*
-	 public void update(List<Historico> registro) {
-
-		String sql = SQL.HISTORICO_UPDATE;
-
-		try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-			for (Historico historico : registro) {
-				LOGGER.debug(historico);
-				ps.setDate(1, java.sql.Date.valueOf(historico.getPeriodo()));
-				ps.setInt(2, historico.getQuantidade());
-				ps.setInt(3, historico.getProduto().getSku());
-				ps.setInt(4, historico.getCanal().getId());
-				ps.setInt(5, historico.getId());
-				LOGGER.debug(ps);
-
-				try {
-					ps.execute();
-				} catch (SQLException e) {
-					LOGGER.error(e);
+					resultados[1] = resultados[1] +1;
 				}
 			}
 		} catch (SQLException e) {
 			LOGGER.error(e);
+			throw new DAOLayerException("Erro no Upsert do Histórico.",e);
 		}
+
+		return resultados;
 	}
-	
-	public void persist(List<Historico> registro) {
-
-		String sql = SQL.HISTORICO_INSERT;
-
-
-		try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-			for (Historico historico : registro) {
-				LOGGER.debug(historico);
-				ps.setDate(1, java.sql.Date.valueOf(historico.getPeriodo()));
-				ps.setInt(2, historico.getQuantidade());
-				ps.setInt(3, historico.getProduto().getSku());
-				ps.setInt(4, historico.getCanal().getId());
-				LOGGER.debug(ps);
-				ps.execute();
-			}
-		} catch (SQLException e) {
-			if(e.getErrorCode() == 1062) {
-				LOGGER.info("Há registros duplicados. Retire-os e tente novamente. Mensagem SQL = " + e.getMessage());
-			}else {
-				LOGGER.error(e);
-			}
-		}
-	}
-	*/
 
 	public void delete(List<Historico> registro) {
 
@@ -147,6 +92,7 @@ public class HistoricoDAO extends AbstractDAO {
 			}
 		} catch (SQLException e) {
 			LOGGER.error(e);
+			throw new DAOLayerException(e);
 		}
 		LOGGER.info(Messages.SUCESSO_DELETE_CANAL);
 	}
