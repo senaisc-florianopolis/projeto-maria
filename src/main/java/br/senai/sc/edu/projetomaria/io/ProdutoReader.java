@@ -29,7 +29,7 @@ public class ProdutoReader {
 
 	Produto novoProduto = null;
 
-	public List<Produto> lerCsvProduto(Path caminho) throws DAOLayerException {
+	public List<Produto> lerCsvProduto(Path caminho) {
 		int contErrosP = 0;
 
 		List<Produto> produtos = new ArrayList<>();
@@ -62,6 +62,7 @@ public class ProdutoReader {
 		} catch (IOException e) {
 			LOGGER.info(Messages.FS_ERRO_ACESSO);
 			LOGGER.debug(e);
+			throw new DAOLayerException(e);
 		}
 		if (contErrosP == 0) {
 			return produtos;
