@@ -10,6 +10,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.senai.sc.edu.projetomaria.exception.DAOLayerException;
 import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 import br.senai.sc.edu.projetomaria.resource.SQL;
@@ -18,28 +19,42 @@ public class CanalDAO extends AbstractDAO {
 
 	private static final Logger LOGGER = LogManager.getLogger();
 	
-	public void upsertCanal(List<Canal> canais) {
+	public int[] upsertCanal(List<Canal> canais) {
 		String sql = "";
 		int status = 0;
-		int ResultadoTotal = 0;			
+	
+
 		
-		for (Canal canal : canais) {
+		int[] resultados = new int[10];
+		
+		
 		sql = "INSERT INTO produto (ID_CANAL,DESCRICAO) VALUES (?,?)"+
 		"ON DUPLICATE KEY UPDATE ID_CANAL = ?, DESCRICAO = ?";	
+		
 		try (Connection conn = getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql);) {
+			for (Canal canal : canais) {
 			    stmt.setInt(1,canal.getId());
 			    stmt.setString(2,canal.getDescricao());
 			    stmt.setInt(3,canal.getId());
 			    stmt.setString(4,canal.getDescricao());
-				stmt.executeUpdate(sql);
+				int retorno = stmt.executeUpdate(sql);
 				status++;
-			} catch (SQLException e) {
-				LOGGER.debug(e);
+				if(retorno == 1) {
+					resultados[0] = resultados[0] + 1;
+				}else {
+					resultados[1] = resultados[1] + 1;
+				}
 			}
-		ResultadoTotal++;
-	}
-		LOGGER.info(status + " de " + ResultadoTotal + " " + Messages.SUCCESS_PRODUTO);
+			} catch (SQLException e) {
+				LOGGER.error(e);
+				throw new DAOLayerException(e);
+			}
+	
+			LOGGER.info(status + " de no total de " + resultados[0]
+					+ " inserções e "+ resultados[1] + " updates "+ Messages.SUCCESS_PRODUTO);
+			return resultados;
+
 	}
 	
 	public List<Canal> getCanais() throws SQLException {
