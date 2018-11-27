@@ -25,7 +25,7 @@ public class CanalDAO extends AbstractDAO {
 	
 
 		
-		int[] resultados = new int[10];
+		int[] resultados = new int[2];
 		
 		
 		sql = "INSERT INTO produto (ID_CANAL,DESCRICAO) VALUES (?,?)"+
