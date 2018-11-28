@@ -13,7 +13,6 @@ import org.apache.logging.log4j.Logger;
 
 import br.senai.sc.edu.projetomaria.model.Familia;
 import br.senai.sc.edu.projetomaria.resource.Messages;
-import br.senai.sc.edu.projetomaria.resource.SQL;
 
 public class FamiliaDAO extends AbstractDAO {
 

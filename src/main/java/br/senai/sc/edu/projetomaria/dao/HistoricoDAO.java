@@ -30,6 +30,7 @@ public class HistoricoDAO extends AbstractDAO {
 				Historico h = new Historico();
 				Canal canal = new Canal();
 				canal.setId(rs.getInt("ID_CANAL"));
+				
 				h.setCanal(canal);
 				h.setId(rs.getInt("ID_HISTORICO"));
 				Produto produto = new Produto();
@@ -69,7 +70,6 @@ public class HistoricoDAO extends AbstractDAO {
 			}
 		}
 	}
-
 
 	public void update(List<Historico> registro) {
 

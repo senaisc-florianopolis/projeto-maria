@@ -15,8 +15,6 @@ import org.apache.logging.log4j.Logger;
 import br.senai.sc.edu.projetomaria.model.Phase;
 import br.senai.sc.edu.projetomaria.model.Produto;
 import br.senai.sc.edu.projetomaria.resource.Messages;
-import br.senai.sc.edu.projetomaria.dao.AbstractDAO;
-import br.senai.sc.edu.projetomaria.io.ProdutoWriter;
 
 public class ProdutoDAO extends AbstractDAO {
 	private static final Logger LOGGER = LogManager.getLogger();
