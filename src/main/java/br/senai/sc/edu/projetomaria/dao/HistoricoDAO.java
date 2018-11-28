@@ -124,12 +124,12 @@ public class HistoricoDAO extends AbstractDAO {
 		try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql);) {
 		for (Historico historico: registro) {
 			    stmt.setDate(1, java.sql.Date.valueOf(historico.getPeriodo()));
-			    stmt.setObject(2,historico.getProduto());
-			    stmt.setInt(4,historico.getId());
+			    stmt.setObject(2,historico.getProduto().getSku());
+			    stmt.setInt(4,historico.getCanal().getId());
 			    stmt.setInt(5,historico.getQuantidade());
 			    stmt.setDate(6, java.sql.Date.valueOf(historico.getPeriodo()));
-			    stmt.setObject(7,historico.getProduto());
-			    stmt.setInt(8,historico.getId());
+			    stmt.setObject(7,historico.getProduto().getSku());
+			    stmt.setInt(8,historico.getCanal().getId());
 			    stmt.setInt(9,historico.getQuantidade());
 				int retorno = stmt.executeUpdate(sql);
 				if(retorno == 1) {
