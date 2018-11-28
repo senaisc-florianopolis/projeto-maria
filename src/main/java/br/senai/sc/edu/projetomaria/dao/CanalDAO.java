@@ -22,8 +22,6 @@ public class CanalDAO extends AbstractDAO {
 	public int[] upsertCanal(List<Canal> canais) {
 		String sql = "";
 		int status = 0;
-	
-
 		
 		int[] resultados = new int[2];
 		
@@ -42,9 +40,11 @@ public class CanalDAO extends AbstractDAO {
 				status++;
 				if(retorno == 1) {
 					resultados[0] = resultados[0] + 1;
+					LOGGER.info(Messages.SUCESSO_CANAL_INSERIR);
 				}else {
 					resultados[1] = resultados[1] + 1;
 				}
+				
 			}
 			} catch (SQLException e) {
 				LOGGER.error(e);
