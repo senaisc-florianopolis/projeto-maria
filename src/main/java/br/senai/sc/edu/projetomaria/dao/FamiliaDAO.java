@@ -11,6 +11,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.senai.sc.edu.projetomaria.exception.DAOLayerException;
 import br.senai.sc.edu.projetomaria.model.Familia;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 import br.senai.sc.edu.projetomaria.resource.SQL;
@@ -89,7 +90,7 @@ public class FamiliaDAO extends AbstractDAO {
 		}
 	}
 	
-	public void upsert (List<Familia> familias) throws SQLException{
+	public int upsert (List<Familia> familias) {
 		String sql = "";
 		int successes = 0;
 		int total = 0;			
@@ -106,11 +107,12 @@ public class FamiliaDAO extends AbstractDAO {
 				stmt.executeUpdate(sql);
 				successes++;
 			} catch (SQLException e) {
-				LOGGER.debug(e);
+				throw new DAOLayerException(e);
 			}
 		total++;
 	}
 		LOGGER.info(successes + " de " + total + " " + Messages.SUCCESS_FAMILIA);
+		return total;
 	}
 
 }
