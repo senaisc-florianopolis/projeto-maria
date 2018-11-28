@@ -12,11 +12,10 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.senai.sc.edu.projetomaria.exception.DAOLayerException;
 import br.senai.sc.edu.projetomaria.model.Phase;
 import br.senai.sc.edu.projetomaria.model.Produto;
 import br.senai.sc.edu.projetomaria.resource.Messages;
-import br.senai.sc.edu.projetomaria.dao.AbstractDAO;
-import br.senai.sc.edu.projetomaria.io.ProdutoWriter;
 
 public class ProdutoDAO extends AbstractDAO {
 	private static final Logger LOGGER = LogManager.getLogger();
@@ -132,24 +131,36 @@ public class ProdutoDAO extends AbstractDAO {
 		LOGGER.info(successes + " de " + total + " " + Messages.SUCCESS_PRODUTO);
 	}
 
-	public void upsertSkuPhase(List<Phase> skuPhase) {
+	public int[] upsertSkuPhase(List<Phase> skuPhase) {
+		
 		String sql = "";
 		int successes = 0;
+		int[] resultados = { 0, 0 };
 		total = 0;
-
+		
 		for (Phase p : skuPhase) {
 			sql = "INSERT INTO sku_phase(" + "SKU_PHASE_IN," + "SKU_PHASE_OUT) VALUES (\" + p.getSkuNew() + \",\"\r\n"
 					+ "					+ p.getSkuOld() + \");\" "
 					+ "ON DUPLICATE KEY UPDATE SKU_PHASE_IN = ?, SKU_PHASE_OUT = ?";
 			try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql);) {
 				stmt.execute();
+				int retorno = stmt.executeUpdate(sql);
+				
+				if (retorno == 1) {
+					resultados[1] += 1;
+					resultados[0] = resultados[0] + 1;
+				} else {
+					resultados[1] = resultados[1] + 1;
+				}
 				successes++;
 			} catch (SQLException e) {
 				LOGGER.debug(e);
+				throw new DAOLayerException(e);
 			}
 			total++;
 		}
 		LOGGER.info(successes + " de " + total + " " + Messages.SUCCESS_PRODUTO);
+		return resultados;
 	}
 
 	public void deleteProd(List<Produto> list) {
