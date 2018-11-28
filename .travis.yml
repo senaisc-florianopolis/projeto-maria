@@ -6,4 +6,5 @@ addons:
     organization: "senaisc-florianopolis-github" 
 script:
   # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
+  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then RUN_SONAR="sonar:sonar"; fi' # sonar only on non-PRs
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install ${RUN_SONAR}
