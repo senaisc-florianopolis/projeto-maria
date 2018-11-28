@@ -67,7 +67,6 @@ public class FamiliaWriter {
 				escritorDeArquivos.close();
 				csvCompiladorDeArquivos.close();
 			} catch (IOException e) {
-				// SUBSTITUIR POSTERIORMENTE POR LOGGER? - PERGUNTAR AO LUCIANO
 				System.out.println("Erro ao enviar/fechar o escritorDeArquivos/csvCompiladorDeArquivos!");
 				e.printStackTrace();
 			}
