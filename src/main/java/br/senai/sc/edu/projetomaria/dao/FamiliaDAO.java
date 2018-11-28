@@ -42,52 +42,6 @@ public class FamiliaDAO extends AbstractDAO {
 			LOGGER.debug(e.getSQLState() + " - " + e.getMessage());
 		}
 	}
-
-	public void insert(List<Familia> familia) throws SQLException {
-		String sql = SQL.INSERT_FAMILIA_INCREMENT;
-		try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
-			for (int i = 0; i < familia.size(); i++) {
-				stmt.setInt(1, familia.get(i).getCodigo());
-				stmt.setString(2, familia.get(i).getNome());
-				stmt.execute();
-				LOGGER.info(Messages.INSERIR_FAMILIA);
-			}
-		} catch (SQLException e) {
-			LOGGER.debug(e.getMessage());
-			LOGGER.debug(Messages.ERRO_FAMILIA_INSERIR);
-		}
-	}
-
-	public void update(Familia familia) throws SQLException {
-		String sql = SQL.UPDATE_FAMILIA;
-		try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
-			stmt.setInt(1, familia.getCodigo());
-			stmt.setString(2, familia.getNome());
-			stmt.execute();
-			LOGGER.info(Messages.ATUALIZAR_FAMILIA);
-		} catch (SQLException e) {
-			LOGGER.debug(e.getMessage());
-			LOGGER.debug(Messages.ERRO_FAMILIA_ATUALIZAR);
-		}
-
-	}
-
-	public void delete(List<Familia> familias) throws SQLException {
-		Connection conn = getConnection();
-		String sql = SQL.DELETE_FAMILIA;
-		try (PreparedStatement ps = conn.prepareStatement(sql)) {
-			for (Familia familia : familias) {
-				ps.setInt(1, familia.getCodigo());
-				ps.execute();
-			}
-			LOGGER.info(Messages.DELETAR_FAMILIA);
-		} catch (SQLException e1) {
-			LOGGER.debug(Messages.ERRO_FAMILIA_DELETAR);
-			LOGGER.debug(e1.getMessage());
-		}finally {
-			conn.close();
-		}
-	}
 	
 	public void upsert (List<Familia> familias) throws SQLException{
 		String sql = "";
