@@ -15,7 +15,6 @@ import br.senai.sc.edu.projetomaria.exception.DAOLayerException;
 import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.model.Produto;
-import br.senai.sc.edu.projetomaria.resource.Messages;
 import br.senai.sc.edu.projetomaria.resource.SQL;
 
 public class HistoricoDAO extends AbstractDAO {
@@ -32,7 +31,6 @@ public class HistoricoDAO extends AbstractDAO {
 				Canal canal = new Canal();
 				canal.setId(rs.getInt("ID_CANAL"));
 				h.setCanal(canal);
-				h.setId(rs.getInt("ID_HISTORICO"));
 				Produto produto = new Produto();
 				produto.setSku(rs.getInt("PRODUTO_SKU"));
 				h.setProduto(produto);
@@ -55,12 +53,16 @@ public class HistoricoDAO extends AbstractDAO {
 		try (Connection conn = getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);) {		
 			for (Historico historico : historicos) {
-				LOGGER.debug(historico);
 				ps.setDate(1,java.sql.Date.valueOf(historico.getPeriodo()));
 				ps.setInt(2,historico.getProduto().getSku());
 				ps.setInt(3,historico.getCanal().getId());
 				ps.setInt(4,historico.getQuantidade());
-				int retorno = ps.executeUpdate(sql);
+				ps.setDate(5,java.sql.Date.valueOf(historico.getPeriodo()));
+				ps.setInt(6,historico.getProduto().getSku());
+				ps.setInt(7,historico.getCanal().getId());
+				ps.setInt(8,historico.getQuantidade());
+				LOGGER.debug(ps);
+				int retorno = ps.executeUpdate();
 				if (retorno == 1) {
 					resultados[0] = resultados[0] + 1;
 				} else {
@@ -74,23 +76,5 @@ public class HistoricoDAO extends AbstractDAO {
 		}
 
 		return resultados;
-	}
-
-	public void delete(List<Historico> registro) {
-
-		String sql = SQL.HISTORICO_DELETE;
-
-		try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-			for (Historico historico : registro) {
-				LOGGER.debug(historico);
-				ps.setInt(1, historico.getId());
-				LOGGER.debug(ps);
-				ps.execute();
-			}
-		} catch (SQLException e) {
-			LOGGER.error(e);
-			throw new DAOLayerException(e);
-		}
-		LOGGER.info(Messages.SUCESSO_DELETE_CANAL);
 	}
 }

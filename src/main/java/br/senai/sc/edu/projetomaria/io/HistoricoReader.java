@@ -22,14 +22,13 @@ import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class HistoricoReader {
 	
-	private static final String ID_HISTORICO = "id_historico";
 	private static final String MES_ANO = "mes_ano";
 	private static final String QUANTIDADE = "quantidade";
 	private static final String PRODUTO_SKU = "produto_sku";
 	private static final String ID_CANAL = "id_canal";
 	private static final Logger LOGGER = LogManager.getLogger();
 
-	private static final String[] mapeamentoColunasArquivo = { ID_HISTORICO, MES_ANO, QUANTIDADE, PRODUTO_SKU, ID_CANAL };
+	private static final String[] mapeamentoColunasArquivo = { MES_ANO, PRODUTO_SKU, ID_CANAL, QUANTIDADE };
 
 	public List<Historico> leitorDeArquivos(Path pathArquivo) {
 
@@ -51,17 +50,16 @@ public class HistoricoReader {
 			for (int i = 1; i < csvRecords.size(); i++) {
 				CSVRecord registro = csvRecords.get(i);
 				Historico historico = new Historico();
-				historico.setId(this.parseInt(registro.get(ID_HISTORICO)));
 				String[] mesAno = registro.get(MES_ANO).split("/");
 				historico.setPeriodo(LocalDate.parse(mesAno[1] + "-" + mesAno[0] + "-01"));
 				LOGGER.info(historico.getPeriodo());
-				historico.setQuantidade(this.parseInt(registro.get(QUANTIDADE)));
 				Produto produto = new Produto();
 				produto.setSku(this.parseInt(registro.get(PRODUTO_SKU)));
 				historico.setProduto(produto);
 				Canal canal = new Canal();
 				canal.setId(this.parseInt(registro.get(ID_CANAL)));
 				historico.setCanal(canal);
+				historico.setQuantidade(this.parseInt(registro.get(QUANTIDADE)));
 				listaRegistros.add(historico);
 				if (!historico.isValid()) {
 					wrongInserts = true; 

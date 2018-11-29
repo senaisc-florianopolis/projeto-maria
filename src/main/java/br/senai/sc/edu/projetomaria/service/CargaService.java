@@ -7,6 +7,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.senai.sc.edu.projetomaria.dao.HistoricoDAO;
+import br.senai.sc.edu.projetomaria.exception.DAOLayerException;
+import br.senai.sc.edu.projetomaria.exception.ServiceLayerException;
 import br.senai.sc.edu.projetomaria.io.HistoricoReader;
 import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.resource.Messages;
@@ -32,11 +34,17 @@ public class CargaService {
 	}
 
 	public ServiceResponse cargaHistorico(Path path) {
-		HistoricoReader hist = new HistoricoReader();		
+		HistoricoReader hist = new HistoricoReader();
 		HistoricoDAO historicoDao = new HistoricoDAO();
 		List<Historico> s = hist.leitorDeArquivos(path);
 		LOGGER.debug("Quantidade: " + s.size());
-		int[] result = historicoDao.upsert(s);
+		int[] result = null;
+		try {
+			result = historicoDao.upsert(s);
+			
+		} catch (DAOLayerException e) {
+			throw new ServiceLayerException("Ocorreu um erro ao inserir ao banco de dados",e);
+		}
 		ServiceResponse response = new ServiceResponse(STATUS.OK, result);
 		return response;
 	}
