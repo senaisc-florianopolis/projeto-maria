@@ -14,20 +14,24 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.senai.sc.edu.projetomaria.model.Phase;
+import br.senai.sc.edu.projetomaria.resource.Config;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class PhaseReader {
 	private static final Logger LOGGER = LogManager.getLogger();
 	Phase novoPhase = null;
+	private static final String SKU_PHASE_IN = "SKU_PHASE_IN";
+	private static final String SKU_PHASE_OUT = "SKU_PHASE_OUT";
+
 
 	public List<Phase> lerCsvPhase(Path caminho) throws Exception {
 		List<Phase> phase = new ArrayList<>();
 		List<String> erros = new ArrayList<>();
 		int contErrosP = 0;
 		
-		try (Reader leitor = Files.newBufferedReader(caminho);
-				CSVParser conversor = new CSVParser(leitor, CSVFormat.DEFAULT);) {
-			for (CSVRecord ler : conversor) {
+		try (Reader br = Files.newBufferedReader(caminho);) {
+			Iterable<CSVRecord> records = CSVFormat.DEFAULT.withHeader(SKU_PHASE_IN, SKU_PHASE_OUT).withDelimiter(Config.CSV_DELIMITADOR).parse(br);
+			for (CSVRecord ler : records) {
 				if (ler.getRecordNumber() != 1) {
 					String skuNew = ler.get(0);
 					String skuOld = ler.get(1);
