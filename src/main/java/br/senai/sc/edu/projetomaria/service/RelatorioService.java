@@ -32,15 +32,10 @@ public class RelatorioService {
 	
 	public ServiceResponse exportarProduto() {
 		ProdutoDAO pdao = new ProdutoDAO();
-		
 		List<Produto> produtos = pdao.exportarProdutos();
-		String json = new Gson().toJson(produtos);
+		ServiceResponse response = new ServiceResponse(ServiceResponse.STATUS.OK, produtos);
 		
-//		ServiceResponse response = new ServiceResponse(ServiceResponse.STATUS.OK, json);
-		
-		
-		
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		return response;
 	}
 
 	public ServiceResponse exportarCanal(Path path) {
