@@ -1,5 +1,7 @@
 package br.senai.sc.edu.projetomaria.io;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.LinkedList;
@@ -11,6 +13,7 @@ import org.apache.commons.csv.CSVRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.senai.sc.edu.projetomaria.exception.IOLayerException;
 import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.model.Produto;
@@ -66,8 +69,11 @@ public class HistoricoReader {
 				}
 			}
 			
-		}catch (Exception e){
- 			LOGGER.error(e.getMessage(), e);
+		} catch (FileNotFoundException e) {
+			throw new IOLayerException("", e);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block1
+			throw new IOLayerException("", e);
 		}
 		
 		if (wrongInserts) {

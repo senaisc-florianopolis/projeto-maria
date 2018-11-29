@@ -32,25 +32,13 @@ public class CargaService {
 	}
 
 	public ServiceResponse cargaHistorico(Path path) {
-		//throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
-		HistoricoReader hist = new HistoricoReader();
-//	    hist.leitorDeArquivos(path);
-		
-		List<Historico> s = hist.leitorDeArquivos(path);
+		HistoricoReader hist = new HistoricoReader();		
 		HistoricoDAO historicoDao = new HistoricoDAO();
-		
+		List<Historico> s = hist.leitorDeArquivos(path);
+		LOGGER.debug("Quantidade: " + s.size());
 		int[] result = historicoDao.upsert(s);
-		
-		
-		ServiceResponse response = new ServiceResponse(STATUS.OK, result)
-		
-		
-		
-		//ClassLoader classLoader = CargaService.class.getClassLoader();
-		//Path p = null;
-		//p = Paths.get(ClassLoader.getSystemResource("dataset/arquivo.csv").toURI());
-		//HistoricoDAO.class
-	
+		ServiceResponse response = new ServiceResponse(STATUS.OK, result);
+		return response;
 	}
 
 }

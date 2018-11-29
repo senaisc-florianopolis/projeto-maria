@@ -48,30 +48,27 @@ public class HistoricoDAO extends AbstractDAO {
 		return registro;
 	}
 	
-	public int[] upsert (List<Historico> registro) {
-		String sql = "INSERT INTO historico (MES_ANO,PRODUTO_SKU,ID_CANAL,QUANTIDADE) VALUES (?,?,?,?)"+
-				"ON DUPLICATE KEY UPDATE MES_ANO=?,PRODUTO_SKU=?,ID_CANAL=?,QUANTIDADE= ?";
+	public int[] upsert (List<Historico> historicos) {
+		String sql = "INSERT INTO historico (MES_ANO,PRODUTO_SKU,ID_CANAL,QUANTIDADE) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE MES_ANO=?,PRODUTO_SKU=?,ID_CANAL=?,QUANTIDADE=?";
 		int[] resultados = {0, 0};
 		
 		try (Connection conn = getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);) {		
-			for (Historico historico : registro) {
+			for (Historico historico : historicos) {
 				LOGGER.debug(historico);
 				ps.setDate(1,java.sql.Date.valueOf(historico.getPeriodo()));
-				ps.setInt(2,historico.getQuantidade());
-				ps.setInt(3,historico.getProduto().getSku());
-				ps.setInt(4,historico.getCanal().getId());
-				ps.setInt(5,historico.getId());
+				ps.setInt(2,historico.getProduto().getSku());
+				ps.setInt(3,historico.getCanal().getId());
+				ps.setInt(4,historico.getQuantidade());
 				int retorno = ps.executeUpdate(sql);
 				if (retorno == 1) {
-					//resultados[0] ++;
-					//resultados[0] += 1;
 					resultados[0] = resultados[0] + 1;
 				} else {
 					resultados[1] = resultados[1] +1;
 				}
 			}
 		} catch (SQLException e) {
+			System.out.println(e.getMessage());
 			LOGGER.error(e);
 			throw new DAOLayerException("Erro no Upsert do Histórico.",e);
 		}
