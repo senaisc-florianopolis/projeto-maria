@@ -46,7 +46,7 @@ class HU3CargaProdutoTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		service.updateProduto(update);
+		//service.updateProduto(update);
 
 	}
 
@@ -61,7 +61,7 @@ class HU3CargaProdutoTest {
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-		service.deleteProduto(delete);
+		//service.deleteProduto(delete);
 
 	}
 
@@ -78,7 +78,7 @@ class HU3CargaProdutoTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		service.updateProduto(update);
+		//service.updateProduto(update);
 
 	}
 
@@ -93,7 +93,7 @@ class HU3CargaProdutoTest {
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-		service.deleteProduto(delete);
+		//service.deleteProduto(delete);
 	}
 
 }
