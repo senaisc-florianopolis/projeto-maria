@@ -11,8 +11,8 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.senai.sc.edu.projetomaria.exception.DAOLayerException;
 import br.senai.sc.edu.projetomaria.model.Familia;
-import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class FamiliaDAO extends AbstractDAO {
 
@@ -42,28 +42,35 @@ public class FamiliaDAO extends AbstractDAO {
 		}
 	}
 	
-	public void upsert (List<Familia> familias) throws SQLException{
-		String sql = "";
-		int successes = 0;
-		int total = 0;			
+	public int[] upsert (List<Familia> familias) {
+		String sql = "INSERT INTO familia (COD_FAMILIA_COMERCIAL,NOME_FAMILIA_COMERCIAL) VALUES (?,?)"+
+				"ON DUPLICATE KEY UPDATE COD_FAMILIA_COMERCIAL = ?, NOME_FAMILIA_COMERCIAL= ?";	
+		int[] resultados = new int[2];
+		resultados = new int[] {0, 0};
 		
-		for (Familia familia: familias) {
-		sql = "INSERT INTO familia (COD_FAMILIA_COMERCIAL,NOME_FAMILIA_COMERCIAL) VALUES (?,?)"+
-		"ON DUPLICATE KEY UPDATE COD_FAMILIA_COMERCIAL = ?, NOME_FAMILIA_COMERCIAL= ?";	
+		
 		try (Connection conn = getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql);) {
+		for (Familia familia: familias) {
 			    stmt.setInt(1,familia.getCodigo());
 			    stmt.setString(2,familia.getNome());
 			    stmt.setInt(4,familia.getCodigo());
 			    stmt.setString(5,familia.getNome());
-				stmt.executeUpdate(sql);
-				successes++;
+				int retorno = stmt.executeUpdate(sql);
+				if(retorno == 1) {
+					// resultado[0]++;
+					// resuldato[0] += 1;
+					resultados[0] = resultados[0] + 1;
+				} else {
+					resultados[1] = resultados[1] + 1;
+				}
+		}
+				
 			} catch (SQLException e) {
-				LOGGER.debug(e);
+				LOGGER.error(e);
+				throw new DAOLayerException(e);
 			}
-		total++;
-	}
-		LOGGER.info(successes + " de " + total + " " + Messages.SUCCESS_FAMILIA);
+		return resultados;
 	}
 
 }

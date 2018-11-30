@@ -11,6 +11,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.senai.sc.edu.projetomaria.exception.DAOLayerException;
 import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.model.Produto;
@@ -30,7 +31,6 @@ public class HistoricoDAO extends AbstractDAO {
 				Historico h = new Historico();
 				Canal canal = new Canal();
 				canal.setId(rs.getInt("ID_CANAL"));
-				
 				h.setCanal(canal);
 				h.setId(rs.getInt("ID_HISTORICO"));
 				Produto produto = new Produto();
@@ -70,6 +70,7 @@ public class HistoricoDAO extends AbstractDAO {
 			}
 		}
 	}
+
 
 	public void update(List<Historico> registro) {
 
@@ -111,5 +112,39 @@ public class HistoricoDAO extends AbstractDAO {
 			LOGGER.error(e);
 		}
 		LOGGER.info(Messages.SUCESSO_DELETE_CANAL);
+	}
+	
+	public int[] upsert (List<Historico> registro) {
+		String sql = "INSERT INTO familia (MES_ANO = ?, PRODUTO_SKU = ?, ID_CANAL = ?, QUANTIDADE = ?) VALUES (?,?,?,?)"+
+				"ON DUPLICATE KEY UPDATE MES_ANO = ?, PRODUTO_SKU = ?, ID_CANAL = ?, QUANTIDADE = ?";	
+		int[] resultados = new int[2];
+		resultados = new int[] {0, 0};
+		
+		
+		try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql);) {
+		for (Historico historico: registro) {
+			    stmt.setDate(1, java.sql.Date.valueOf(historico.getPeriodo()));
+			    stmt.setObject(2,historico.getProduto().getSku());
+			    stmt.setInt(4,historico.getCanal().getId());
+			    stmt.setInt(5,historico.getQuantidade());
+			    stmt.setDate(6, java.sql.Date.valueOf(historico.getPeriodo()));
+			    stmt.setObject(7,historico.getProduto().getSku());
+			    stmt.setInt(8,historico.getCanal().getId());
+			    stmt.setInt(9,historico.getQuantidade());
+				int retorno = stmt.executeUpdate(sql);
+				if(retorno == 1) {
+					// resultado[0]++;
+					// resuldato[0] += 1;
+					resultados[0] = resultados[0] + 1;
+				} else {
+					resultados[1] = resultados[1] + 1;
+				}
+		}
+				
+			} catch (SQLException e) {
+				LOGGER.error(e);
+				throw new DAOLayerException(e);
+			}
+		return resultados;
 	}
 }

@@ -1,7 +1,5 @@
 package br.senai.sc.edu.projetomaria.service;
 
-import java.util.Map;
-
 public class ServiceResponse {
 
 	public enum STATUS {
@@ -9,9 +7,9 @@ public class ServiceResponse {
 	};
 
 	private STATUS status;
-	private Map<String, Object> response;
+	private Object response;
 
-	public ServiceResponse(STATUS status, Map<String, Object> response) {
+	public ServiceResponse(STATUS status, Object response) {
 		this.status = status;
 		this.response = response;
 	}
