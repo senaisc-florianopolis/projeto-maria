@@ -137,8 +137,7 @@ public class ProdutoDAO extends AbstractDAO {
 		;
 		int[] resultados = new int[2];
 
-		try (Connection conn = getConnection();
-			PreparedStatement stmt = conn.prepareStatement(sql);) {
+		try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql);) {
 			for (Produto p : produto) {
 				stmt.setInt(1, p.getIdComercial());
 				stmt.setString(2, p.getDescricao());
