@@ -20,7 +20,7 @@ public class CargaService {
 		CanalDAO canalDao = new CanalDAO();
 		List<Canal> canais = canalReader.readCanal();
 		int[] result = canalDao.upsertCanal(canais);
-
+		
 		ServiceResponse serviceResponse = new ServiceResponse(ServiceResponse.STATUS.OK, result);
 
 		return serviceResponse;

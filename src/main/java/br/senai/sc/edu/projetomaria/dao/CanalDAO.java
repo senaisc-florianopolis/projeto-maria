@@ -26,7 +26,7 @@ public class CanalDAO extends AbstractDAO {
 		int[] resultados = new int[2];
 		
 		
-		sql = "INSERT INTO produto (ID_CANAL,DESCRICAO) VALUES (?,?)"+
+		sql = "INSERT INTO canal (ID_CANAL,DESCRICAO) VALUES (?,?) "+
 		"ON DUPLICATE KEY UPDATE ID_CANAL = ?, DESCRICAO = ?";	
 		
 		try (Connection conn = getConnection();
@@ -36,7 +36,8 @@ public class CanalDAO extends AbstractDAO {
 			    stmt.setString(2,canal.getDescricao());
 			    stmt.setInt(3,canal.getId());
 			    stmt.setString(4,canal.getDescricao());
-				int retorno = stmt.executeUpdate(sql);
+			    LOGGER.debug(stmt);
+				int retorno = stmt.executeUpdate();
 				status++;
 				if(retorno == 1) {
 					resultados[0] = resultados[0] + 1;
