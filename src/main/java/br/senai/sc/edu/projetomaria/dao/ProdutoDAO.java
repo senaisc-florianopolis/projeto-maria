@@ -50,7 +50,7 @@ public class ProdutoDAO extends AbstractDAO {
 	}
 
 	public List<Produto> exportarProdutos() {
-		String sql = "SELECT * FROM PRODUTO;";
+		String sql = "SELECT * FROM produto ORDER BY NOME_PRODUTO;";
 
 		List<Produto> p = new ArrayList<>();
 		try (Connection conn = getConnection();
