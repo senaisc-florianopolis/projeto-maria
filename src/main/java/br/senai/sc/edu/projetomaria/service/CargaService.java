@@ -35,6 +35,7 @@ public class CargaService {
 		} catch (DAOLayerException e) {
 			throw new ServiceLayerException("Erro: DAO", e);
 		}
+		
 		ServiceResponse response = new ServiceResponse(ServiceResponse.STATUS.OK, array);
 		return response;
 	}

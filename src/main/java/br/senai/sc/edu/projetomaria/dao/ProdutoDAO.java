@@ -146,7 +146,8 @@ public class ProdutoDAO extends AbstractDAO {
 				stmt.setInt(4, p.getIdComercial());
 				stmt.setString(5, p.getDescricao());
 				stmt.setInt(6, p.getSku());
-				int retorno = stmt.executeUpdate(sql);
+				LOGGER.debug(stmt);
+				int retorno = stmt.executeUpdate();
 				if (retorno == 1) {
 					resultados[0] = resultados[0] + 1;
 				} else {

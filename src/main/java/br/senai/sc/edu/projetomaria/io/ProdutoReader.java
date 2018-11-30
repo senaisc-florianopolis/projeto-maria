@@ -34,29 +34,27 @@ public class ProdutoReader {
 
 		List<Produto> produtos = new ArrayList<>();
 		List<String> erros = new ArrayList<>();
-		try (Reader leitor = Files.newBufferedReader(caminho);
-				CSVParser conversor = new CSVParser(leitor, CSVFormat.DEFAULT.withHeader(mapeamentoColunasArquivo).withDelimiter(Config.CSV_DELIMITADOR));) {
-			for (CSVRecord ler : conversor) {
-				if (ler.getRecordNumber() != 1) {
-					
-					String idFamiliaComercial = ler.get(0);
-					String nomeProduto = ler.get(1);
-					String sku = ler.get(2);
+		try (Reader br = Files.newBufferedReader(caminho);
+				) {
+			Iterable<CSVRecord> records = CSVFormat.DEFAULT.withHeader(mapeamentoColunasArquivo).withDelimiter(Config.CSV_DELIMITADOR).withFirstRecordAsHeader().parse(br);
+			for (CSVRecord ler : records) {
+				String idFamiliaComercial = ler.get(0);
+				String nomeProduto = ler.get(1);
+				String sku = ler.get(2);
 
-					boolean idFamiliaComercialR = idFamiliaComercial.matches("^[0-9]{1,20}$");
-					boolean nomeProdutoR = nomeProduto.matches("^.{1,255}$");
-					boolean skuR = sku.matches("^[0-9]{1,20}$");
+				boolean idFamiliaComercialR = idFamiliaComercial.matches("^[0-9]{1,20}$");
+				boolean nomeProdutoR = nomeProduto.matches("^.{1,255}$");
+				boolean skuR = sku.matches("^[0-9]{1,20}$");
 
-					if (skuR && nomeProdutoR && idFamiliaComercialR) {	
-						novoProduto = new Produto();
-						novoProduto.setSku(Integer.parseInt(sku));
-						novoProduto.setDescricao(nomeProduto);
-						novoProduto.setIdComercial(Integer.parseInt(idFamiliaComercial));
-						produtos.add(novoProduto);
-					} else {
-						contErrosP++;
-						erros.add("Linha "+ler.getRecordNumber() + ": "+idFamiliaComercial + ", " + nomeProduto + ", " + sku+"\n");
-					}
+				if (skuR && nomeProdutoR && idFamiliaComercialR) {	
+					novoProduto = new Produto();
+					novoProduto.setSku(Integer.parseInt(sku));
+					novoProduto.setDescricao(nomeProduto);
+					novoProduto.setIdComercial(Integer.parseInt(idFamiliaComercial));
+					produtos.add(novoProduto);
+				} else {
+					contErrosP++;
+					erros.add("Linha "+ler.getRecordNumber() + ": "+idFamiliaComercial + ", " + nomeProduto + ", " + sku+"\n");
 				}
 			}
 		} catch (IOException e) {
@@ -64,22 +62,13 @@ public class ProdutoReader {
 			LOGGER.debug(e);
 			throw new DAOLayerException(e);
 		}
-		if (contErrosP == 0) {
-			return produtos;
-		} else {			
-			throw new ErrosProduto(erros);
+		if (contErrosP != 0) {		
+			// FIXME: ajustar mensagem de erro
+			throw new DAOLayerException();
 		}
+		LOGGER.debug("QTD: " + produtos.size());
+		return produtos;
 	}
 
-	public class ErrosProduto extends DAOLayerException {
-		private List<String> errosP;
 
-		public ErrosProduto(List<String> erroP) {
-			this.errosP = erroP;
-		}
-
-		public List<String> getErro() {
-			return this.errosP;
-		}
-	}
 }
