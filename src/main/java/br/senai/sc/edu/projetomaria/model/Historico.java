@@ -4,19 +4,10 @@ import java.time.LocalDate;
 
 public class Historico implements ValidableModel {
 
-	private int id;
 	private LocalDate periodo;
 	private int quantidade;
 	private Produto produto;
 	private Canal canal;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public LocalDate getPeriodo() {
 		return periodo;
@@ -52,14 +43,14 @@ public class Historico implements ValidableModel {
 
 	@Override
 	public String toString() {
-		return "Historico [id=" + id + ", periodo=" + periodo + ", quantidade=" + quantidade + ", produto=" + produto
+		return "Historico [periodo=" + periodo + ", quantidade=" + quantidade + ", produto=" + produto
 				+ ", canal=" + canal + "]";
 	}
 
 	@Override
 	public boolean isValid() {
 		boolean ok = true;
-		if (this.produto.getSku() == 0 || this.canal.getId() == 0 || this.id == 0 || this.periodo == null) {
+		if (this.produto.getSku() == 0 || this.canal.getId() == 0 || this.periodo == null) {
 			ok = false;
 		}
 		return ok;
