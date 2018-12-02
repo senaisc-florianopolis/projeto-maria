@@ -1,10 +1,13 @@
 package br.senai.sc.edu.projetomaria.service;
 
 import java.nio.file.Path;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.senai.sc.edu.projetomaria.dao.ProdutoDAO;
+import br.senai.sc.edu.projetomaria.model.Produto;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class RelatorioService {
@@ -20,8 +23,11 @@ public class RelatorioService {
 	}
 
 	public ServiceResponse exportarProduto(Path path) {
-//		ProdutoWriter.CSVWriter(path);
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		ProdutoDAO pdao = new ProdutoDAO();
+		List<Produto> produtos = pdao.exportarProdutos();
+		ServiceResponse response = new ServiceResponse(ServiceResponse.STATUS.OK, produtos);
+		
+		return response;
 	}
 	
 	public ServiceResponse exportarProduto() {
