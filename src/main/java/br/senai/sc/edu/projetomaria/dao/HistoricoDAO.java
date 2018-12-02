@@ -77,38 +77,4 @@ public class HistoricoDAO extends AbstractDAO {
 
 		return resultados;
 	}
-	
-	public int[] upsert (List<Historico> registro) {
-		String sql = "INSERT INTO familia (MES_ANO = ?, PRODUTO_SKU = ?, ID_CANAL = ?, QUANTIDADE = ?) VALUES (?,?,?,?)"+
-				"ON DUPLICATE KEY UPDATE MES_ANO = ?, PRODUTO_SKU = ?, ID_CANAL = ?, QUANTIDADE = ?";	
-		int[] resultados = new int[2];
-		resultados = new int[] {0, 0};
-		
-		
-		try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql);) {
-		for (Historico historico: registro) {
-			    stmt.setDate(1, java.sql.Date.valueOf(historico.getPeriodo()));
-			    stmt.setObject(2,historico.getProduto().getSku());
-			    stmt.setInt(4,historico.getCanal().getId());
-			    stmt.setInt(5,historico.getQuantidade());
-			    stmt.setDate(6, java.sql.Date.valueOf(historico.getPeriodo()));
-			    stmt.setObject(7,historico.getProduto().getSku());
-			    stmt.setInt(8,historico.getCanal().getId());
-			    stmt.setInt(9,historico.getQuantidade());
-				int retorno = stmt.executeUpdate(sql);
-				if(retorno == 1) {
-					// resultado[0]++;
-					// resuldato[0] += 1;
-					resultados[0] = resultados[0] + 1;
-				} else {
-					resultados[1] = resultados[1] + 1;
-				}
-		}
-				
-			} catch (SQLException e) {
-				LOGGER.error(e);
-				throw new DAOLayerException(e);
-			}
-		return resultados;
-	}
 }
