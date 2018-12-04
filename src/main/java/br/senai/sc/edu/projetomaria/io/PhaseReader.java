@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.senai.sc.edu.projetomaria.exception.IOLayerException;
 import br.senai.sc.edu.projetomaria.model.Phase;
 import br.senai.sc.edu.projetomaria.resource.Config;
 import br.senai.sc.edu.projetomaria.resource.Messages;
@@ -24,7 +24,7 @@ public class PhaseReader {
 	private static final String SKU_PHASE_OUT = "SKU_PHASE_OUT";
 
 
-	public List<Phase> lerCsvPhase(Path caminho) throws Exception {
+	public List<Phase> lerCsvPhase(Path caminho) {
 		List<Phase> phase = new ArrayList<>();
 		List<String> erros = new ArrayList<>();
 		int contErrosP = 0;
@@ -51,8 +51,8 @@ public class PhaseReader {
 				}
 			}
 		} catch (IOException e) {
-			LOGGER.info(Messages.FS_ERRO_ACESSO);
-			LOGGER.debug(e);
+			LOGGER.error(e);
+			throw new IOLayerException(Messages.FS_ERRO_ACESSO, e);
 		}
 		if (contErrosP == 0) {
 			return phase;
@@ -61,7 +61,7 @@ public class PhaseReader {
 		}
 	}
 
-	public class ErrosPhase extends Exception {
+	public class ErrosPhase extends IOLayerException {
 		private List<String> errosPh;
 
 		public ErrosPhase(List<String> erroPh) {
