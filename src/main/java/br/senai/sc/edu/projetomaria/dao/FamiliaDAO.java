@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import br.senai.sc.edu.projetomaria.exception.DAOLayerException;
 import br.senai.sc.edu.projetomaria.model.Familia;
+import br.senai.sc.edu.projetomaria.model.Produto;
 
 public class FamiliaDAO extends AbstractDAO {
 
@@ -69,6 +70,27 @@ public class FamiliaDAO extends AbstractDAO {
 				throw new DAOLayerException(e);
 			}
 		return resultados;
+	}
+	
+	public List<Familia> exportarFamilias() {
+		String sql = "SELECT * FROM familia ORDER BY COD_FAMILIA_COMERCIAL;";
+
+		List<Familia> f = new ArrayList<>();
+		try (Connection conn = getConnection();
+				Statement stmt = conn.prepareStatement(sql);
+				ResultSet rs = stmt.executeQuery(sql);) {
+
+			while (rs.next()) {
+				Familia familias = null;
+				familias = new Familia();
+				familias.setCodigo(rs.getInt("COD_FAMILIA_COMERCIAL"));
+				familias.setNome(rs.getString("NOME_FAMILIA_COMERCIAL"));
+				f.add(familias);
+			}
+		} catch (SQLException e) {
+			LOGGER.error(e);
+		}
+		return f;
 	}
 
 }
