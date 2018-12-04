@@ -23,7 +23,6 @@ import br.senai.sc.edu.projetomaria.model.Familia;
 import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.model.Phase;
 import br.senai.sc.edu.projetomaria.model.Produto;
-import br.senai.sc.edu.projetomaria.resource.Messages;
 import br.senai.sc.edu.projetomaria.service.ServiceResponse.STATUS;
 
 public class CargaService {
