@@ -7,8 +7,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.senai.sc.edu.projetomaria.dao.FamiliaDAO;
+import br.senai.sc.edu.projetomaria.dao.PhaseDAO;
 import br.senai.sc.edu.projetomaria.dao.ProdutoDAO;
 import br.senai.sc.edu.projetomaria.model.Familia;
+import br.senai.sc.edu.projetomaria.model.Phase;
 import br.senai.sc.edu.projetomaria.model.Produto;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 
@@ -71,7 +73,11 @@ public class RelatorioService {
 	}
 	
 	public ServiceResponse exportarPhase() {
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		PhaseDAO pdao = new PhaseDAO();
+		List<Phase> phases = pdao.exportarPhase();
+		ServiceResponse response = new ServiceResponse(ServiceResponse.STATUS.OK, phases);
+		
+		return response;
 	}
 		
 	public ServiceResponse exportarEstimativa(Path path, int periodoAnterior) {
