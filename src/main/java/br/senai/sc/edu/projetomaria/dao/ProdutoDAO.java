@@ -20,7 +20,6 @@ import br.senai.sc.edu.projetomaria.resource.Messages;
 public class ProdutoDAO extends AbstractDAO {
 	private static final Logger LOGGER = LogManager.getLogger();
 	int total;
-	private String path;
 
 	public List<Produto> listarTodos() throws IOException {
 		ArrayList<Produto> listaProdutos = new ArrayList<Produto>();
@@ -134,7 +133,7 @@ public class ProdutoDAO extends AbstractDAO {
 	public int[] upsert(List<Produto> produto) {
 		String sql = "INSERT INTO produto (COD_FAMILIA_COMERCIAL,NOME_PRODUTO,SKU) VALUES (?,?,?)"
 				+ "ON DUPLICATE KEY UPDATE COD_FAMILIA_COMERCIAL = ?, NOME_PRODUTO = ?, SKU = ?";
-		;
+
 		int[] resultados = new int[2];
 
 		try (Connection conn = getConnection();
