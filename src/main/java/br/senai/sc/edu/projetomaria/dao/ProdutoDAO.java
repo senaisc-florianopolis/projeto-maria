@@ -21,9 +21,9 @@ public class ProdutoDAO extends AbstractDAO {
 
 	public List<Produto> listarTodos() throws IOException {
 		ArrayList<Produto> listaProdutos = new ArrayList<Produto>();
-		try {
-			String sql = "select * from produto";
-			Statement stmt = getConnection().createStatement();
+		String sql = "select * from produto";
+		try (Connection conn = getConnection();
+				PreparedStatement stmt = conn.prepareStatement(sql);) {
 
 			ResultSet rs = stmt.executeQuery(sql);
 

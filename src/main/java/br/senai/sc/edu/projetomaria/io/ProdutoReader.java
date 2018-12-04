@@ -34,8 +34,7 @@ public class ProdutoReader {
 
 		List<Produto> produtos = new ArrayList<>();
 		List<String> erros = new ArrayList<>();
-		try (Reader br = Files.newBufferedReader(caminho);
-				) {
+		try (Reader br = Files.newBufferedReader(caminho);) {
 			Iterable<CSVRecord> records = CSVFormat.DEFAULT.withHeader(mapeamentoColunasArquivo).withDelimiter(Config.CSV_DELIMITADOR).withFirstRecordAsHeader().parse(br);
 			for (CSVRecord ler : records) {
 				String idFamiliaComercial = ler.get(0);
