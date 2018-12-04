@@ -6,7 +6,9 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.senai.sc.edu.projetomaria.dao.CanalDAO;
 import br.senai.sc.edu.projetomaria.dao.ProdutoDAO;
+import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.model.Produto;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 
@@ -43,7 +45,12 @@ public class RelatorioService {
 	}
 
 	public ServiceResponse exportarCanal() {
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+
+		CanalDAO cdao = new CanalDAO();
+		List<Canal> canais = cdao.getCanais();
+		ServiceResponse response = new ServiceResponse(ServiceResponse.STATUS.OK, canais);
+		
+		return response;
 	}
 
 	public ServiceResponse exportarHistorico(Path path) {
