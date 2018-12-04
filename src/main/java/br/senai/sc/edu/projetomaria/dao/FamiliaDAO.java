@@ -54,12 +54,10 @@ public class FamiliaDAO extends AbstractDAO {
 		for (Familia familia: familias) {
 			    stmt.setInt(1,familia.getCodigo());
 			    stmt.setString(2,familia.getNome());
-			    stmt.setInt(4,familia.getCodigo());
-			    stmt.setString(5,familia.getNome());
+			    stmt.setInt(3,familia.getCodigo());
+			    stmt.setString(4,familia.getNome());
 				int retorno = stmt.executeUpdate(sql);
 				if(retorno == 1) {
-					// resultado[0]++;
-					// resuldato[0] += 1;
 					resultados[0] = resultados[0] + 1;
 				} else {
 					resultados[1] = resultados[1] + 1;
