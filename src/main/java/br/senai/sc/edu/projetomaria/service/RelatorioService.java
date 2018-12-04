@@ -7,8 +7,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.senai.sc.edu.projetomaria.dao.CanalDAO;
+import br.senai.sc.edu.projetomaria.dao.HistoricoDAO;
 import br.senai.sc.edu.projetomaria.dao.ProdutoDAO;
 import br.senai.sc.edu.projetomaria.model.Canal;
+import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.model.Produto;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 
@@ -62,7 +64,12 @@ public class RelatorioService {
 	}
 
 	public ServiceResponse exportarHistorico() {
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+		
+		HistoricoDAO hdao = new HistoricoDAO();
+		List<Historico> historicos = hdao.get();
+		ServiceResponse response = new ServiceResponse(ServiceResponse.STATUS.OK, historicos);
+	
+		return response;
 	}
 
 	public ServiceResponse exportarPhase(Path path) {
