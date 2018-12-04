@@ -171,7 +171,7 @@ public class ProdutoDAO extends AbstractDAO {
 					LOGGER.info("Coluna em branco. Ajuste e tente novamente. Mensagem SQL = " + e.getMessage());
 				} else {
 					LOGGER.info(
-							"Registro fora do Padr√£o. Retire-os e tente novamente. Mensagem SQL = " + e.getMessage());
+							"Registro fora do Padr„o. Retire-os e tente novamente. Mensagem SQL = " + e.getMessage());
 				}
 				LOGGER.debug(e);
 				throw new DAOLayerException(e);
