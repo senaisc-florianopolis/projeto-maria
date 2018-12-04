@@ -23,12 +23,11 @@ public class ProdutoDAO extends AbstractDAO {
 
 	public List<Produto> listarTodos() throws IOException {
 		ArrayList<Produto> listaProdutos = new ArrayList<Produto>();
-		try {
-			String sql = "select * from produto";
-			Statement stmt = getConnection().createStatement();
-
+		String sql = "select * from produto";
+		
+		try (Connection conn = getConnection();
+				PreparedStatement stmt = conn.prepareStatement(sql);) {
 			ResultSet rs = stmt.executeQuery(sql);
-
 			while (rs.next()) {
 				Produto p = new Produto();
 				p.setSku(rs.getInt("SKU"));
@@ -44,7 +43,7 @@ public class ProdutoDAO extends AbstractDAO {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+		};
 		return listaProdutos;
 	}
 
