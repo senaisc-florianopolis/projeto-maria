@@ -23,14 +23,14 @@ public class PhaseReader {
 	private static final String SKU_PHASE_IN = "SKU_PHASE_IN";
 	private static final String SKU_PHASE_OUT = "SKU_PHASE_OUT";
 
-
 	public List<Phase> lerCsvPhase(Path caminho) {
 		List<Phase> phase = new ArrayList<>();
 		List<String> erros = new ArrayList<>();
 		int contErrosP = 0;
-		
+
 		try (Reader br = Files.newBufferedReader(caminho);) {
-			Iterable<CSVRecord> records = CSVFormat.DEFAULT.withHeader(SKU_PHASE_IN, SKU_PHASE_OUT).withDelimiter(Config.CSV_DELIMITADOR).parse(br);
+			Iterable<CSVRecord> records = CSVFormat.DEFAULT.withHeader(SKU_PHASE_IN, SKU_PHASE_OUT)
+					.withDelimiter(Config.CSV_DELIMITADOR).parse(br);
 			for (CSVRecord ler : records) {
 				if (ler.getRecordNumber() != 1) {
 					String skuNew = ler.get(0);

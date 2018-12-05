@@ -9,10 +9,10 @@ public class Resultado {
 	private Double resultadoMedia3;
 	private Double resultadoMedia4;
 	private Double erroQuadraticoMedio;
-		
-	public Resultado() {		
+
+	public Resultado() {
 	}
-	
+
 	public Resultado(Integer sku, Integer periodoTotal, Integer[] periodoUtilizado, Double resultadoMedia,
 			Double erroQuadraticoMedio) {
 		this.sku = sku;
@@ -23,7 +23,7 @@ public class Resultado {
 	}
 
 	public String getResultadoMedia4() {
-		return String.format("%.2f",resultadoMedia4);
+		return String.format("%.2f", resultadoMedia4);
 	}
 
 	public void setResultadoMedia4(Double resultadoMedia4) {
@@ -31,7 +31,7 @@ public class Resultado {
 	}
 
 	public String getResultadoMedia2() {
-		return String.format("%.2f",resultadoMedia2);
+		return String.format("%.2f", resultadoMedia2);
 	}
 
 	public void setResultadoMedia2(Double resultadoMedia2) {
@@ -63,7 +63,7 @@ public class Resultado {
 	}
 
 	public String getResultadoMedia() {
-		return String.format("%.2f",resultadoMedia);
+		return String.format("%.2f", resultadoMedia);
 	}
 
 	public void setResultadoMedia(Double resultadoMedia) {
@@ -71,14 +71,15 @@ public class Resultado {
 	}
 
 	public String getErroQuadraticoMedio() {
-		return String.format("%.2f",erroQuadraticoMedio);
+		return String.format("%.2f", erroQuadraticoMedio);
 	}
 
 	public void setErroQuadraticoMedio(Double erroQuadraticoMedio) {
 		this.erroQuadraticoMedio = erroQuadraticoMedio;
 	}
+
 	public String getResultadoMedia3() {
-		return String.format("%.2f",resultadoMedia3);
+		return String.format("%.2f", resultadoMedia3);
 	}
 
 	public void setResultadoMedia3(Double resultadoMedia3) {

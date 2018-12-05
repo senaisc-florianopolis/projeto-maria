@@ -1,6 +1,5 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.awt.List;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,7 +11,7 @@ import br.senai.sc.edu.projetomaria.service.ServiceResponse;
 import br.senai.sc.edu.projetomaria.service.ServiceResponse.STATUS;
 
 public class HU1CargaCanalTest {
-	
+
 	@Test
 	void testeInsert() {
 		ClassLoader classLoader = HU1CargaCanalTest.class.getClassLoader();
@@ -29,6 +28,6 @@ public class HU1CargaCanalTest {
 		int[] response = (int[]) s.getResponse();
 		assertEquals(response[0], 4);
 		assertEquals(response[1], 0);
-		
+
 	}
 }

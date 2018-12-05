@@ -23,8 +23,6 @@ import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.io.FamiliaReader;
 import br.senai.sc.edu.projetomaria.io.HistoricoReader;
 import br.senai.sc.edu.projetomaria.io.PhaseReader;
-import br.senai.sc.edu.projetomaria.io.ProdutoReader;
-import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.model.Familia;
 import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.model.Phase;

@@ -88,8 +88,7 @@ public class Calculo {
 				mediaVenda = 0.00;
 				int x = 0;
 				/*
-				 * Para cada posi��o do Array, utiliza-se uma vari�vel para agregar os
-				 * valores.
+				 * Para cada posi��o do Array, utiliza-se uma vari�vel para agregar os valores.
 				 */
 				for (int i = (vendas.length - periodo); i < vendas.length; i++) {
 					mediaVenda += vendas[i];
@@ -97,8 +96,8 @@ public class Calculo {
 					x = x + 1;
 				}
 				/*
-				 * O resultado da concatena��o � dividido pelo tamanho do array para se
-				 * ter a m�dia m�vel do periodo recebido como parametro.
+				 * O resultado da concatena��o � dividido pelo tamanho do array para se ter a
+				 * m�dia m�vel do periodo recebido como parametro.
 				 */
 				resultadoMedia = mediaVenda / (vendas.length - (vendas.length - periodo));
 

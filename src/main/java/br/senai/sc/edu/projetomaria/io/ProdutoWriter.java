@@ -19,16 +19,16 @@ public class ProdutoWriter {
 
 	// public static void CSVWriter(String path, ArrayList<Produto> listaProdutos) {
 	public static void CSVWriter(Path path) {
-		
+
 		ProdutoDAO produtoDAO = new ProdutoDAO();
-		
+
 		ArrayList<Produto> listaProdutos = null;
 		try {
 			listaProdutos = (ArrayList<Produto>) produtoDAO.listarTodos();
 		} catch (Exception e) {
 
 		}
-		
+
 		FileWriter escritorDeArquivos = null;
 
 		CSVPrinter csvCompiladorDeArquivos = null;

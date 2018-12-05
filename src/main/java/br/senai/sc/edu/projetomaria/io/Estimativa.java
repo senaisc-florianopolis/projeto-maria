@@ -18,22 +18,21 @@ public class Estimativa {
 		List<Integer> listaSku = dao.listarSKU();
 
 		for (int i = 0; i < listaSku.size(); i++) {
-			List<Integer>listarHistorico =  dao.listaHistorico(listaSku.get(i));
+			List<Integer> listarHistorico = dao.listaHistorico(listaSku.get(i));
 			Integer[] vendas = listarHistorico.toArray(new Integer[listarHistorico.size()]);
-			
+
 			Calculo medias = new Calculo(vendas, tipoMedia, periodo);
 			medias.calcularMedia();
 
-			
 			Integer[] periodoUtilizadoList = new Integer[periodo];
-			if (vendas.length > periodo){
+			if (vendas.length > periodo) {
 				for (int j = 0; j < periodoUtilizadoList.length; j++) {
 					periodoUtilizadoList[j] = vendas[vendas.length - periodo + j];
 				}
-			}else{
+			} else {
 				for (int j = 0; j < periodoUtilizadoList.length; j++) {
 					periodoUtilizadoList[j] = 0;
-				}	
+				}
 			}
 
 			Resultado r = new Resultado();

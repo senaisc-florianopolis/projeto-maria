@@ -8,7 +8,8 @@ public class ResourceRequiredException extends RuntimeException {
 		super();
 	}
 
-	public ResourceRequiredException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+	public ResourceRequiredException(String message, Throwable cause, boolean enableSuppression,
+			boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
 

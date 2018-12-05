@@ -1,20 +1,20 @@
 //*****************************************************************************
-// 
+//
 // Projeto Maria - Projeto Integrador do SENAI/SC Florianópolis
 
 //
 // Written in 2018 by Alunos do curso de SADS
 //
-// To the extent possible under law, the author(s) have dedicated 
-// all copyright and related and neighboring rights to this software 
-// to the public domain worldwide. 
+// To the extent possible under law, the author(s) have dedicated
+// all copyright and related and neighboring rights to this software
+// to the public domain worldwide.
 //
 // This software is distributed without any warranty.
 //
-// You should have received a copy of the CC0 Public Domain Dedication 
-// along with this software. 
+// You should have received a copy of the CC0 Public Domain Dedication
+// along with this software.
 //
-// If not, see <http://creativecommons.org/publicdomain/zero/1.0/>. 
+// If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 //
 //*****************************************************************************
 package br.senai.sc.edu.projetomaria;

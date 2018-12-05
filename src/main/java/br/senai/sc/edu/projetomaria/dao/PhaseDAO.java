@@ -26,7 +26,7 @@ public class PhaseDAO extends AbstractDAO {
 		int total = 0;
 		for (Phase p : skuPhase) {
 			sql = "INSERT INTO sku_phase(SKU_PHASE_IN,SKU_PHASE_OUT) VALUES (?,? )"
-		+ "ON DUPLICATE KEY UPDATE SKU_PHASE_IN = ?, SKU_PHASE_OUT = ?";
+					+ "ON DUPLICATE KEY UPDATE SKU_PHASE_IN = ?, SKU_PHASE_OUT = ?";
 			try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql);) {
 				stmt.setInt(1, p.getSkuNew());
 				stmt.setInt(2, p.getSkuOld());
