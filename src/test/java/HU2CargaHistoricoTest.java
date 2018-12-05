@@ -2,6 +2,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -56,5 +62,41 @@ class HU2CargaHistoricoTest {
 		int[] response1 = (int[]) x.getResponse();
 		assertEquals(response1[0], 0);
 		assertEquals(response1[1], 4);
+	}
+	
+	@AfterAll	
+	static void limparTeste() {
+						
+		Database bd = new Database();
+		String sqlCanal = "delete from canal";		
+		String sqlProduto = "delete from produto";
+		String sqlHistorico = "delete from historico";
+				
+		try (Connection conn = bd.getDatabaseConnection();
+			Statement ps = conn.createStatement();) 	{
+			ps.executeUpdate(sqlCanal);
+						
+		} catch (SQLException ex) {
+			System.err.println(ex.getMessage());
+		}
+		
+		
+		try (Connection conn = bd.getDatabaseConnection();
+			Statement ps = conn.createStatement();) 	{
+			ps.executeUpdate(sqlProduto);
+								
+		} catch (SQLException ex) {
+				System.err.println(ex.getMessage());
+		}
+	
+		
+		try (Connection conn = bd.getDatabaseConnection();
+			Statement ps = conn.createStatement();) 	{
+			ps.executeUpdate(sqlHistorico);
+								
+		} catch (SQLException ex) {
+				System.err.println(ex.getMessage());
+		}
+
 	}
 }	
