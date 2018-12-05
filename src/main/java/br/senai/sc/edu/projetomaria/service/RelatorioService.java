@@ -21,12 +21,12 @@ public class RelatorioService {
 //		FamiliaWriter.CSVWriter(path);
 		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
-	
+
 	public ServiceResponse exportarFamilia() {
 		FamiliaDAO fdao = new FamiliaDAO();
 		List<Familia> familias = fdao.exportarFamilias();
 		ServiceResponse response = new ServiceResponse(ServiceResponse.STATUS.OK, familias);
-		
+
 		return response;
 	}
 
@@ -34,10 +34,10 @@ public class RelatorioService {
 		ProdutoDAO pdao = new ProdutoDAO();
 		List<Produto> produtos = pdao.exportarProdutos();
 		ServiceResponse response = new ServiceResponse(ServiceResponse.STATUS.OK, produtos);
-		
+
 		return response;
 	}
-	
+
 	public ServiceResponse exportarProduto() {
 		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
@@ -71,23 +71,23 @@ public class RelatorioService {
 //		writter.gerarArquivoPhase(path);
 		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
-	
+
 	public ServiceResponse exportarPhase() {
 		PhaseDAO pdao = new PhaseDAO();
 		List<Phase> phases = pdao.exportarPhase();
 		ServiceResponse response = new ServiceResponse(ServiceResponse.STATUS.OK, phases);
-		
+
 		return response;
 	}
-		
+
 	public ServiceResponse exportarEstimativa(Path path, int periodoAnterior) {
 //		EstimativaWritter estimativa = new EstimativaWritter();
 //		estimativa.escrever(path, periodoAnterior);	
 		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
-	
+
 	public ServiceResponse exportarEstimativa(int periodoAnterior) {
 		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
-	}	
-	
+	}
+
 }
