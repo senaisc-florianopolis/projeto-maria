@@ -58,7 +58,7 @@ public class CanalDAO extends AbstractDAO {
 
 	}
 	
-	public List<Canal> getCanais() throws SQLException {
+	public List<Canal> getCanais() {
 		String sql = SQL.GET_CANAL;
 		List<Canal> canais = new ArrayList<>();
 		try (Statement stmt = getConnection().createStatement()){
