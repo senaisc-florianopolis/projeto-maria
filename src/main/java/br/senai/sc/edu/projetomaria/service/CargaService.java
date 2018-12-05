@@ -7,13 +7,19 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.senai.sc.edu.projetomaria.dao.CanalDAO;
+
 import br.senai.sc.edu.projetomaria.dao.FamiliaDAO;
 import br.senai.sc.edu.projetomaria.dao.HistoricoDAO;
 import br.senai.sc.edu.projetomaria.dao.PhaseDAO;
+
 import br.senai.sc.edu.projetomaria.dao.ProdutoDAO;
 import br.senai.sc.edu.projetomaria.exception.DAOLayerException;
 import br.senai.sc.edu.projetomaria.exception.ServiceLayerException;
 import br.senai.sc.edu.projetomaria.io.CanalReader;
+
+import br.senai.sc.edu.projetomaria.io.ProdutoReader;
+import br.senai.sc.edu.projetomaria.model.Canal;
+
 import br.senai.sc.edu.projetomaria.io.FamiliaReader;
 import br.senai.sc.edu.projetomaria.io.HistoricoReader;
 import br.senai.sc.edu.projetomaria.io.PhaseReader;
@@ -22,6 +28,7 @@ import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.model.Familia;
 import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.model.Phase;
+
 import br.senai.sc.edu.projetomaria.model.Produto;
 import br.senai.sc.edu.projetomaria.service.ServiceResponse.STATUS;
 
