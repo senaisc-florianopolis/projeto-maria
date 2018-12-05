@@ -1,7 +1,5 @@
 package br.senai.sc.edu.projetomaria.resource;
 
-import javax.annotation.Resource;
-
 public abstract class Messages {
 
 	// Dados do Projeto
