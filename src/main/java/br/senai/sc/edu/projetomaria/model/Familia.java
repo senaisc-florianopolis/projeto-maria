@@ -4,8 +4,7 @@ import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class Familia implements ValidableModel {
 	
-	private int id;
-	private String codigo;
+	private int codigo;
 	private String nome;
 	
 	public String getNome() {
@@ -16,26 +15,17 @@ public class Familia implements ValidableModel {
 		this.nome = nome;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getCodigo() {
+	public int getCodigo() {
 		return codigo;
 	}
 
-	public void setCodigo(String codigo) {
+	public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}
-	
-	
+		
 	@Override
 	public String toString() {
-		return "Familia [id=" + id + ", codigo=" + codigo + ", nome=" + nome + "]";
+		return "Familia [codigo=" + codigo + ", nome=" + nome + "]";
 	}
 
 	@Override

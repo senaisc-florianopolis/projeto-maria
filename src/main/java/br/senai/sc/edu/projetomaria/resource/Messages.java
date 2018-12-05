@@ -1,7 +1,5 @@
 package br.senai.sc.edu.projetomaria.resource;
 
-import javax.annotation.Resource;
-
 public abstract class Messages {
 
 	// Dados do Projeto
@@ -21,6 +19,7 @@ public abstract class Messages {
 	public static final String EXEC_ERRO_RECURSO_OBRIGATORIO = ResourceManager.getMessage("exec.erro.recurso.obrigatorio"); //$NON-NLS-1$
 	
 	// Outras Mensagens
+	public static final String ERRO_CARGA_CANAL = ResourceManager.getMessage("erro.carga.canal"); //$NON-NLS-1$
 	public static final String ERRO_METODO_NAO_IMPLEMENTADO = ResourceManager.getMessage("erro.metodo.nao.implementado"); //$NON-NLS-1$
 	public static final String SUCESSO_RELATORIO_FAMILIA = ResourceManager.getMessage("sucesso.relatorio.familia"); //$NON-NLS-1$
 	public static final String ERRO_EXECUCAO_DELETE = ResourceManager.getMessage("erro.falta.informacao"); //$NON-NLS-1$
