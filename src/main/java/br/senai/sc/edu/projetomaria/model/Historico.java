@@ -43,8 +43,8 @@ public class Historico implements ValidableModel {
 
 	@Override
 	public String toString() {
-		return "Historico [periodo=" + periodo + ", quantidade=" + quantidade + ", produto=" + produto
-				+ ", canal=" + canal + "]";
+		return "Historico [periodo=" + periodo + ", quantidade=" + quantidade + ", produto=" + produto + ", canal="
+				+ canal + "]";
 	}
 
 	@Override

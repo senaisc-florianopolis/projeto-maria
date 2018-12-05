@@ -23,7 +23,7 @@ public class EstimativaWritter {
 		header[2] = "RESULTADO 1";
 		header[3] = "RESULTADO 2";
 		header[4] = "RESULTADO 3";
-		header[5] = "RESULTADO 4";		
+		header[5] = "RESULTADO 4";
 		header[6] = "ERRO QUADRATICO";
 		for (int i = 7; i < (periodo + 7); i++) {
 			header[i] = "P" + i;
@@ -36,13 +36,13 @@ public class EstimativaWritter {
 		int tamanho = linha.getPeriodoUtilizado().length + aux;
 		Object[] retorno = new Object[tamanho];
 		retorno[0] = linha.getSKU();
-		retorno[1] =  linha.getPeriodoTotal();
+		retorno[1] = linha.getPeriodoTotal();
 		retorno[2] = linha.getResultadoMedia();
 		retorno[3] = linha.getResultadoMedia2();
 		retorno[4] = linha.getResultadoMedia3();
-		retorno[5] = linha.getResultadoMedia4();		
+		retorno[5] = linha.getResultadoMedia4();
 		retorno[6] = linha.getErroQuadraticoMedio();
-		for (Integer periodo : linha.getPeriodoUtilizado()) {			
+		for (Integer periodo : linha.getPeriodoUtilizado()) {
 			retorno[aux] = periodo;
 			aux++;
 		}
@@ -52,12 +52,11 @@ public class EstimativaWritter {
 	public void escrever(Path path, int periodo) {
 		String[] header = this.getHeader(periodo);
 		try (BufferedWriter arquivo = Files.newBufferedWriter(path);
-				CSVPrinter escrever = new CSVPrinter(arquivo,
-						CSVFormat.DEFAULT.withHeader(header));) {
+				CSVPrinter escrever = new CSVPrinter(arquivo, CSVFormat.DEFAULT.withHeader(header));) {
 			Estimativa estimativa = new Estimativa();
 
 			for (Resultado linha : estimativa.calculo(periodo)) {
-				
+
 				escrever.printRecord(getEscrever(linha));
 			}
 			LOGGER.info(Messages.ARQUIVO_GERADO);

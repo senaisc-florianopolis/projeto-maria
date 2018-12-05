@@ -20,7 +20,7 @@ public class FamiliaWriter {
 	public static void CSVWriter(Path path) {
 
 		FamiliaDAO familiaDAO = new FamiliaDAO();
-		
+
 		ArrayList<Familia> listaFamilia = null;
 		try {
 			listaFamilia = (ArrayList<Familia>) familiaDAO.getFamilias();

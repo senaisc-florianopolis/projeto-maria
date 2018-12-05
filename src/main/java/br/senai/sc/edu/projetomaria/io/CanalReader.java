@@ -22,14 +22,13 @@ public class CanalReader {
 	private static final Logger LOGGER = LogManager.getLogger();
 	private static final String ID_CANAL = "ID_CANAL";
 	private static final String DESCRICAO = "DESCRICAO";
-	
 
 	public CanalReader(Path path) {
 		this.path = path;
 	}
 
 	public List<Canal> readCanal() {
-		
+
 		ArrayList<Canal> list = new ArrayList<>();
 		try (BufferedReader br = Files.newBufferedReader(this.path)) {
 			Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader(ID_CANAL, DESCRICAO)

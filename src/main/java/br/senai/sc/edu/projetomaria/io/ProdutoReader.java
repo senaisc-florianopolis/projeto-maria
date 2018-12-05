@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,12 +18,12 @@ import br.senai.sc.edu.projetomaria.resource.Config;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class ProdutoReader {
-	
+
 	private static final String COD_FAMILIA_COMERCIAL = "cod_familia_comercial";
 	private static final String NOME_PRODUTO = "nome_produto";
 	private static final String SKU = "sku";
-	private static final String[] mapeamentoColunasArquivo = { COD_FAMILIA_COMERCIAL, NOME_PRODUTO, SKU};
-	
+	private static final String[] mapeamentoColunasArquivo = { COD_FAMILIA_COMERCIAL, NOME_PRODUTO, SKU };
+
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	Produto novoProduto = null;
@@ -34,9 +33,9 @@ public class ProdutoReader {
 
 		List<Produto> produtos = new ArrayList<>();
 		List<String> erros = new ArrayList<>();
-		try (Reader br = Files.newBufferedReader(caminho);
-				) {
-			Iterable<CSVRecord> records = CSVFormat.DEFAULT.withHeader(mapeamentoColunasArquivo).withDelimiter(Config.CSV_DELIMITADOR).withFirstRecordAsHeader().parse(br);
+		try (Reader br = Files.newBufferedReader(caminho);) {
+			Iterable<CSVRecord> records = CSVFormat.DEFAULT.withHeader(mapeamentoColunasArquivo)
+					.withDelimiter(Config.CSV_DELIMITADOR).withFirstRecordAsHeader().parse(br);
 			for (CSVRecord ler : records) {
 				String idFamiliaComercial = ler.get(0);
 				String nomeProduto = ler.get(1);
@@ -46,7 +45,7 @@ public class ProdutoReader {
 				boolean nomeProdutoR = nomeProduto.matches("^.{1,255}$");
 				boolean skuR = sku.matches("^[0-9]{1,20}$");
 
-				if (skuR && nomeProdutoR && idFamiliaComercialR) {	
+				if (skuR && nomeProdutoR && idFamiliaComercialR) {
 					novoProduto = new Produto();
 					novoProduto.setSku(Integer.parseInt(sku));
 					novoProduto.setDescricao(nomeProduto);
@@ -54,7 +53,8 @@ public class ProdutoReader {
 					produtos.add(novoProduto);
 				} else {
 					contErrosP++;
-					erros.add("Linha "+ler.getRecordNumber() + ": "+idFamiliaComercial + ", " + nomeProduto + ", " + sku+"\n");
+					erros.add("Linha " + ler.getRecordNumber() + ": " + idFamiliaComercial + ", " + nomeProduto + ", "
+							+ sku + "\n");
 				}
 			}
 		} catch (IOException e) {
@@ -62,13 +62,12 @@ public class ProdutoReader {
 			LOGGER.debug(e);
 			throw new DAOLayerException(e);
 		}
-		if (contErrosP != 0) {		
+		if (contErrosP != 0) {
 			// FIXME: ajustar mensagem de erro
 			throw new DAOLayerException();
 		}
 		LOGGER.debug("QTD: " + produtos.size());
 		return produtos;
 	}
-
 
 }

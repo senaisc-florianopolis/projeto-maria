@@ -17,13 +17,14 @@ import br.senai.sc.edu.projetomaria.dao.CanalDAO;
 import br.senai.sc.edu.projetomaria.model.Canal;
 
 public class CanalWriter {
-	
+
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	public void generateRelatorio(Path exportPath) throws IOException {
 		String filePath = exportPath.toString();
 		try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(filePath))) {
-			try(CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.withHeader("ID_CANAL", "DESCRICAO"))){
+			try (CSVPrinter csvPrinter = new CSVPrinter(writer,
+					CSVFormat.DEFAULT.withHeader("ID_CANAL", "DESCRICAO"))) {
 				CanalDAO dao = new CanalDAO();
 				List<Canal> canais = new ArrayList<>();
 				canais = dao.getCanais();

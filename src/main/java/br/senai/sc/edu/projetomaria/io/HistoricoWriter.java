@@ -24,7 +24,8 @@ public class HistoricoWriter {
 
 		CSVPrinter csvCompiladorDeArquivos = null;
 
-		CSVFormat formatacaoCsv = CSVFormat.DEFAULT.withRecordSeparator(SEPARADORLINHAS).withDelimiter(Config.CSV_DELIMITADOR);
+		CSVFormat formatacaoCsv = CSVFormat.DEFAULT.withRecordSeparator(SEPARADORLINHAS)
+				.withDelimiter(Config.CSV_DELIMITADOR);
 
 		try (FileWriter escritorDeArquivos = new FileWriter(nomeArquivo.toFile())) {
 
@@ -33,8 +34,8 @@ public class HistoricoWriter {
 			csvCompiladorDeArquivos.printRecord(colunasArquivo);
 
 			for (Historico historico : registro) {
-				csvCompiladorDeArquivos.printRecord(historico.getPeriodo(),
-						historico.getQuantidade(), historico.getProduto().getSku(), historico.getCanal());
+				csvCompiladorDeArquivos.printRecord(historico.getPeriodo(), historico.getQuantidade(),
+						historico.getProduto().getSku(), historico.getCanal());
 			}
 
 			LOGGER.info(Messages.ARQUIVO_CRIADO_COM_SUCESSO);
@@ -42,7 +43,7 @@ public class HistoricoWriter {
 		} catch (Exception expc) {
 
 			LOGGER.warn(Messages.ERRO_ESCRITOR_DE_ARQUIVO, expc);
-			
+
 		}
 	}
 }

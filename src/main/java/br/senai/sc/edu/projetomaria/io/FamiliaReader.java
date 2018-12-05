@@ -16,27 +16,28 @@ import br.senai.sc.edu.projetomaria.model.Familia;
 import br.senai.sc.edu.projetomaria.resource.Config;
 
 public class FamiliaReader {
-	
+
 	private static final Logger LOGGER = LogManager.getLogger();
 	private static final String COD_FAMILIA_COMERCIAL = "COD_FAMILIA_COMERCIAL";
 	private static final String NOME_FAMILIA_COMERCIAL = "NOME_FAMILIA_COMERCIAL";
-	
+
 	private static final String[] mapeamentoColunasArquivo = { COD_FAMILIA_COMERCIAL, NOME_FAMILIA_COMERCIAL };
-	
+
 	public List<Familia> leitorFamilia(Path pathArquivo) {
-			
-			CSVParser parseArquivos = null;
-			
-			CSVFormat formatadorCsv = CSVFormat.DEFAULT.withHeader(mapeamentoColunasArquivo).withDelimiter(Config.CSV_DELIMITADOR);
-			
-			List <Familia>list = new LinkedList<>();
-			
-			try (FileReader leitorFamilia = new FileReader(pathArquivo.toFile())) {
-				
-				parseArquivos = new CSVParser(leitorFamilia, formatadorCsv);
-				
-				List<CSVRecord> csvRecords = parseArquivos.getRecords();
-			
+
+		CSVParser parseArquivos = null;
+
+		CSVFormat formatadorCsv = CSVFormat.DEFAULT.withHeader(mapeamentoColunasArquivo)
+				.withDelimiter(Config.CSV_DELIMITADOR);
+
+		List<Familia> list = new LinkedList<>();
+
+		try (FileReader leitorFamilia = new FileReader(pathArquivo.toFile())) {
+
+			parseArquivos = new CSVParser(leitorFamilia, formatadorCsv);
+
+			List<CSVRecord> csvRecords = parseArquivos.getRecords();
+
 			for (int i = 1; i < csvRecords.size(); i++) {
 				CSVRecord registro = csvRecords.get(i);
 				int codigo = Integer.parseInt(registro.get(COD_FAMILIA_COMERCIAL));
@@ -52,5 +53,5 @@ public class FamiliaReader {
 		}
 		return Collections.emptyList();
 	}
-	
+
 }

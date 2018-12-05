@@ -11,7 +11,6 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 
 import br.senai.sc.edu.projetomaria.dao.PhaseDAO;
-import br.senai.sc.edu.projetomaria.dao.ProdutoDAO;
 import br.senai.sc.edu.projetomaria.model.Phase;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 
@@ -23,8 +22,7 @@ public class PhaseWritter {
 
 		try (BufferedWriter arquivo = Files.newBufferedWriter(path);
 				CSVPrinter escrever = new CSVPrinter(arquivo,
-						CSVFormat.DEFAULT.withHeader("SKU_PHASE_IN",
-								"SKU_PHASE_OUT"));) {
+						CSVFormat.DEFAULT.withHeader("SKU_PHASE_IN", "SKU_PHASE_OUT"));) {
 
 			PhaseDAO dao = new PhaseDAO();
 			for (Phase ph : dao.exportarPhase()) {
