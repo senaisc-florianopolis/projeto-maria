@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 
+import br.senai.sc.edu.projetomaria.dao.PhaseDAO;
 import br.senai.sc.edu.projetomaria.dao.ProdutoDAO;
 import br.senai.sc.edu.projetomaria.model.Phase;
 import br.senai.sc.edu.projetomaria.resource.Messages;
@@ -25,7 +26,7 @@ public class PhaseWritter {
 						CSVFormat.DEFAULT.withHeader("SKU_PHASE_IN",
 								"SKU_PHASE_OUT"));) {
 
-			ProdutoDAO dao = new ProdutoDAO();
+			PhaseDAO dao = new PhaseDAO();
 			for (Phase ph : dao.exportarPhase()) {
 				escrever.printRecord(ph.getSkuNew(), ph.getSkuOld());
 			}
