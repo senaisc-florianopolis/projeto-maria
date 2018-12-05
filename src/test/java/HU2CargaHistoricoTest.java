@@ -27,8 +27,8 @@ class HU2CargaHistoricoTest {
 		Path r = null;
 		
 		try {
-			q = Paths.get(classLoader.getResource("dataset/carga_canal_upsert.csv").toURI());
-			r = Paths.get(classLoader.getResource("dataset/carga_produto_upsert.csv").toURI());
+			q = Paths.get(classLoader.getResource("dataset/carga_canal.csv").toURI());
+			r = Paths.get(classLoader.getResource("dataset/carga_produto.csv").toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -45,7 +45,7 @@ class HU2CargaHistoricoTest {
 		Path p = null;
 		
 		try {
-			p = Paths.get(classLoader.getResource("dataset/carga_historico_upsert.csv").toURI());			
+			p = Paths.get(classLoader.getResource("dataset/carga_historico.csv").toURI());			
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -75,28 +75,11 @@ class HU2CargaHistoricoTest {
 		try (Connection conn = bd.getDatabaseConnection();
 			Statement ps = conn.createStatement();) 	{
 			ps.executeUpdate(sqlCanal);
+			ps.executeUpdate(sqlProduto);
+			ps.executeUpdate(sqlHistorico);
 						
 		} catch (SQLException ex) {
 			System.err.println(ex.getMessage());
-		}
-		
-		
-		try (Connection conn = bd.getDatabaseConnection();
-			Statement ps = conn.createStatement();) 	{
-			ps.executeUpdate(sqlProduto);
-								
-		} catch (SQLException ex) {
-				System.err.println(ex.getMessage());
-		}
-	
-		
-		try (Connection conn = bd.getDatabaseConnection();
-			Statement ps = conn.createStatement();) 	{
-			ps.executeUpdate(sqlHistorico);
-								
-		} catch (SQLException ex) {
-				System.err.println(ex.getMessage());
-		}
-
+		}	
 	}
 }	
