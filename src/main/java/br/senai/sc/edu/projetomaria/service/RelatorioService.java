@@ -39,15 +39,15 @@ public class RelatorioService {
 	}
 
 	public ServiceResponse exportarProduto(Path path) {
+		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
+	}
+
+	public ServiceResponse exportarProduto() {
 		ProdutoDAO pdao = new ProdutoDAO();
 		List<Produto> produtos = pdao.exportarProdutos();
 		ServiceResponse response = new ServiceResponse(ServiceResponse.STATUS.OK, produtos);
 
 		return response;
-	}
-
-	public ServiceResponse exportarProduto() {
-		throw new UnsupportedOperationException(Messages.ERRO_METODO_NAO_IMPLEMENTADO);
 	}
 
 	public ServiceResponse exportarCanal(Path path) {
