@@ -10,67 +10,42 @@ import java.util.ArrayList;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import br.senai.sc.edu.projetomaria.dao.FamiliaDAO;
 import br.senai.sc.edu.projetomaria.model.Familia;
+import br.senai.sc.edu.projetomaria.resource.Config;
 
 public class FamiliaWriter {
-	private static final String separadorLinhas = "\n";
 
-	public void CSVWriter(Path path) {
+	private static final String SeparadorLinhas = "\n";
 
-		FamiliaDAO familiaDAO = new FamiliaDAO();
-		
-		ArrayList<Familia> listaFamilia = null;
-		try {
-			listaFamilia = (ArrayList<Familia>) familiaDAO.getFamilias();
-		} catch (Exception e) {
+	private static final Logger LOGGER = LogManager.getLogger();
 
-		}
+	public void CSVWriter(Path path, ArrayList<Familia> familias) {
 
-		FileWriter escritorDeArquivos = null;
+		CSVFormat formatacaoCsv = CSVFormat.DEFAULT.withRecordSeparator(SeparadorLinhas)
+				.withDelimiter(Config.CSV_DELIMITADOR);
 
-		CSVPrinter csvCompiladorDeArquivos = null;
+		try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(path.toString()));
+				FileWriter escritorDeArquivos = new FileWriter(path.toString());
+				CSVPrinter csvCompiladorDeArquivos = new CSVPrinter(escritorDeArquivos, formatacaoCsv);) {
 
-		CSVFormat formatacaoCsv = CSVFormat.DEFAULT.withRecordSeparator(separadorLinhas).withDelimiter(';');
+			CSVPrinter csvPrinter = new CSVPrinter(writer, formatacaoCsv);
+			{
 
-		try {
-			escritorDeArquivos = new FileWriter(path.toString());
-
-			csvCompiladorDeArquivos = new CSVPrinter(escritorDeArquivos, formatacaoCsv);
-
-			try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(path.toString()))) {
-
-				CSVPrinter csvPrinter = new CSVPrinter(writer, formatacaoCsv);
-				{
-
-					for (Familia familia : listaFamilia) {
-						csvCompiladorDeArquivos.printRecord(familia.getCodigo());
-					}
-					csvPrinter.flush();
-					csvPrinter.close();
+				for (Familia familia : familias) {
+					csvCompiladorDeArquivos.printRecord(familia.getCodigo(), familia.getNome());
 				}
-
-			} catch (Exception e) {
-				e.printStackTrace();
+				csvPrinter.flush();
+				csvPrinter.close();
 			}
 
-			System.out.println("O arquivo CSV criado com sucesso!");
-
-		} catch (Exception e) {
-
-			System.out.println("Erro no escritorDeArquivos!");
+		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				escritorDeArquivos.flush();
-				escritorDeArquivos.close();
-				csvCompiladorDeArquivos.close();
-			} catch (IOException e) {
-				System.out.println("Erro ao enviar/fechar o escritorDeArquivos/csvCompiladorDeArquivos!");
-				e.printStackTrace();
-			}
 		}
+
+		LOGGER.debug("O arquivo CSV criado com sucesso!");
 
 	}
 }

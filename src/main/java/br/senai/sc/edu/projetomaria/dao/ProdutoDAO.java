@@ -85,7 +85,6 @@ public class ProdutoDAO extends AbstractDAO {
 				stmt.setString(5, p.getDescricao());
 				LOGGER.debug(stmt);
 				int retorno = stmt.executeUpdate();
-				LOGGER.debug("retorno:" + retorno);
 				if (retorno == 1) {
 					resultados[0] = resultados[0] + 1;
 				} else {
