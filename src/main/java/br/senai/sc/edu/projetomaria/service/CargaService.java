@@ -30,6 +30,8 @@ import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.model.Phase;
 
 import br.senai.sc.edu.projetomaria.model.Produto;
+import br.senai.sc.edu.projetomaria.resource.Messages;
+
 import br.senai.sc.edu.projetomaria.service.ServiceResponse.STATUS;
 
 public class CargaService {
@@ -100,7 +102,6 @@ public class CargaService {
 		int[] result = null;
 		try {
 			result = historicoDao.upsert(s);
-
 		} catch (DAOLayerException e) {
 			throw new ServiceLayerException("Ocorreu um erro ao inserir ao banco de dados", e);
 		}
