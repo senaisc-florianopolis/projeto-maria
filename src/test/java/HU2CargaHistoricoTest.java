@@ -50,7 +50,7 @@ class HU2CargaHistoricoTest {
 			e.printStackTrace();
 		}
 		service = new CargaService();
-		//service.cargaHistorico(p);
+		service.cargaHistorico(p);
 		ServiceResponse s = service.cargaHistorico(p);
 		assertEquals(s.getStatus(), STATUS.OK);
 		int[] response = (int[]) s.getResponse();
