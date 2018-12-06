@@ -28,7 +28,7 @@ public class PhaseReader {
 		List<Phase> phase = new ArrayList<>();
 		List<String> erros = new ArrayList<>();
 		int contErrosP = 0;
-		
+
 		try (Reader br = Files.newBufferedReader(caminho);) {
 			Iterable<CSVRecord> records = CSVFormat.DEFAULT.withHeader(SKU_PHASE_IN, SKU_PHASE_OUT).withDelimiter(Config.CSV_DELIMITADOR).parse(br);
 			for (CSVRecord ler : records) {
@@ -62,7 +62,7 @@ public class PhaseReader {
 	}
 
 	public class ErrosPhase extends IOLayerException {
-		private List<String> errosPh;
+		private final List<String> errosPh;
 
 		public ErrosPhase(List<String> erroPh) {
 			this.errosPh = erroPh;
