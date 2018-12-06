@@ -40,7 +40,6 @@ class HU2CargaHistoricoTest {
 	
 	
 	@Test
-	
 	void upsert() {
 		ClassLoader classLoader = HU2CargaHistoricoTest.class.getClassLoader();
 		Path p = null;
