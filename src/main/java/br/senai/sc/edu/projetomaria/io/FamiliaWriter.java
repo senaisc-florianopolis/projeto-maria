@@ -17,7 +17,7 @@ import br.senai.sc.edu.projetomaria.model.Familia;
 public class FamiliaWriter {
 	private static final String separadorLinhas = "\n";
 
-	public static void CSVWriter(Path path) {
+	public void CSVWriter(Path path) {
 
 		FamiliaDAO familiaDAO = new FamiliaDAO();
 		
