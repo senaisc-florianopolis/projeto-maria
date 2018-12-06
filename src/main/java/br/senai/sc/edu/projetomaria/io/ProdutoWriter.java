@@ -18,7 +18,7 @@ public class ProdutoWriter {
 	private static final String separadorLinhas = "\n";
 
 	// public static void CSVWriter(String path, ArrayList<Produto> listaProdutos) {
-	public static void CSVWriter(Path path) {
+	public void CSVWriter(Path path) {
 		
 		ProdutoDAO produtoDAO = new ProdutoDAO();
 		
