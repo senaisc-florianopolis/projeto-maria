@@ -1,4 +1,4 @@
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.net.URISyntaxException;
 import java.nio.file.Path;
@@ -8,40 +8,47 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import br.senai.sc.edu.projetomaria.service.CargaService;
-
+import br.senai.sc.edu.projetomaria.service.ServiceResponse;
+import br.senai.sc.edu.projetomaria.service.ServiceResponse.STATUS;
 
 class HU3CargaPhaseTest {
-    
-    //phase1
+
 	static CargaService service = null;
 	static ClassLoader classLoader = HU3CargaPhaseTest.class.getClassLoader();
 
 	@BeforeAll
-	static void before() {
-		Path update = null;
-		
+
+	static void beforeAll() {
+		Path p = null;
+
 		try {
-			update = Paths.get(classLoader.getResource("dataset/carga_phase.csv").toURI());
+			p = Paths.get(classLoader.getResource("dataset/carga_phase.csv").toURI());
 		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-	}	
+		service = new CargaService();
 
-	@Test
-	void HU3CargaPhaseTestSucesso() {
-
-		ClassLoader classLoader = HU3CargaPhaseTest.class.getClassLoader();
-
-		Path update = null;
-		try {
-			update = Paths.get(classLoader.getResource("dataset/carga_phase.csv").toURI());
-		} catch (URISyntaxException e) {
-			fail("Not yet implemented");
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		service.cargaPhase(p);
 	}
 
-}	
+	// phase1
+
+	@Test
+	void upsert() {
+
+		Path p = null;
+
+		try {
+			p = Paths.get(classLoader.getResource("dataset/carga_phase.csv").toURI());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+
+		service = new CargaService();
+		service.cargaPhase(p);
+		ServiceResponse s = service.cargaPhase(p);
+		assertEquals(s.getStatus(), STATUS.OK);
+
+	}
+
+}
