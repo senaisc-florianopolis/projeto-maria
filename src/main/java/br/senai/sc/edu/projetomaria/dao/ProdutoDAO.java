@@ -13,22 +13,19 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.senai.sc.edu.projetomaria.exception.DAOLayerException;
-import br.senai.sc.edu.projetomaria.model.Phase;
 import br.senai.sc.edu.projetomaria.model.Produto;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class ProdutoDAO extends AbstractDAO {
 	private static final Logger LOGGER = LogManager.getLogger();
-	int total;
-	private String path;
 
 	public List<Produto> listarTodos() throws IOException {
-		ArrayList<Produto> listaProdutos = new ArrayList<Produto>();
-		try {
-			String sql = "select * from produto";
-			Statement stmt = getConnection().createStatement();
-
-			ResultSet rs = stmt.executeQuery(sql);
+		ArrayList<Produto> listaProdutos = new ArrayList<>();
+		String sql = "select * from produto";
+		
+		try (Connection conn = getConnection();
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery(sql);) {
 
 			while (rs.next()) {
 				Produto p = new Produto();
@@ -44,7 +41,8 @@ public class ProdutoDAO extends AbstractDAO {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.error(e);
+			throw new DAOLayerException(e);
 		}
 		return listaProdutos;
 	}
@@ -67,91 +65,31 @@ public class ProdutoDAO extends AbstractDAO {
 			}
 		} catch (SQLException e) {
 			LOGGER.error(e);
+			throw new DAOLayerException(e);
 		}
 		return p;
 	}
 
-	public List<Phase> exportarPhase() {
-		String sql = "SELECT * FROM SKU_PHASE;";
-
-		List<Phase> ph = new ArrayList<>();
-		try (Connection conn = getConnection();
-				Statement stmt = conn.prepareStatement(sql);
-				ResultSet rs = stmt.executeQuery(sql);) {
-
-			while (rs.next()) {
-				Phase phase = null;
-				phase = new Phase();
-				phase.setSkuNew(Integer.parseInt(rs.getString("SKU_PHASE_IN")));
-				phase.setSkuOld(Integer.parseInt(rs.getString("SKU_PHASE_OUT")));
-				ph.add(phase);
-			}
-		} catch (SQLException e) {
-			LOGGER.error(e);
-		}
-		return ph;
-	}
-
-	public void salvarProdutos(List<Produto> list) {
-		String sql = "";
-		int successes = 0;
-		total = 0;
-
-		for (Produto p : list) {
-			sql = "INSERT INTO PRODUTO(" + "SKU," + "NOME_PRODUTO," + "ID_FAMILIA_COMERCIAL) VALUES (" + p.getSku()
-					+ ",'" + p.getDescricao() + "'," + p.getIdComercial() + ");";
-
-			try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql);) {
-				stmt.execute();
-				successes++;
-			} catch (SQLException e) {
-				LOGGER.error(e);
-			}
-			total++;
-		}
-		LOGGER.info(successes + " de " + total + " " + Messages.SUCCESS_PRODUTO);
-	}
-
-	public void updateProduto(List<Produto> skuIgual) {
-		String sql = "";
-		int successes = 0;
-		total = 0;
-
-		for (Produto p : skuIgual) {
-			sql = "UPDATE produto SET NOME_PRODUTO = '" + p.getDescricao() + "', " + "ID_FAMILIA_COMERCIAL = "
-					+ p.getIdComercial() + " WHERE SKU = " + p.getSku() + ";";
-			try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql);) {
-				stmt.executeUpdate();
-				successes++;
-			} catch (SQLException e) {
-				LOGGER.debug(e);
-			}
-			total++;
-		}
-		LOGGER.info(successes + " de " + total + " " + Messages.SUCCESS_PRODUTO);
-	}
-
 	public int[] upsert(List<Produto> produto) {
 		String sql = "INSERT INTO produto (COD_FAMILIA_COMERCIAL,NOME_PRODUTO,SKU) VALUES (?,?,?)"
-				+ "ON DUPLICATE KEY UPDATE COD_FAMILIA_COMERCIAL = ?, NOME_PRODUTO = ?, SKU = ?";
-		;
+				+ "ON DUPLICATE KEY UPDATE COD_FAMILIA_COMERCIAL = ?, NOME_PRODUTO = ?";
+		
 		int[] resultados = new int[2];
 
-		try (Connection conn = getConnection();
-			PreparedStatement stmt = conn.prepareStatement(sql);) {
+		try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql);) {
 			for (Produto p : produto) {
 				stmt.setInt(1, p.getIdComercial());
 				stmt.setString(2, p.getDescricao());
 				stmt.setInt(3, p.getSku());
 				stmt.setInt(4, p.getIdComercial());
 				stmt.setString(5, p.getDescricao());
-				stmt.setInt(6, p.getSku());
 				LOGGER.debug(stmt);
 				int retorno = stmt.executeUpdate();
+				LOGGER.debug("retorno:" + retorno);
 				if (retorno == 1) {
 					resultados[0] = resultados[0] + 1;
 				} else {
-					resultados[1] = resultados[0] + 1;
+					resultados[1] = resultados[1] + 1;
 				}
 
 			}
@@ -162,30 +100,10 @@ public class ProdutoDAO extends AbstractDAO {
 		return resultados;
 	}
 
-	public void insertSkuPhase(List<Phase> phase) {
-		String sql = "";
-		int successes = 0;
-		total = 0;
-
-		for (Phase p : phase) {
-			sql = "INSERT INTO sku_phase(" + "SKU_PHASE_IN," + "SKU_PHASE_OUT) VALUES (" + p.getSkuNew() + ","
-					+ p.getSkuOld() + ");";
-
-			try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql);) {
-				stmt.execute();
-				successes++;
-			} catch (SQLException e) {
-				LOGGER.debug(e);
-			}
-			total++;
-		}
-		LOGGER.info(successes + " de " + total + " " + Messages.SUCCESS_PRODUTO);
-	}
-
 	public void deleteProd(List<Produto> list) {
 		String sql = "";
 		int successes = 0;
-		total = 0;
+		int total = 0;
 
 		for (Produto p : list) {
 			sql = "DELETE FROM PRODUTO WHERE SKU = " + p.getSku() + ";";
