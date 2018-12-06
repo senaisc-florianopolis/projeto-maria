@@ -109,7 +109,7 @@ public class ProdutoDAO extends AbstractDAO {
 
 	public int[] upsert(List<Produto> produto) {
 		String sql = "INSERT INTO produto (COD_FAMILIA_COMERCIAL,NOME_PRODUTO,SKU) VALUES (?,?,?)"
-				+ "ON DUPLICATE KEY UPDATE COD_FAMILIA_COMERCIAL = ?, NOME_PRODUTO = ?, SKU = ?";
+				+ "ON DUPLICATE KEY UPDATE COD_FAMILIA_COMERCIAL = ?, NOME_PRODUTO = ?";
 		;
 		int[] resultados = new int[2];
 
@@ -120,13 +120,14 @@ public class ProdutoDAO extends AbstractDAO {
 				stmt.setInt(3, p.getSku());
 				stmt.setInt(4, p.getIdComercial());
 				stmt.setString(5, p.getDescricao());
-				stmt.setInt(6, p.getSku());
+//				stmt.setInt(6, p.getSku());
 				LOGGER.debug(stmt);
 				int retorno = stmt.executeUpdate();
+				LOGGER.debug("retorno:" + retorno);
 				if (retorno == 1) {
 					resultados[0] = resultados[0] + 1;
 				} else {
-					resultados[1] = resultados[0] + 1;
+					resultados[1] = resultados[1] + 1;
 				}
 
 			}
