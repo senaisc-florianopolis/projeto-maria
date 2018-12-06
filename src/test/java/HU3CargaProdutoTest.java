@@ -11,87 +11,54 @@ import br.senai.sc.edu.projetomaria.service.CargaService;
 import br.senai.sc.edu.projetomaria.service.ServiceResponse;
 
 class HU3CargaProdutoTest {
-	static CargaService service = null;
-	static ClassLoader classLoader = HU3CargaProdutoTest.class.getClassLoader();
-
+	
 	@BeforeAll
-	static void before() {
-		Path update = null;
-		Path delete = null;
-
-		try {
-			update = Paths.get(classLoader.getResource("dataset/carga_produto_update.csv").toURI());
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			delete = Paths.get(classLoader.getResource("dataset/carga_produto_delete.csv").toURI());
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
-	@Test
-	void hu3Bdd2Updatesucesso1() {
-
+	public static void preparando() {
+		CargaService service = new CargaService();
 		ClassLoader classLoader = HU3CargaProdutoTest.class.getClassLoader();
+		Path p = null;
 
-		Path update = null;
 		try {
-			update = Paths.get(classLoader.getResource("dataset/carga_produto_update.csv").toURI());
+			p = Paths.get(classLoader.getResource("dataset/carga_familia.csv").toURI());
+
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+
 		}
-		//service.updateProduto(update);
-
-	}
-
-	@Test
-	void hu3Bdd6DeleteSucesso1() {
-
-		ClassLoader classLoader = HU3CargaProdutoTest.class.getClassLoader();
-
-		Path delete = null;
-		try {
-			delete = Paths.get(classLoader.getResource("dataset/carga_produto_delete.csv").toURI());
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
-		//service.deleteProduto(delete);
-
+		service.cargaFamilia(p);
 	}
 
 	@Test
 	void test() {
-		service = new CargaService();
+
 		ClassLoader classLoader = HU3CargaProdutoTest.class.getClassLoader();
-		Path p = null;
+
 		Path a = null;
 
 		try {
-			p = Paths.get(classLoader.getResource("dataset/carga_familia_upsert.csv").toURI());
-			a = Paths.get(classLoader.getResource("dataset/carga_produto_upsert.csv").toURI());
+			a = Paths.get(classLoader.getResource("dataset/carga_produto.csv").toURI());
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		CargaService service = new CargaService();
-		ServiceResponse response = service.cargaFamilia(p);
-		ServiceResponse response2 = service.cargaProduto(a);
+		ServiceResponse testin = service.cargaProduto(a);
 
-		assertEquals(response.getStatus(), ServiceResponse.STATUS.OK);
+		assertEquals(testin.getStatus(), ServiceResponse.STATUS.OK);
 
-		if (a == null) {
-			System.out.println(ServiceResponse.STATUS.ERROR);
-		}
-		if (a != null) {
-			System.out.println(ServiceResponse.STATUS.OK);
-		}
+		int[] response = (int[]) testin.getResponse();
 
+		assertEquals(response[0], 13);
+		assertEquals(response[1], 0);
+
+		ServiceResponse testup = service.cargaProduto(a);
+
+		assertEquals(testup.getStatus(), ServiceResponse.STATUS.OK);
+
+		int[] response2 = (int[]) testup.getResponse();
+		assertEquals(response2[0], 0);
+		assertEquals(response2[1], 13);
 	}
 
 }
