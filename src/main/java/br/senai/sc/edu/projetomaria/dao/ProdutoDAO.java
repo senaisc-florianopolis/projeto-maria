@@ -22,10 +22,10 @@ public class ProdutoDAO extends AbstractDAO {
 	public List<Produto> listarTodos() throws IOException {
 		ArrayList<Produto> listaProdutos = new ArrayList<Produto>();
 		String sql = "select * from produto";
+		
 		try (Connection conn = getConnection();
-				PreparedStatement stmt = conn.prepareStatement(sql);) {
-
-			ResultSet rs = stmt.executeQuery(sql);
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery(sql);) {
 
 			while (rs.next()) {
 				Produto p = new Produto();
