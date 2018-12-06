@@ -3,7 +3,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +17,9 @@ import br.senai.sc.edu.projetomaria.service.CargaService;
 import br.senai.sc.edu.projetomaria.service.ServiceResponse;
 
 class HU3CargaProdutoTest {
-	
+
+	private static final Logger LOGGER = LogManager.getLogger();
+
 	@BeforeAll
 	public static void preparando() {
 		CargaService service = new CargaService();
@@ -26,7 +34,7 @@ class HU3CargaProdutoTest {
 			e.printStackTrace();
 
 		}
-		service.cargaFamilia(p);
+		LOGGER.debug(service.cargaFamilia(p));
 	}
 
 	@Test
@@ -57,8 +65,25 @@ class HU3CargaProdutoTest {
 		assertEquals(testup.getStatus(), ServiceResponse.STATUS.OK);
 
 		int[] response2 = (int[]) testup.getResponse();
+		LOGGER.debug(response2);
 		assertEquals(response2[0], 0);
 		assertEquals(response2[1], 13);
+
 	}
 
+	@AfterAll
+	static void limpando() {
+		Database bd = new Database();
+
+		String sqlfamilia = "delete from familia";
+		String sqlproduto = "delete from produto";
+
+		try (Connection conn = bd.getDatabaseConnection(); Statement pl = conn.createStatement();) {
+			pl.executeUpdate(sqlfamilia);
+			pl.executeUpdate(sqlproduto);
+		} catch (SQLException ex) {
+			System.err.print(ex.getMessage());
+		}
+
+	}
 }
