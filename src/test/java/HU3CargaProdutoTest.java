@@ -1,4 +1,4 @@
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.net.URISyntaxException;
 import java.nio.file.Path;
@@ -8,92 +8,57 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import br.senai.sc.edu.projetomaria.service.CargaService;
+import br.senai.sc.edu.projetomaria.service.ServiceResponse;
 
 class HU3CargaProdutoTest {
-	static CargaService service = null;
-	static ClassLoader classLoader = HU3CargaProdutoTest.class.getClassLoader();
-
+	
 	@BeforeAll
-	static void before() {
-		Path update = null;
-		Path delete = null;
+	public static void preparando() {
+		CargaService service = new CargaService();
+		ClassLoader classLoader = HU3CargaProdutoTest.class.getClassLoader();
+		Path p = null;
 
 		try {
-			update = Paths.get(classLoader.getResource("dataset/carga_produto_update.csv").toURI());
+			p = Paths.get(classLoader.getResource("dataset/carga_familia.csv").toURI());
+
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+		}
+		service.cargaFamilia(p);
+	}
+
+	@Test
+	void test() {
+
+		ClassLoader classLoader = HU3CargaProdutoTest.class.getClassLoader();
+
+		Path a = null;
+
+		try {
+			a = Paths.get(classLoader.getResource("dataset/carga_produto.csv").toURI());
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		try {
-			delete = Paths.get(classLoader.getResource("dataset/carga_produto_delete.csv").toURI());
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		CargaService service = new CargaService();
+		ServiceResponse testin = service.cargaProduto(a);
 
-	}
+		assertEquals(testin.getStatus(), ServiceResponse.STATUS.OK);
 
-	@Test
-	void hu3Bdd2Updatesucesso1() {
+		int[] response = (int[]) testin.getResponse();
 
-		ClassLoader classLoader = HU3CargaProdutoTest.class.getClassLoader();
+		assertEquals(response[0], 13);
+		assertEquals(response[1], 0);
 
-		Path update = null;
-		try {
-			update = Paths.get(classLoader.getResource("dataset/carga_produto_update.csv").toURI());
-		} catch (URISyntaxException e) {
-			fail("Not yet implemented");
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//service.updateProduto(update);
+		ServiceResponse testup = service.cargaProduto(a);
 
-	}
+		assertEquals(testup.getStatus(), ServiceResponse.STATUS.OK);
 
-	@Test
-	void hu3Bdd6DeleteSucesso1() {
-
-		ClassLoader classLoader = HU3CargaProdutoTest.class.getClassLoader();
-
-		Path delete = null;
-		try {
-			delete = Paths.get(classLoader.getResource("dataset/carga_produto_delete.csv").toURI());
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
-		//service.deleteProduto(delete);
-
-	}
-
-	@Test
-	void hu3Bdd2updateErro1() {
-
-		ClassLoader classLoader = HU3CargaProdutoTest.class.getClassLoader();
-
-		Path update = null;
-		try {
-			update = Paths.get(classLoader.getResource("dataset/carga_produto_updateError.csv").toURI());
-		} catch (URISyntaxException e) {
-			fail("Not yet implemented");
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//service.updateProduto(update);
-
-	}
-
-	@Test
-	void hu3Bdd6DeleteErro1() {
-
-		ClassLoader classLoader = HU3CargaProdutoTest.class.getClassLoader();
-
-		Path delete = null;
-		try {
-			delete = Paths.get(classLoader.getResource("dataset/carga_produto_deleteError.csv").toURI());
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
-		//service.deleteProduto(delete);
+		int[] response2 = (int[]) testup.getResponse();
+		assertEquals(response2[0], 0);
+		assertEquals(response2[1], 13);
 	}
 
 }
