@@ -17,7 +17,7 @@ public abstract class AbstractDAO {
 		String hostname = Config.DB_HOSTNAME;
 		String database = Config.DB_DATABASE;
 		String port = Config.DB_PORT;
-		String format = "jdbc:mysql://%1s:%2s/%3s";
+		String format = "jdbc:mysql://%1s:%2s/%3s?useAffectedRows=true";
 		return String.format(format, hostname, port, database);
 	}
 
