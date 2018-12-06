@@ -71,8 +71,7 @@ public class CargaService {
 			throw new ServiceLayerException("Erro: DAO", e);
 		}
 
-		ServiceResponse response = new ServiceResponse(ServiceResponse.STATUS.OK, array);
-		return response;
+		return new ServiceResponse(ServiceResponse.STATUS.OK, array);
 	}
 
 	public ServiceResponse cargaPhase(Path path) {
