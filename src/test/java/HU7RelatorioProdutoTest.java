@@ -1,34 +1,63 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.awt.List;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.junit.After;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.AfterAllCallback;
 
+import br.senai.sc.edu.projetomaria.dao.ProdutoDAO;
 import br.senai.sc.edu.projetomaria.service.CargaService;
+import br.senai.sc.edu.projetomaria.service.RelatorioService;
 import br.senai.sc.edu.projetomaria.service.ServiceResponse;
 import br.senai.sc.edu.projetomaria.service.ServiceResponse.STATUS;
 
 public class HU7RelatorioProdutoTest {
-	
-	@Test
-	void testeInsert() {
-		ClassLoader classLoader = HU1CargaCanalTest.class.getClassLoader();
-		Path p = null;
+
+	@BeforeAll
+	static void before() {
+		ClassLoader classLoader = HU7RelatorioProdutoTest.class.getClassLoader();
+		CargaService service = new CargaService();
+		
+		//carga familia
+		Path familiaCsv = null;
 		try {
-			p = Paths.get(classLoader.getResource("dataset/carga_produto.csv").toURI());
+			familiaCsv = Paths.get(classLoader.getResource("dataset/carga_familia.csv").toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-		CargaService service = null;
-		service = new CargaService();
-		ServiceResponse s = service.cargaCanal(p);
-		assertEquals(s.getStatus(), STATUS.OK);
-		int[] response = (int[]) s.getResponse();
-		assertEquals(response[0], 4);
-		assertEquals(response[1], 0);
 		
+		service.cargaFamilia(familiaCsv);
+		
+		//carga produto		
+		Path produtoCsv = null;
+		try {
+			produtoCsv = Paths.get(classLoader.getResource("dataset/carga_produto.csv").toURI());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		service.cargaProduto(produtoCsv);
+		
+		
+	}
+	@Test
+	
+	void testeRelatorio() {
+		RelatorioService service = new RelatorioService();
+		
+//		serv
+		
+//		assertEquals(STATUS.OK, );
+		
+	}
+	
+	@AfterAll
+	static void after() {
+		ProdutoDAO pDao = new ProdutoDAO();
+//		pDao.deleteProd();
 	}
 }
