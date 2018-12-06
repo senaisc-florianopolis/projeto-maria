@@ -31,6 +31,7 @@ import br.senai.sc.edu.projetomaria.model.Phase;
 
 import br.senai.sc.edu.projetomaria.model.Produto;
 import br.senai.sc.edu.projetomaria.service.ServiceResponse.STATUS;
+import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class CargaService {
 	private static final Logger LOGGER = LogManager.getLogger();
@@ -49,11 +50,12 @@ public class CargaService {
 	public ServiceResponse cargaFamilia(Path path) {
 		FamiliaReader familiaReader = new FamiliaReader();
 		FamiliaDAO familiaDAO = new FamiliaDAO();
-
+		
 		List<Familia> familias = familiaReader.leitorFamilia(path);
 		int[] array = familiaDAO.upsert(familias);
-
-		return new ServiceResponse(ServiceResponse.STATUS.OK, array);
+		
+		ServiceResponse response = new ServiceResponse(ServiceResponse.STATUS.OK, array);
+		return response;
 	}
 
 	public ServiceResponse cargaProduto(Path path) {
