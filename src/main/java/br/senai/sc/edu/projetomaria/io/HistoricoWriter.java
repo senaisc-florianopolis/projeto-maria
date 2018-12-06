@@ -33,7 +33,7 @@ public class HistoricoWriter {
 			csvCompiladorDeArquivos.printRecord(colunasArquivo);
 
 			for (Historico historico : registro) {
-				csvCompiladorDeArquivos.printRecord(historico.getId(), historico.getPeriodo(),
+				csvCompiladorDeArquivos.printRecord(historico.getPeriodo(),
 						historico.getQuantidade(), historico.getProduto().getSku(), historico.getCanal());
 			}
 
