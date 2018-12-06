@@ -11,7 +11,8 @@ import br.senai.sc.edu.projetomaria.service.CargaService;
 
 
 class HU3CargaPhaseTest {
-
+    
+    //phase1
 	static CargaService service = null;
 	static ClassLoader classLoader = HU3CargaPhaseTest.class.getClassLoader();
 
