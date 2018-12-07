@@ -44,8 +44,8 @@ public class FamiliaDAO extends AbstractDAO {
 	}
 	
 	public int[] upsert (List<Familia> familias) {
-		String sql = "INSERT INTO familia (COD_FAMILIA_COMERCIAL,NOME_FAMILIA_COMERCIAL) VALUES (?,?)"+
-				"ON DUPLICATE KEY UPDATE COD_FAMILIA_COMERCIAL = ?, NOME_FAMILIA_COMERCIAL= ?";	
+		String sql = "INSERT INTO familia_comercial (COD_FAMILIA_COMERCIAL,NOME_FAMILIA_COMERCIAL) VALUES (?,?)"
+	+"ON DUPLICATE KEY UPDATE COD_FAMILIA_COMERCIAL = ?, NOME_FAMILIA_COMERCIAL = ?";	
 		int[] resultados = new int[2];
 		resultados = new int[] {0, 0};
 		
@@ -57,7 +57,7 @@ public class FamiliaDAO extends AbstractDAO {
 			    stmt.setString(2,familia.getNome());
 			    stmt.setInt(3,familia.getCodigo());
 			    stmt.setString(4,familia.getNome());
-				int retorno = stmt.executeUpdate(sql);
+				int retorno = stmt.executeUpdate();
 				if(retorno == 1) {
 					resultados[0] = resultados[0] + 1;
 				} else {
