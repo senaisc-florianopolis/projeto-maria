@@ -6,74 +6,44 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import br.senai.sc.edu.projetomaria.dao.ProdutoDAO;
 import br.senai.sc.edu.projetomaria.model.Produto;
+import br.senai.sc.edu.projetomaria.resource.Config;
 
 public class ProdutoWriter {
-	private static final String separadorLinhas = "\n";
 
-	// public static void CSVWriter(String path, ArrayList<Produto> listaProdutos) {
-	public static void CSVWriter(Path path) {
-		
-		ProdutoDAO produtoDAO = new ProdutoDAO();
-		
-		ArrayList<Produto> listaProdutos = null;
-		try {
-			listaProdutos = (ArrayList<Produto>) produtoDAO.listarTodos();
-		} catch (Exception e) {
+	private static final Logger LOGGER = LogManager.getLogger();
 
-		}
-		
-		FileWriter escritorDeArquivos = null;
+	private static final String SEPARADOR_LINHAS = "\n";
 
-		CSVPrinter csvCompiladorDeArquivos = null;
+	public void csvwriter(Path path, List<Produto> produtos) {
 
-		CSVFormat formatacaoCsv = CSVFormat.DEFAULT.withRecordSeparator(separadorLinhas).withDelimiter(';');
+		CSVFormat formatacaoCsv = CSVFormat.DEFAULT.withRecordSeparator(SEPARADOR_LINHAS)
+				.withDelimiter(Config.CSV_DELIMITADOR);
 
-		try {
-			escritorDeArquivos = new FileWriter(path.toString());
+		try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(path.toString()));
+				FileWriter escritorDeArquivos = new FileWriter(path.toString());
+				CSVPrinter csvCompiladorDeArquivos = new CSVPrinter(escritorDeArquivos, formatacaoCsv);) {
 
-			csvCompiladorDeArquivos = new CSVPrinter(escritorDeArquivos, formatacaoCsv);
+			CSVPrinter csvPrinter = new CSVPrinter(writer, formatacaoCsv);
 
-			try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(path.toString()))) {
-
-				CSVPrinter csvPrinter = new CSVPrinter(writer, formatacaoCsv);
-				{
-
-					for (Produto produto : listaProdutos) {
-						csvCompiladorDeArquivos.printRecord(produto.getSku(), produto.getDescricao());
-						// csvPrinter.printRecord(produto.getSku(), produto.getDescricao());
-					}
-					csvPrinter.flush();
-					csvPrinter.close();
-				}
-
-			} catch (Exception e) {
-				e.printStackTrace();
+			for (Produto produto : produtos) {
+				csvCompiladorDeArquivos.printRecord(produto.getSku(), produto.getDescricao(), produto.getIdComercial());
 			}
+			csvPrinter.flush();
+			csvPrinter.close();
 
-			System.out.println("O arquivo CSV criado com sucesso!");
-
-		} catch (Exception e) {
-
-			System.out.println("Erro no escritorDeArquivos!");
-			e.printStackTrace();
-		} finally {
-			try {
-				escritorDeArquivos.flush();
-				escritorDeArquivos.close();
-				csvCompiladorDeArquivos.close();
-			} catch (IOException e) {
-				// SUBSTITUIR POSTERIORMENTE POR LOGGER? - PERGUNTAR AO LUCIANO
-				System.out.println("Erro ao enviar/fechar o escritorDeArquivos/csvCompiladorDeArquivos!");
-				e.printStackTrace();
-			}
+		} catch (IOException e) {
+			LOGGER.debug(e);
 		}
+
+		LOGGER.debug("O arquivo CSV criado com sucesso!");
 	}
 
 }

@@ -36,18 +36,6 @@ public class PhaseDAO extends AbstractDAO {
 					resultados[1] = resultados[0] + 1;
 				}
 			} catch (SQLException e) {
-				if (e.getErrorCode() == 1062) {
-					LOGGER.info("registros duplicados. Retire-os e tente novamente. Mensagem SQL = " + e.getMessage());
-				}
-				if (e.getErrorCode() == 1) {
-					LOGGER.info("linha em branco. Ajuste e tente novamente. Mensagem SQL = " + e.getMessage());
-				}
-				if (e.getErrorCode() == 2) {
-					LOGGER.info("Coluna em branco. Ajuste e tente novamente. Mensagem SQL = " + e.getMessage());
-				} else {
-					LOGGER.info(
-							"Registro fora do Padrão. Retire-os e tente novamente. Mensagem SQL = " + e.getMessage());
-				}
 				LOGGER.debug(e);
 				throw new DAOLayerException(e);
 			}
