@@ -1,20 +1,14 @@
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.junit.After;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.AfterAllCallback;
 
 import br.senai.sc.edu.projetomaria.dao.ProdutoDAO;
 import br.senai.sc.edu.projetomaria.service.CargaService;
 import br.senai.sc.edu.projetomaria.service.RelatorioService;
-import br.senai.sc.edu.projetomaria.service.ServiceResponse;
-import br.senai.sc.edu.projetomaria.service.ServiceResponse.STATUS;
 
 public class HU7RelatorioProdutoTest {
 
