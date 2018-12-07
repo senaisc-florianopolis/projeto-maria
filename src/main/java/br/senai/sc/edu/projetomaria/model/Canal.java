@@ -43,10 +43,10 @@ public class Canal implements ValidableModel {
 			LOGGER.error(Messages.ERROR_DESCRICAO_CARACTER);
 		}
 
-		if (this.descricao != null) {
-			assert true;
-		} else {
+		if (this.descricao == null) {
 			LOGGER.error(Messages.ERROR_DESCRICAO_NULO);
+		} else {
+			assert true;
 		}
 
 		if (this.descricao.length() > 255) {
