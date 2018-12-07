@@ -54,8 +54,7 @@ public class CargaService {
 		List<Familia> familias = familiaReader.leitorFamilia(path);
 		int[] array = familiaDAO.upsert(familias);
 		
-		ServiceResponse response = new ServiceResponse(ServiceResponse.STATUS.OK, array);
-		return response;
+		return new ServiceResponse(ServiceResponse.STATUS.OK, array);
 	}
 
 	public ServiceResponse cargaProduto(Path path) {
