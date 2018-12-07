@@ -1,3 +1,5 @@
+import static org.junit.Assert.assertEquals;
+
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -9,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import br.senai.sc.edu.projetomaria.dao.ProdutoDAO;
 import br.senai.sc.edu.projetomaria.service.CargaService;
 import br.senai.sc.edu.projetomaria.service.RelatorioService;
+import br.senai.sc.edu.projetomaria.service.ServiceResponse;
+import br.senai.sc.edu.projetomaria.service.ServiceResponse.STATUS;
 
 public class HU7RelatorioProdutoTest {
 
@@ -43,9 +47,12 @@ public class HU7RelatorioProdutoTest {
 	void testeRelatorio() {
 		RelatorioService service = new RelatorioService();
 		
-//		serv
+		 ServiceResponse response = service.exportarProduto();
 		
-//		assertEquals(STATUS.OK, );
+		 assertEquals(STATUS.OK, response.getStatus());
+		 
+		 assertEquals(30, response.getResponse());
+		 
 		
 	}
 	
