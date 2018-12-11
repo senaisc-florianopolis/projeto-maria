@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 
+import br.senai.sc.edu.projetomaria.exception.IOLayerException;
 import br.senai.sc.edu.projetomaria.model.Resultado;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 
@@ -61,9 +62,9 @@ public class EstimativaWritter {
 				escrever.printRecord(getEscrever(linha));
 			}
 			LOGGER.info(Messages.ARQUIVO_GERADO);
-		} catch (IOException ex) {
-			LOGGER.info(Messages.ERRO_ARQUIVO);
-			LOGGER.debug(ex);
+		} catch (IOException e) {
+			LOGGER.error(e);
+			throw new IOLayerException(Messages.ERRO_ARQUIVO, e);
 		}
 	}
 }

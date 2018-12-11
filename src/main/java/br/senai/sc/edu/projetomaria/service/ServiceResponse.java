@@ -4,7 +4,7 @@ public class ServiceResponse {
 
 	public enum STATUS {
 		OK, ERROR
-	};
+	}
 
 	private STATUS status;
 	private Object response;
