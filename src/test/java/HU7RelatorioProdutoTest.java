@@ -1,5 +1,3 @@
-import static org.junit.Assert.assertEquals;
-
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
