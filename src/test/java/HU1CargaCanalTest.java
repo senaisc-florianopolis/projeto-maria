@@ -4,7 +4,11 @@ import java.awt.List;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
 import br.senai.sc.edu.projetomaria.service.CargaService;
@@ -44,3 +48,4 @@ public class HU1CargaCanalTest {
 		}
 
  }	
+}
