@@ -20,11 +20,12 @@ public class PhaseDAO extends AbstractDAO {
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	public int[] upsertSkuPhase(List<Phase> skuPhase) {
-		String sql = "";
-		int[] resultados = { 0, 0 };
+		String sql = SQL.PHASE_UPSERT;
+	
+		int[] resultados = new int[2];
+		
 		for (Phase p : skuPhase) {
 			
-			sql = SQL.PHASE_UPSERT;
 			try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql);) {
 				stmt.setInt(1, p.getSkuNew());
 				stmt.setInt(2, p.getSkuOld());
@@ -34,7 +35,7 @@ public class PhaseDAO extends AbstractDAO {
 				if (retorno == 1) {
 					resultados[0] = resultados[0] + 1;
 				} else {
-					resultados[1] = resultados[0] + 1;
+					resultados[1] = resultados[1] + 1;
 				}
 			} catch (SQLException e) {
 				LOGGER.debug(e);
