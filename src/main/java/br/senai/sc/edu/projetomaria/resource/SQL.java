@@ -6,7 +6,9 @@ public abstract class SQL {
 	public static final String GET_CANAL ;
 	
 	public static final String INSERT_CANAL ;
-
+	
+	public static final String PRODUTO_UPSERT;
+	
 	public static final String UPDATE_CANAL ;
 
 	public static final String DELETE_CANAL;
@@ -27,7 +29,8 @@ public abstract class SQL {
 
 	public static final String INSERT_FAMILIA_INCREMENT ;
 	static {
-
+		PRODUTO_UPSERT = ResourceManager.getSQL("produto.upsert"); //$NON-NLS-1$
+		
 		HISTORICO_SELECT = ResourceManager.getSQL("historico.select"); //$NON-NLS-1$
 		HISTORICO_INSERT = ResourceManager.getSQL("historico.insert"); //$NON-NLS-1$
 		HISTORICO_UPDATE = ResourceManager.getSQL("historico.update"); //$NON-NLS-1$
