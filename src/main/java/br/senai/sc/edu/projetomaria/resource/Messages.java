@@ -58,6 +58,7 @@ public abstract class Messages {
   public static final String SUCESSO_CANAL_INSERIR =  ResourceManager.getMessage("sucesso.canal.inserir"); //$NON-NLS-1$
   public static final String SUCESSO_CANAL_ATUALIZAR =  ResourceManager.getMessage("sucesso.canal.atualizar"); //$NON-NLS-1$
   public static final String SUCESSO_CANAL_DELETAR =  ResourceManager.getMessage("sucesso.canal.deletar"); //$NON-NLS-1$
+  
 
   public static final String ARQUIVO_GERADO = ResourceManager.getMessage("arquivo.gerado"); //$NON-NLS-1$
   	public static final String ERRO_ARQUIVO = ResourceManager.getMessage("erro.arquivo"); //$NON-NLS-1$
@@ -78,4 +79,7 @@ public abstract class Messages {
   	public static final String ERROR_DESCRICAO_NULO = ResourceManager.getMessage("erro.canal.descricao.isnull");
   	public static final String ERROR_DESCRICAO_TAMANHO = ResourceManager.getMessage("erro.canal.descricao.tamanho");
 	private Messages() {}
+	
+	public static final String ERROR_BANCO = ResourceManager.getMessage("bd.erro");
+
 }
