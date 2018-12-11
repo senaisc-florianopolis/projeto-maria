@@ -3,7 +3,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -12,6 +16,8 @@ import br.senai.sc.edu.projetomaria.service.ServiceResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import br.senai.sc.edu.projetomaria.service.ServiceResponse.STATUS;
+
 
 class HU3CargaPhaseTest {
 
@@ -24,15 +30,27 @@ class HU3CargaPhaseTest {
 
 	static void beforeAll() {
 		Path p = null;
+		Path a = null;
+		Path b = null;
+		Path t = null;
+
 
 		try {
-			p = Paths.get(classLoader.getResource("dataset/carga_phase.csv").toURI());
+			p = Paths.get(classLoader.getResource("dataset/carga_produto.csv").toURI());
+			a = Paths.get(classLoader.getResource("dataset/carga_historico.csv").toURI());
+			t = Paths.get(classLoader.getResource("dataset/carga_phase.csv").toURI());
+
+
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
 		service = new CargaService();
 
+		service.cargaHistorico(a);
+		service.cargaProduto(p);
 		service.cargaPhase(p);
+
+
 	}
 
 	// phase1
@@ -48,24 +66,27 @@ class HU3CargaPhaseTest {
 			e.printStackTrace();
 		}
 
-		CargaService service = new CargaService();
-		ServiceResponse testin = service.cargaPhase(p);
+		service = new CargaService();
+		service.cargaPhase(p);
+		ServiceResponse s = service.cargaPhase(p);
+		assertEquals(s.getStatus(), STATUS.OK);
 
-		assertEquals(testin.getStatus(), ServiceResponse.STATUS.OK);
+	}
 
-		int[] response = (int[]) testin.getResponse();
+	@AfterAll
 
-		assertEquals(response[0], 9);
-		assertEquals(response[1], 0);
+	static void clear() {
+		Database bd = new Database();
 
-		ServiceResponse test = service.cargaProduto(p);
+		String sqlhistorico = "delete from familia";
+		String sqlproduto = "delete from produto";
 
-		assertEquals(test.getStatus(), ServiceResponse.STATUS.OK);
-
-		int[] response2 = (int[]) test.getResponse();
-		LOGGER.debug(response2);
-		assertEquals(response2[0], 0);
-		assertEquals(response2[1], 9);
+		try (Connection conn = bd.getDatabaseConnection(); Statement pl = conn.createStatement();) {
+			pl.executeUpdate(sqlhistorico);
+			pl.executeUpdate(sqlproduto);
+		} catch (SQLException ex) {
+			System.err.print(ex.getMessage());
+		}
 
 	}
 
