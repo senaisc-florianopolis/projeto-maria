@@ -47,7 +47,7 @@ public class HistoricoDAO extends AbstractDAO {
 	}
 	
 	public int[] upsert (List<Historico> historicos) {
-		String sql = "INSERT INTO historico (MES_ANO,PRODUTO_SKU,ID_CANAL,QUANTIDADE) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE MES_ANO=?,PRODUTO_SKU=?,ID_CANAL=?,QUANTIDADE=?";
+		String sql= SQL.HISTORICO_UPSERT;
 		int[] resultados = {0, 0};
 		
 		try (Connection conn = getConnection();
