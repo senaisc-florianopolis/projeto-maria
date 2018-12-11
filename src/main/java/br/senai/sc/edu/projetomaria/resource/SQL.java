@@ -4,9 +4,17 @@ public abstract class SQL {
 
 	// ....
 	public static final String GET_CANAL ;
+	public static final String CANAL_UPSERT;
+	static {
+		CANAL_UPSERT = ResourceManager.getSQL("canal.upsert");
+	 }
 	
 	public static final String INSERT_CANAL ;
-
+	
+	public static final String PHASE_UPSERT;
+	static {
+		PHASE_UPSERT = ResourceManager.getSQL("phase.upsert");
+	}
 	public static final String UPDATE_CANAL ;
 
 	public static final String DELETE_CANAL;

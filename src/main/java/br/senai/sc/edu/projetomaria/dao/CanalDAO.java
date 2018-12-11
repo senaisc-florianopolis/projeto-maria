@@ -26,8 +26,7 @@ public class CanalDAO extends AbstractDAO {
 		int[] resultados = new int[2];
 		
 		
-		sql = "INSERT INTO canal (ID_CANAL,DESCRICAO) VALUES (?,?) "+
-		"ON DUPLICATE KEY UPDATE ID_CANAL = ?, DESCRICAO = ?";	
+		sql = SQL.CANAL_UPSERT;	
 		
 		try (Connection conn = getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql);) {
