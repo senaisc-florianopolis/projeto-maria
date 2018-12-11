@@ -15,6 +15,7 @@ import br.senai.sc.edu.projetomaria.exception.DAOLayerException;
 import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.model.Produto;
+import br.senai.sc.edu.projetomaria.resource.Messages;
 import br.senai.sc.edu.projetomaria.resource.SQL;
 
 public class HistoricoDAO extends AbstractDAO {
@@ -72,7 +73,7 @@ public class HistoricoDAO extends AbstractDAO {
 			}
 		} catch (SQLException e) {
 			LOGGER.error(e);
-			throw new DAOLayerException("Erro no Upsert do Histórico.", e);
+			throw new DAOLayerException(Messages.DADOS_NAO_INSERIDOS,e);
 		}
 
 		return resultados;
