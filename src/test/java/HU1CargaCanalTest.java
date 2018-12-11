@@ -26,5 +26,17 @@ class HU1CargaCanalTest {
 		service.cargaCanal(p);
 		fail("falhou");
 		
-	}		
+	}	
+	@AfterAll
+	static void limpandoDB() {
+		Database bd = new Database();
+
+		String sqlcanal = "delete from canal";
+
+		try (Connection conn = bd.getDatabaseConnection(); Statement pl = conn.createStatement();) {
+			pl.executeUpdate(sqlcanal);
+		} catch (SQLException ex) {
+			System.err.print(ex.getMessage());
+		}
+
  }	
