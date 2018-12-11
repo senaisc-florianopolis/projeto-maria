@@ -13,8 +13,10 @@ import org.apache.commons.csv.CSVPrinter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.senai.sc.edu.projetomaria.exception.IOLayerException;
 import br.senai.sc.edu.projetomaria.model.Familia;
 import br.senai.sc.edu.projetomaria.resource.Config;
+import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class FamiliaWriter {
 
@@ -22,7 +24,7 @@ public class FamiliaWriter {
 
 	private static final String SEPARADOR_LINHAS = "\n";
 
-	public void CSVWriter(Path path, List<Familia> familias) {
+	public void write(Path path, List<Familia> familias) {
 
 		CSVFormat formatacaoCsv = CSVFormat.DEFAULT.withRecordSeparator(SEPARADOR_LINHAS)
 				.withDelimiter(Config.CSV_DELIMITADOR);
@@ -40,7 +42,8 @@ public class FamiliaWriter {
 			csvPrinter.close();
 
 		} catch (IOException e) {
-			LOGGER.debug(e);
+			LOGGER.error(e);
+			throw new IOLayerException(Messages.ERRO_ARQUIVO, e);
 		}
 
 		LOGGER.debug("O arquivo CSV criado com sucesso!");
