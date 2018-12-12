@@ -4,10 +4,7 @@ public abstract class SQL {
 
 	public static final String GET_CANAL ;
 	public static final String CANAL_UPSERT;
-
 	public static final String INSERT_CANAL ;
-	
-	public static final String CANAL_UPSERT;
 	public static final String PHASE_UPSERT;
 
 	public static final String PRODUTO_UPSERT;
