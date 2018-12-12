@@ -8,6 +8,7 @@ public abstract class Messages {
 
 	// Banco de Dados
 	public static final String BD_ERRO_CONEXAO = ResourceManager.getMessage("bd.erro.conexao"); //$NON-NLS-1$
+ 	public static final String ERROR_BANCO = ResourceManager.getMessage("bd.erro");
 
 	// FileSystem
 	public static final String FS_ERRO_ACESSO = ResourceManager.getMessage("fs.erro.acesso"); //$NON-NLS-1$
@@ -77,4 +78,5 @@ public abstract class Messages {
 
 	private Messages() {
 	}
+
 }
