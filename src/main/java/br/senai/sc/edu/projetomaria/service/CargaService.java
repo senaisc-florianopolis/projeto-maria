@@ -30,6 +30,8 @@ import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.model.Phase;
 
 import br.senai.sc.edu.projetomaria.model.Produto;
+import br.senai.sc.edu.projetomaria.resource.Messages;
+
 import br.senai.sc.edu.projetomaria.service.ServiceResponse.STATUS;
 
 public class CargaService {
@@ -42,9 +44,7 @@ public class CargaService {
 		List<Canal> canais = canalReader.readCanal();
 		int[] result = canalDao.upsertCanal(canais);
 
-		ServiceResponse serviceResponse = new ServiceResponse(ServiceResponse.STATUS.OK, result);
-
-		return serviceResponse;
+		return new ServiceResponse(ServiceResponse.STATUS.OK, result);
 
 	}
 
@@ -55,8 +55,7 @@ public class CargaService {
 		List<Familia> familias = familiaReader.leitorFamilia(path);
 		int[] array = familiaDAO.upsert(familias);
 
-		ServiceResponse response = new ServiceResponse(ServiceResponse.STATUS.OK, array);
-		return response;
+		return new ServiceResponse(ServiceResponse.STATUS.OK, array);
 	}
 
 	public ServiceResponse cargaProduto(Path path) {
@@ -71,8 +70,7 @@ public class CargaService {
 			throw new ServiceLayerException("Erro: DAO", e);
 		}
 
-		ServiceResponse response = new ServiceResponse(ServiceResponse.STATUS.OK, array);
-		return response;
+		return new ServiceResponse(ServiceResponse.STATUS.OK, array);
 	}
 
 	public ServiceResponse cargaPhase(Path path) {
@@ -88,8 +86,7 @@ public class CargaService {
 			throw new ServiceLayerException("Erro: DAO", e);
 		}
 
-		ServiceResponse response = new ServiceResponse(ServiceResponse.STATUS.OK, array);
-		return response;
+		return new ServiceResponse(ServiceResponse.STATUS.OK, array);
 	}
 
 	public ServiceResponse cargaHistorico(Path path) {
@@ -100,12 +97,11 @@ public class CargaService {
 		int[] result = null;
 		try {
 			result = historicoDao.upsert(s);
-
 		} catch (DAOLayerException e) {
 			throw new ServiceLayerException("Ocorreu um erro ao inserir ao banco de dados", e);
 		}
-		ServiceResponse response = new ServiceResponse(STATUS.OK, result);
-		return response;
+
+		return new ServiceResponse(STATUS.OK, result);
 	}
 
 }

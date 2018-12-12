@@ -15,6 +15,7 @@ import br.senai.sc.edu.projetomaria.exception.DAOLayerException;
 import br.senai.sc.edu.projetomaria.model.Canal;
 import br.senai.sc.edu.projetomaria.model.Historico;
 import br.senai.sc.edu.projetomaria.model.Produto;
+import br.senai.sc.edu.projetomaria.resource.Messages;
 import br.senai.sc.edu.projetomaria.resource.SQL;
 
 public class HistoricoDAO extends AbstractDAO {
@@ -25,7 +26,9 @@ public class HistoricoDAO extends AbstractDAO {
 		ArrayList<Historico> registro = new ArrayList<>();
 		String query = SQL.HISTORICO_SELECT;
 
-		try (Connection conn = getConnection(); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(query)) {
+		try (Connection conn = getConnection();
+				Statement st = conn.createStatement();
+				ResultSet rs = st.executeQuery(query)) {
 			while (rs.next()) {
 				Historico h = new Historico();
 				Canal canal = new Canal();
@@ -45,34 +48,32 @@ public class HistoricoDAO extends AbstractDAO {
 
 		return registro;
 	}
-	
-	public int[] upsert (List<Historico> historicos) {
-		String sql = "INSERT INTO historico (MES_ANO,PRODUTO_SKU,ID_CANAL,QUANTIDADE) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE MES_ANO=?,PRODUTO_SKU=?,ID_CANAL=?,QUANTIDADE=?";
-		int[] resultados = {0, 0};
-		
-		try (Connection conn = getConnection();
-			PreparedStatement ps = conn.prepareStatement(sql);) {		
+
+	public int[] upsert(List<Historico> historicos) {
+		String sql= SQL.HISTORICO_UPSERT;
+		int[] resultados = { 0, 0 };
+
+		try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
 			for (Historico historico : historicos) {
-				ps.setDate(1,java.sql.Date.valueOf(historico.getPeriodo()));
-				ps.setInt(2,historico.getProduto().getSku());
-				ps.setInt(3,historico.getCanal().getId());
-				ps.setInt(4,historico.getQuantidade());
-				ps.setDate(5,java.sql.Date.valueOf(historico.getPeriodo()));
-				ps.setInt(6,historico.getProduto().getSku());
-				ps.setInt(7,historico.getCanal().getId());
-				ps.setInt(8,historico.getQuantidade());
+				ps.setDate(1, java.sql.Date.valueOf(historico.getPeriodo()));
+				ps.setInt(2, historico.getProduto().getSku());
+				ps.setInt(3, historico.getCanal().getId());
+				ps.setInt(4, historico.getQuantidade());
+				ps.setDate(5, java.sql.Date.valueOf(historico.getPeriodo()));
+				ps.setInt(6, historico.getProduto().getSku());
+				ps.setInt(7, historico.getCanal().getId());
+				ps.setInt(8, historico.getQuantidade());
 				LOGGER.debug(ps);
 				int retorno = ps.executeUpdate();
 				if (retorno == 1) {
 					resultados[0] = resultados[0] + 1;
 				} else {
-					resultados[1] = resultados[1] +1;
+					resultados[1] = resultados[1] + 1;
 				}
 			}
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
 			LOGGER.error(e);
-			throw new DAOLayerException("Erro no Upsert do Histórico.",e);
+			throw new DAOLayerException(Messages.DADOS_NAO_INSERIDOS,e);
 		}
 
 		return resultados;
