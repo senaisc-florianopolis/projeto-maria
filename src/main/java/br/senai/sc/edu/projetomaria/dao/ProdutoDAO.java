@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import br.senai.sc.edu.projetomaria.exception.DAOLayerException;
 import br.senai.sc.edu.projetomaria.model.Produto;
 import br.senai.sc.edu.projetomaria.resource.Messages;
+import br.senai.sc.edu.projetomaria.resource.SQL;
 
 public class ProdutoDAO extends AbstractDAO {
 	private static final Logger LOGGER = LogManager.getLogger();
@@ -71,8 +72,7 @@ public class ProdutoDAO extends AbstractDAO {
 	}
 
 	public int[] upsert(List<Produto> produto) {
-		String sql = "INSERT INTO produto (COD_FAMILIA_COMERCIAL,NOME_PRODUTO,SKU) VALUES (?,?,?)"
-				+ "ON DUPLICATE KEY UPDATE COD_FAMILIA_COMERCIAL = ?, NOME_PRODUTO = ?";
+		String sql = SQL.PRODUTO_UPSERT;
 		
 		int[] resultados = new int[2];
 

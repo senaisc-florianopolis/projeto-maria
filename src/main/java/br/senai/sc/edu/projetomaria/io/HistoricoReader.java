@@ -49,7 +49,7 @@ public class HistoricoReader {
 				Historico historico = new Historico();
 				String[] mesAno = registro.get(MES_ANO).split("/");
 				historico.setPeriodo(LocalDate.parse(mesAno[1] + "-" + mesAno[0] + "-01"));
-				LOGGER.info(historico.getPeriodo());
+				LOGGER.debug(historico.getPeriodo());
 				Produto produto = new Produto();
 				produto.setSku(this.parseInt(registro.get(PRODUTO_SKU)));
 				historico.setProduto(produto);
@@ -69,9 +69,9 @@ public class HistoricoReader {
 		}
 
 		if (wrongInserts) {
-			LOGGER.info(Messages.DADOS_NAO_INSERIDOS);
-		} else {
-			LOGGER.info(Messages.LEITURA_REALIZADA);
+			LOGGER.debug(Messages.DADOS_NAO_INSERIDOS);
+		}else {
+			LOGGER.debug(Messages.LEITURA_REALIZADA);
 		}
 
 		return listaRegistros;
