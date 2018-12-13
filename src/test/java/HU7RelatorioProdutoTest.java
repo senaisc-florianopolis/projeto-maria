@@ -49,7 +49,7 @@ public class HU7RelatorioProdutoTest {
 		
 		 assertEquals(STATUS.OK, response.getStatus());
 		 
-		 assertEquals(30, response.getResponse());
+		 assertEquals(30, (int[]) response.getResponse());
 		 
 		
 	}
