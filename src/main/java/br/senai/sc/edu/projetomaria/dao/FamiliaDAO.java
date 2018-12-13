@@ -13,8 +13,8 @@ import org.apache.logging.log4j.Logger;
 
 import br.senai.sc.edu.projetomaria.exception.DAOLayerException;
 import br.senai.sc.edu.projetomaria.model.Familia;
-import br.senai.sc.edu.projetomaria.model.Produto;
 import br.senai.sc.edu.projetomaria.resource.SQL;
+
 
 public class FamiliaDAO extends AbstractDAO {
 
@@ -49,31 +49,29 @@ public class FamiliaDAO extends AbstractDAO {
 		String sql = SQL.FAMILIA_UPSERT;
 
 		int[] resultados = new int[2];
-		resultados = new int[] {0, 0};
-		
-		
-		try (Connection conn = getConnection();
-				PreparedStatement stmt = conn.prepareStatement(sql);) {
-		for (Familia familia: familias) {
-			    stmt.setInt(1,familia.getCodigo());
-			    stmt.setString(2,familia.getNome());
-			    stmt.setInt(3,familia.getCodigo());
-			    stmt.setString(4,familia.getNome());
+		resultados = new int[] { 0, 0 };
+
+		try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql);) {
+			for (Familia familia : familias) {
+				stmt.setInt(1, familia.getCodigo());
+				stmt.setString(2, familia.getNome());
+				stmt.setInt(3, familia.getCodigo());
+				stmt.setString(4, familia.getNome());
 				int retorno = stmt.executeUpdate();
-				if(retorno == 1) {
+				if (retorno == 1) {
 					resultados[0] = resultados[0] + 1;
 				} else {
 					resultados[1] = resultados[1] + 1;
 				}
-		}
-				
-			} catch (SQLException e) {
-				LOGGER.error(e);
-				throw new DAOLayerException(e);
 			}
+
+		} catch (SQLException e) {
+			LOGGER.error(e);
+			throw new DAOLayerException(e);
+		}
 		return resultados;
 	}
-	
+
 	public List<Familia> exportarFamilias() {
 		String sql = "SELECT * FROM familia ORDER BY COD_FAMILIA_COMERCIAL;";
 

@@ -1,5 +1,5 @@
 package br.senai.sc.edu.projetomaria.io;
-import java.io.FileNotFoundException;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -21,7 +21,7 @@ import br.senai.sc.edu.projetomaria.resource.Config;
 import br.senai.sc.edu.projetomaria.resource.Messages;
 
 public class HistoricoReader {
-	
+
 	private static final String MES_ANO = "mes_ano";
 	private static final String QUANTIDADE = "quantidade";
 	private static final String PRODUTO_SKU = "produto_sku";
@@ -32,27 +32,24 @@ public class HistoricoReader {
 
 	public List<Historico> leitorDeArquivos(Path pathArquivo) {
 
-		CSVParser parseArquivos = null;
-
-		CSVFormat formatadorCsv = CSVFormat.DEFAULT.withHeader(mapeamentoColunasArquivo).withDelimiter(Config.CSV_DELIMITADOR);
+		CSVFormat formatadorCsv = CSVFormat.DEFAULT.withHeader(mapeamentoColunasArquivo)
+				.withDelimiter(Config.CSV_DELIMITADOR);
 
 		List<Historico> listaRegistros = new LinkedList<>();
-		
+
 		boolean wrongInserts = false;
 
-		try (FileReader leitorDeArquivos = new FileReader(pathArquivo.toFile())) {
-			
-			parseArquivos = new CSVParser(leitorDeArquivos, formatadorCsv);
-			
+		try (FileReader leitorDeArquivos = new FileReader(pathArquivo.toFile());
+				CSVParser parseArquivos = new CSVParser(leitorDeArquivos, formatadorCsv);) {
+
 			List<CSVRecord> csvRecords = parseArquivos.getRecords();
 
-			
 			for (int i = 1; i < csvRecords.size(); i++) {
 				CSVRecord registro = csvRecords.get(i);
 				Historico historico = new Historico();
 				String[] mesAno = registro.get(MES_ANO).split("/");
 				historico.setPeriodo(LocalDate.parse(mesAno[1] + "-" + mesAno[0] + "-01"));
-				LOGGER.info(historico.getPeriodo());
+				LOGGER.debug(historico.getPeriodo());
 				Produto produto = new Produto();
 				produto.setSku(this.parseInt(registro.get(PRODUTO_SKU)));
 				historico.setProduto(produto);
@@ -62,27 +59,24 @@ public class HistoricoReader {
 				historico.setQuantidade(this.parseInt(registro.get(QUANTIDADE)));
 				listaRegistros.add(historico);
 				if (!historico.isValid()) {
-					wrongInserts = true; 
+					wrongInserts = true;
 					LOGGER.warn("A linha " + i + " está fora do padrão, registro ignorado.");
 				}
 			}
-			
-		} catch (FileNotFoundException e) {
-			throw new IOLayerException("", e);
+
 		} catch (IOException e) {
-			// TODO Auto-generated catch block1
-			throw new IOLayerException("", e);
+			throw new IOLayerException(e);
 		}
-		
+
 		if (wrongInserts) {
-			LOGGER.info(Messages.DADOS_NAO_INSERIDOS);
+			LOGGER.debug(Messages.DADOS_NAO_INSERIDOS);
 		}else {
-			LOGGER.info(Messages.LEITURA_REALIZADA);
+			LOGGER.debug(Messages.LEITURA_REALIZADA);
 		}
-		
+
 		return listaRegistros;
 	}
-	
+
 	protected int parseInt(String valor) {
 		Integer retorno = null;
 		try {

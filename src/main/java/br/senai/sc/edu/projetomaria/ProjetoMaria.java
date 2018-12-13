@@ -65,7 +65,7 @@ public class ProjetoMaria {
 		}
 
 		// Apresenta a ajuda se solicitada
-		if (commandMain.isHelp()) {
+		if (commandMain.isHelp() || args.length == 0) {
 			jc.usage();
 			System.exit(0);
 		}
@@ -74,15 +74,12 @@ public class ProjetoMaria {
 		try {
 			ServiceResponse response = null;
 			String command = jc.getParsedCommand() == null ? "" : jc.getParsedCommand();
-			switch (command) {
-			case COMMAND_CARGA:
+			if (command.equals(COMMAND_CARGA)) {
 				CargaController carga = new CargaController();
 				response = carga.exec(commandCarga);
-				break;
-			case COMMAND_RELATORIO:
+			} else if (command.equals(COMMAND_RELATORIO)) {
 				RelatorioController relatorio = new RelatorioController();
 				response = relatorio.exec(commandRelatorio);
-				break;
 			}
 			String json = gson.toJson(response);
 			System.out.print(json);

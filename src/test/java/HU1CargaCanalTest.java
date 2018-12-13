@@ -4,7 +4,11 @@ import java.awt.List;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
 import br.senai.sc.edu.projetomaria.service.CargaService;
@@ -30,5 +34,18 @@ public class HU1CargaCanalTest {
 		assertEquals(response[0], 4);
 		assertEquals(response[1], 0);
 		
-	}
+	}	
+	@AfterAll
+	static void limpandoDB() {
+		Database bd = new Database();
+
+		String sqlcanal = "delete from canal";
+
+		try (Connection conn = bd.getDatabaseConnection(); Statement pl = conn.createStatement();) {
+			pl.executeUpdate(sqlcanal);
+		} catch (SQLException ex) {
+			System.err.print(ex.getMessage());
+		}
+
+ }	
 }

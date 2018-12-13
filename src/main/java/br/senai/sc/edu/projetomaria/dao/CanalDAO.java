@@ -26,8 +26,7 @@ public class CanalDAO extends AbstractDAO {
 		int[] resultados = new int[2];
 		
 		
-		sql = "INSERT INTO canal (ID_CANAL,DESCRICAO) VALUES (?,?) "+
-		"ON DUPLICATE KEY UPDATE ID_CANAL = ?, DESCRICAO = ?";	
+		sql = SQL.CANAL_UPSERT;	
 		
 		try (Connection conn = getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql);) {
@@ -41,7 +40,6 @@ public class CanalDAO extends AbstractDAO {
 				status++;
 				if(retorno == 1) {
 					resultados[0] = resultados[0] + 1;
-					LOGGER.info(Messages.SUCESSO_CANAL_INSERIR);
 				}else {
 					resultados[1] = resultados[1] + 1;
 				}
@@ -49,11 +47,10 @@ public class CanalDAO extends AbstractDAO {
 			}
 			} catch (SQLException e) {
 				LOGGER.error(e);
-				throw new DAOLayerException(e);
+				throw new DAOLayerException(Messages.ERROR_BANCO, e);
 			}
 	
-			LOGGER.info(status + " de no total de " + resultados[0]
-					+ " inserções e "+ resultados[1] + " updates "+ Messages.SUCCESS_PRODUTO);
+
 			return resultados;
 
 	}

@@ -1,7 +1,5 @@
 package br.senai.sc.edu.projetomaria.resource;
 
-import javax.annotation.Resource;
-
 public abstract class Messages {
 
 	// Dados do Projeto
@@ -10,6 +8,7 @@ public abstract class Messages {
 
 	// Banco de Dados
 	public static final String BD_ERRO_CONEXAO = ResourceManager.getMessage("bd.erro.conexao"); //$NON-NLS-1$
+ 	public static final String ERROR_BANCO = ResourceManager.getMessage("bd.erro");
 
 	// FileSystem
 	public static final String FS_ERRO_ACESSO = ResourceManager.getMessage("fs.erro.acesso"); //$NON-NLS-1$
@@ -26,17 +25,16 @@ public abstract class Messages {
 	public static final String SUCCESSO_INSERT_FAMILIA = ResourceManager.getMessage("sucesso.inserir.familia");
 	public static final String ERRO_EXECUCAO_DELETE = ResourceManager.getMessage("erro.falta.informacao"); //$NON-NLS-1$
 
-  public static final String SUCESSO_RELATORIO_CANAL = ResourceManager.getMessage("sucesso.relatorio.canal"); //$NON-NLS-1$
+	public static final String SUCESSO_RELATORIO_CANAL = ResourceManager.getMessage("sucesso.relatorio.canal"); //$NON-NLS-1$
 
-  public static final String SUCESSO_DELETE_CANAL = ResourceManager.getMessage("sucesso.delete.canal"); //$NON-NLS-1$
-  public static final String REISTRO_INCLIDO_SUCESSO = ResourceManager.getMessage("registro.incluido.sucesso"); //$NON-NLS-1$
-  public static final String REGISTRO = null;
-  public static final String REGISTRO_CADASTRO_SUCESSO =  ResourceManager.getMessage("registro.cadastro.sucesso"); //$NON-NLS-1$
-  public static final String REGISTRO_ALTERADO_SUCESSO =  ResourceManager.getMessage("registro.alterado.sucesso"); //$NON-NLS-1$
-  public static final String REGISTRO_SALVO_SUCESSO =  ResourceManager.getMessage("registro.salvo.sucesso"); //$NON-NLS-1$
+	public static final String SUCESSO_DELETE_CANAL = ResourceManager.getMessage("sucesso.delete.canal"); //$NON-NLS-1$
+	public static final String REISTRO_INCLIDO_SUCESSO = ResourceManager.getMessage("registro.incluido.sucesso"); //$NON-NLS-1$
+	public static final String REGISTRO = null;
+	public static final String REGISTRO_CADASTRO_SUCESSO = ResourceManager.getMessage("registro.cadastro.sucesso"); //$NON-NLS-1$
+	public static final String REGISTRO_ALTERADO_SUCESSO = ResourceManager.getMessage("registro.alterado.sucesso"); //$NON-NLS-1$
+	public static final String REGISTRO_SALVO_SUCESSO = ResourceManager.getMessage("registro.salvo.sucesso"); //$NON-NLS-1$
 
-  	
-  // Historico
+	// Historico
 	public static final String LEITURA_REALIZADA = ResourceManager.getMessage("leitura.realizada"); //$NON-NLS-1$
 	public static final String DADOS_NAO_INSERIDOS = ResourceManager.getMessage("dados.nao.inseridos");//$NON-NLS-1$
 	public static final String ARQUIVO_CRIADO_COM_SUCESSO = ResourceManager.getMessage("arquivo.criado.com.sucesso");//$NON-NLS-1$
