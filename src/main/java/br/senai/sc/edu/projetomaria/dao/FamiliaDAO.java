@@ -13,6 +13,8 @@ import org.apache.logging.log4j.Logger;
 
 import br.senai.sc.edu.projetomaria.exception.DAOLayerException;
 import br.senai.sc.edu.projetomaria.model.Familia;
+import br.senai.sc.edu.projetomaria.resource.SQL;
+
 
 public class FamiliaDAO extends AbstractDAO {
 
@@ -41,10 +43,11 @@ public class FamiliaDAO extends AbstractDAO {
 			LOGGER.debug(e.getSQLState() + " - " + e.getMessage());
 		}
 	}
+	
+	public int[] upsert (List<Familia> familias) {
+		
+		String sql = SQL.FAMILIA_UPSERT;
 
-	public int[] upsert(List<Familia> familias) {
-		String sql = "INSERT INTO familia_comercial (COD_FAMILIA_COMERCIAL,NOME_FAMILIA_COMERCIAL) VALUES (?,?)"
-				+ "ON DUPLICATE KEY UPDATE COD_FAMILIA_COMERCIAL = ?, NOME_FAMILIA_COMERCIAL = ?";
 		int[] resultados = new int[2];
 		resultados = new int[] { 0, 0 };
 
